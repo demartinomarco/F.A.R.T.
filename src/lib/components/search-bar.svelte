@@ -8,12 +8,10 @@
 	import { Button } from "$lib/components/ui/button/index.js";
 	import { cn } from "$lib/utils.js";
 
-	let stops: { value: string; label: string }[] = $state([]);
+	let stops: { value: string; label: string }[] = $state([{ value: "7000089:$EF", label: "Hauptbahnhof (Vorplatz)" }]);
 	let open = $state(false);
-	let value = $state("");
+	let value = $state("7000089:$EF");
 	let triggerRef = $state<HTMLButtonElement>(null!);
-
-	export let stationName = 'Hauptbahnhof';
 
 	const selectedValue = $derived(
 		stops.find((s) => s.value === value)?.label
@@ -68,7 +66,7 @@
 								onSelect={() => {
           value = stop.value;
           closeAndFocusTrigger();
-          goto(`/${stop.value}`);
+          goto(`/?stationId=${stop.value}`);
          }}
 							>
 								<CheckIcon class={cn("mr-2 h-4 w-4", value !== stop.value && "opacity-0")} />
