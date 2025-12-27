@@ -1,21 +1,21 @@
 <script lang="ts">
-	import CheckIcon from "@lucide/svelte/icons/check";
-	import ChevronsUpDownIcon from "@lucide/svelte/icons/chevrons-up-down";
-	import { tick } from "svelte";
+	import CheckIcon from '@lucide/svelte/icons/check';
+	import ChevronsUpDownIcon from '@lucide/svelte/icons/chevrons-up-down';
+	import { tick } from 'svelte';
 	import { goto } from '$app/navigation';
-	import * as Command from "$lib/components/ui/command/index.js";
-	import * as Popover from "$lib/components/ui/popover/index.js";
-	import { Button } from "$lib/components/ui/button/index.js";
-	import { cn } from "$lib/utils.js";
+	import * as Command from '$lib/components/ui/command/index.js';
+	import * as Popover from '$lib/components/ui/popover/index.js';
+	import { Button } from '$lib/components/ui/button/index.js';
+	import { cn } from '$lib/utils.js';
 
-	let stops: { value: string; label: string }[] = $state([{ value: "7000089:$EF", label: "Hauptbahnhof (Vorplatz)" }]);
+	let stops: { value: string; label: string }[] = $state([
+		{ value: '7000089:$EF', label: 'Hauptbahnhof (Vorplatz)' }
+	]);
 	let open = $state(false);
-	let value = $state("7000089:$EF");
+	let value = $state('7000089:$EF');
 	let triggerRef = $state<HTMLButtonElement>(null!);
 
-	const selectedValue = $derived(
-		stops.find((s) => s.value === value)?.label
-	);
+	const selectedValue = $derived(stops.find((s) => s.value === value)?.label);
 
 	async function searchStops(q: string) {
 		if (q.length < 2) {
@@ -44,7 +44,7 @@
 				role="combobox"
 				aria-expanded={open}
 			>
-				{selectedValue || "Search for a stop..."}
+				{selectedValue || 'Search for a stop...'}
 				<ChevronsUpDownIcon class="opacity-50" />
 			</Button>
 		{/snippet}
@@ -64,12 +64,12 @@
 							<Command.Item
 								value={stop.label}
 								onSelect={() => {
-          value = stop.value;
-          closeAndFocusTrigger();
-          goto(`/?stationId=${stop.value}`);
-         }}
+									value = stop.value;
+									closeAndFocusTrigger();
+									goto(`/?stationId=${stop.value}`);
+								}}
 							>
-								<CheckIcon class={cn("mr-2 h-4 w-4", value !== stop.value && "opacity-0")} />
+								<CheckIcon class={cn('mr-2 h-4 w-4', value !== stop.value && 'opacity-0')} />
 								{stop.label}
 							</Command.Item>
 						{/each}

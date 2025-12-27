@@ -1,10 +1,9 @@
-import type { ApiResponse, DepartureMinimal, Root } from '@/types/departure';
+import type { ApiResponse, Root } from '@/types/departure';
 import type { RequestHandler } from '@sveltejs/kit';
-import { platform } from 'os';
 
 export const GET: RequestHandler = async ({ url }) => {
 	const stationId = url.searchParams.get('stationId') ?? '7001003'; // default station
-	const api = `https://projekte.kvv-efa.de/sl3-alone/XSLT_DM_REQUEST?outputFormat=JSON&coordOutputFormat=WGS84[dd.ddddd]&depType=stopEvents&locationServerActive=1&mode=direct&name_dm=${stationId}&type_dm=stop&useOnlyStops=1&useRealtime=1&limit=10`;
+	const api = `https://projekte.kvv-efa.de/sl3-alone/XSLT_DM_REQUEST?outputFormat=JSON&coordOutputFormat=WGS84[dd.ddddd]&depType=stopEvents&locationServerActive=1&mode=direct&name_dm=${stationId}&type_dm=stop&useOnlyStops=1&useRealtime=1&limit=20`;
 
 	const departures = await getDepartures(api, stationId);
 
@@ -28,7 +27,7 @@ async function getDepartures(apiUrl: string, stationId: string): Promise<ApiResp
 		stationName: station?.name ?? 'Unknown station',
 		cityName: station?.place ?? 'Unknown city',
 		departureList: data.departureList
-			//.filter((d: any) => d.stopID === stationId)
+			.filter((d: any) => d.stopID === stationId)
 			.map((x: any) => ({
 				lineName: x.servingLine.number,
 				direction: x.servingLine.direction,
@@ -53,7 +52,7 @@ function toDate(dt: any): Date | null {
 	}
 	return new Date(
 		Number(dt.year),
-		Number(dt.month) - 1, // JS months are 0-based
+		Number(dt.month) - 1,
 		Number(dt.day),
 		Number(dt.hour),
 		Number(dt.minute)

@@ -1,0 +1,25 @@
+https://www.kvv.de/tunnelEfaDirect.php?action=XSLT_STOPFINDER_REQUEST&name_sf=kronenplatz&outputFormat=JSON&type_sf=any
+
+https://projekte.kvv-efa.de/sl3-alone/XSLT_DM_REQUEST?outputFormat=JSON&coordOutputFormat=WGS84[dd.ddddd]&depType=stopEvents&locationServerActive=1&mode=direct&name_dm=7001002&type_dm=stop&useOnlyStops=1&useRealtime=1&limit=10
+
+curl 'https://www.kvv.de/tunnelEfaDirect.php' \
+  --compressed \
+  -X POST \
+  -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:145.0) Gecko/20100101 Firefox/145.0' \
+  -H 'Accept: text/html, */*; q=0.01' \
+  -H 'Accept-Language: en-US,en;q=0.5' \
+  -H 'Accept-Encoding: gzip, deflate, br, zstd' \
+  -H 'Content-Type: application/x-www-form-urlencoded; charset=UTF-8' \
+  -H 'X-Requested-With: XMLHttpRequest' \
+  -H 'Origin: https://www.kvv.de' \
+  -H 'Connection: keep-alive' \
+  -H 'Cookie: HASESSIONID=D' \
+  -H 'Sec-Fetch-Dest: empty' \
+  -H 'Sec-Fetch-Mode: cors' \
+  -H 'Sec-Fetch-Site: same-origin' \
+  -H 'Priority: u=0' \
+  -H 'Pragma: no-cache' \
+  -H 'Cache-Control: no-cache' \
+  -H 'TE: trailers' \
+  --data-raw 'itdLPxx_formAction=%252Ffahrplan%252Fabfahrtsmonitor.html&action=XSLT_DM_REQUEST&coordOutputFormat=WGS84%5Bdd.ddddd%5D&command=&itdLPxx_timeFormat=12&language=de&itdLPxx_useJs=1&std3_suggestMacro=std3_suggest&std3_commonMacro=dm&itdLPxx_contractor=&std3_contractorMacro=&includeCompleteStopSeq=1&useAllStops=1&name_dm=Gr%25C3%25B6tzingen+(b+KA)%252C+Krappm%25C3%25BChlenweg&type_dm=any&itdDateDayMonthYear=13.12.2025&itdTime=19%253A58&itdDateTimeDepArr=dep&includedMeans=checkbox&itdLPxx_ptActive=on&useRealtime=1&std3_inclMOT_0Macro=true&std3_inclMOT_1Macro=true&std3_inclMOT_4Macro=true&std3_inclMOT_5Macro=true&imparedOptionsActive=1&nameInfo_dm=7001600&itdLPxx_multiStepDm=2&deleteAssignedStops=1&mode=direct&line=all&itdLPxx_snippet=1&itdLPxx_template=dmresults'
+  
