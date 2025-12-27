@@ -1,7 +1,7 @@
 import type { RequestHandler } from '@sveltejs/kit';
 
 export const GET: RequestHandler = async ({ url }) => {
-	const query = url.searchParams.get("name") ?? "";
+	const query = url.searchParams.get('name') ?? '';
 	const api = `https://www.kvv.de/tunnelEfaDirect.php?action=XSLT_STOPFINDER_REQUEST&coordOutputFormat=WGS84%5Bdd.ddddd%5D&name_sf=${query}&outputFormat=JSON&type_sf=any&std3_suggestMacro=std3_suggest&std3_pageMacro=dm`;
 
 	const res = await fetch(api);
@@ -19,7 +19,7 @@ export const GET: RequestHandler = async ({ url }) => {
 				: [];
 
 	const stops = pointsArray
-		.filter((entry: { anyType: string }) => entry.anyType === "stop")
+		.filter((entry: { anyType: string }) => entry.anyType === 'stop')
 		.sort((a, b) => Number(b.quality) - Number(a.quality))
 		.slice(0, 9)
 		.map((p: any) => ({
