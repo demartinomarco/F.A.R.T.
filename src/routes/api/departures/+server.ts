@@ -1,4 +1,4 @@
-import type { ApiResponse, Root } from '@/types/departure';
+import type { ApiResponse, DateTime, DepartureList, Root } from '@/types/departure';
 import type { RequestHandler } from '@sveltejs/kit';
 
 export const GET: RequestHandler = async ({ url }) => {
@@ -20,21 +20,21 @@ async function getDepartures(apiUrl: string, stationId: string): Promise<ApiResp
 	const response = await fetch(apiUrl);
 	const data: Root = await response.json();
 
-	const stations = data.dm?.itdOdvAssignedStops ?? [];
-	const station = stations.find((s: any) => s.stopID === stationId);
+	const trimmedStationId = stationId.split(':')[0];
+	const station = data.dm?.points?.point;
 
-	const apiResponse: ApiResponse = {
-		stationName: station?.name ?? 'Unknown station',
-		cityName: station?.place ?? 'Unknown city',
+	return {
+		stationName: station?.name ?? '',
+		cityName: station?.ref.place ?? '',
 		departureList: data.departureList
-			.filter((d: any) => d.stopID === stationId)
-			.map((x: any) => ({
+			.filter((d: DepartureList) => d.stopID === trimmedStationId)
+			.map((x: DepartureList) => ({
 				lineName: x.servingLine.number,
 				direction: x.servingLine.direction,
 				platformName: x.platformName,
 				plannedTime: toDate(x.dateTime),
 				type: x.servingLine.name,
-				realTime: toDate(x.realDateTime)
+				realTime: toDateNullable(x.realDateTime)
 			}))
 			.sort((a, b) => {
 				const at = (a.realTime ?? a.plannedTime)?.getTime() ?? Infinity;
@@ -42,14 +42,16 @@ async function getDepartures(apiUrl: string, stationId: string): Promise<ApiResp
 				return at - bt;
 			})
 	};
-
-	return apiResponse;
 }
 
-function toDate(dt: any): Date | null {
+function toDateNullable(dt: DateTime): Date | null {
 	if (!dt?.year || !dt?.month || !dt?.day || !dt?.hour || !dt?.minute) {
 		return null;
 	}
+	return toDate(dt);
+}
+
+function toDate(dt: DateTime): Date {
 	return new Date(
 		Number(dt.year),
 		Number(dt.month) - 1,
