@@ -26,7 +26,7 @@ export const GET: RequestHandler = async ({ url }) => {
 			value: p.stateless,
 			label: p.name
 		}));
-	console.log(stops);
+
 	return new Response(JSON.stringify(stops), {
 		headers: { 'Content-Type': 'application/json' }
 	});

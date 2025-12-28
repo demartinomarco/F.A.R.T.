@@ -1,7 +1,7 @@
 <script lang="ts">
-	import LineIcon from '$lib/components/line-icon.svelte';
-	import SearchBar from '$lib/components/search-bar.svelte';
-	import { onDestroy } from 'svelte';
+	import LineIcon from '@/components/ui/lineicon/line-icon.svelte';
+	import SearchBar from '@/components/ui/searchbar/search-bar.svelte';
+	import { onDestroy, onMount } from 'svelte';
 	import { page } from '$app/state';
 	import type { ApiResponse, DepartureMinimal } from '@/types/departure';
 	import type { PageProps } from './$types';
@@ -51,14 +51,19 @@
 	const colorClass = (d: DepartureMinimal): string => {
 		const delay = delayMinutes(d);
 		if (delay < 0) return 'text-green-600';
-		if (delay > 0) return 'text-red-600';
+		if (delay > 0) return 'text-[#c30a37]';
 		return '';
 	};
 
-	const stationId = $derived(page.url.searchParams.get('stationId') || '7000090');
+	let stationId = $derived(page.url.searchParams.get('stationId') || '7000090');
+	let stationName = $derived(departures.stationName);
 
-	async function fetchDepartures() {
-		const res = await fetch(`/departures?stationId=${stationId}`);
+	$effect(() => {
+		fetchDepartures(stationId);
+	})
+
+	async function fetchDepartures(stationId: string) {
+		const res = await fetch(`/api/departures?stationId=${stationId}`);
 		const item = await res.json();
 		departures = {
 			...item,
@@ -70,7 +75,7 @@
 		};
 	}
 
-	const depTimer = setInterval(fetchDepartures, 15000);
+	const depTimer = setInterval(() => fetchDepartures(stationId), 15000);
 	const clockTimer = setInterval(() => (now = new Date()), 1000);
 
 	onDestroy(() => {
@@ -79,8 +84,12 @@
 	});
 </script>
 
+<svelte:head>
+	<title>{stationName}</title>
+</svelte:head>
+
 <div class="bg-[#c30a37] flex justify-between items-center p-4">
-	<SearchBar />
+	<SearchBar bind:selectedId={stationId} bind:selectedValue={stationName}/>
 	<p class="text-white font-medium">{time}</p>
 </div>
 
@@ -93,11 +102,11 @@
 				{#each departures.departureList as departure}
 					<div class="flex justify-between items-center py-1">
 						<div class="flex gap-2 items-center">
-							<LineIcon {departure} />
-							<p>{departure.direction}</p>
+							<LineIcon city={departures.cityName} {departure} />
+							<p class="font-medium">{departure.direction}</p>
 						</div>
 
-						<p class={colorClass(departure)}>
+						<p class="font-medium {colorClass(departure)}">
 							{countdownText(departure)}
 
 							{#if delayLabel(departure)}

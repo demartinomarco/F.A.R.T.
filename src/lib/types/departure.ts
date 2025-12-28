@@ -188,31 +188,13 @@ export interface DepartureList {
 	nameWO: string;
 	pointType: string;
 	countdown: string;
-	dateTime: DateTime2;
-	realDateTime: RealDateTime;
+	dateTime: DateTime;
+	realDateTime: DateTime;
 	realtimeTripStatus: string;
 	servingLine: ServingLine;
 	operator: Operator;
 	attrs: Attr2[];
 	occupancy?: string;
-}
-
-export interface DateTime2 {
-	year: string;
-	month: string;
-	day: string;
-	weekday: string;
-	hour: string;
-	minute: string;
-}
-
-export interface RealDateTime {
-	year: string;
-	month: string;
-	day: string;
-	weekday: string;
-	hour: string;
-	minute: string;
 }
 
 export interface ServingLine {
@@ -258,32 +240,6 @@ export interface Operator {
 export interface Attr2 {
 	name: string;
 	value: string;
-}
-
-/*
-interface DateTime {
-  year: string;
-  month: string;
-  day: string;
-  weekday: string;
-  hour: string;
-  minute: string;
-}
-
-interface ServingLine {
-  number: string;
-  name: string;
-  direction: string;
-  delay?: string;
-}
-*/
-export interface Departure {
-	stopID: string;
-	stopName: string;
-	countdown: number;
-	dateTime: DateTime;
-	realDateTime: DateTime;
-	servingLine: ServingLine;
 }
 
 export interface ApiResponse {
