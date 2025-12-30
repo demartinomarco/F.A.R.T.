@@ -5,7 +5,11 @@
 	let { departure, city } = $props();
 
 	const style = getLineStyle(departure, city);
-	const lineName = departure.lineName.replace(' InterCityExpress', '');
+	const lineName = departure.lineName
+		.replace(' InterCityExpress', '')
+		.replace(' Train a grande Vitesse', '')
+		.replace(' Eurocity-Express', '')
+		.replace(' InterCity', '');
 </script>
 
 <div

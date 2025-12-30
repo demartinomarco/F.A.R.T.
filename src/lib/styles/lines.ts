@@ -49,7 +49,6 @@ const karlsruhe = ["Karlsruhe", "Ettlingen", "Durlach"]
 
 export function getLineStyle(line: DepartureMinimal, city: string): LineStyle {
 	const lineName = line.lineName;
-	console.log(lineName);
 	if (lineName.startsWith("ICE") || lineName.startsWith("IC")) {
 		return { background: "#ed1c24", text: "#fff" };
 	} else if (lineName.startsWith("RE")) {
