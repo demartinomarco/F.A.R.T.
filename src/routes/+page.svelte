@@ -1,7 +1,9 @@
 <script lang="ts">
 	import LineIcon from '@/components/ui/lineicon/line-icon.svelte';
 	import SearchBar from '@/components/ui/searchbar/search-bar.svelte';
-	import { onDestroy, onMount } from 'svelte';
+	import MultiSelect from 'svelte-multiselect'
+	import ChevronsUpDownIcon from '@lucide/svelte/icons/chevrons-up-down';
+	import { onDestroy } from 'svelte';
 	import { page } from '$app/state';
 	import type { ApiResponse, DepartureMinimal } from '@/types/departure';
 	import type { PageProps } from './$types';
@@ -11,6 +13,7 @@
 	let now = $state(new Date());
 	let time = $derived(now.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' }));
 
+	let selectedPlatforms = $state([])
 	let departures: ApiResponse = $state({
 		...data.item,
 		departureList: data.item.departureList.map((d) => ({
@@ -19,6 +22,8 @@
 			realTime: toDate(d.realTime)
 		}))
 	});
+	let departuresToShow = $derived(filterByPlatformName(departures));
+	const platformNames = $derived(getPlatformNames(departures));
 
 	function toDate(v: any): Date | null {
 		return v ? new Date(v) : null;
@@ -60,7 +65,26 @@
 
 	$effect(() => {
 		fetchDepartures(stationId);
+		selectedPlatforms = [];
 	})
+
+	function getPlatformNames(departures: ApiResponse) {
+		return [...new Set(departures.departureList.map(dep => dep.platformName).filter(Boolean))]
+			// Sometimes platforms are just numbers, overtimes they have a prefix, like "Gleis"
+			// (I sort them as numbers whenever possible otherwise I would get [1, 10, 2] if I would always sort them as strings)
+			.sort((a, b) => {
+				const na = Number(a), nb = Number(b);
+				const aNum = !Number.isNaN(na), bNum = !Number.isNaN(nb);
+				if (aNum && bNum) return na - nb;
+				return a.localeCompare(b);
+			});
+	}
+
+	function filterByPlatformName(departures: ApiResponse) {
+		return departures.departureList.filter(d =>
+			selectedPlatforms.length === 0 || selectedPlatforms.includes(d.platformName)
+		);
+	}
 
 	async function fetchDepartures(stationId: string) {
 		const res = await fetch(`/api/departures?stationId=${stationId}`);
@@ -89,7 +113,16 @@
 </svelte:head>
 
 <div class="bg-[#c30a37] flex justify-between items-center p-4">
-	<SearchBar bind:selectedId={stationId} bind:selectedValue={stationName}/>
+	<div class="flex justify-between gap-4 flex-wrap w-full">
+		<SearchBar bind:selectedId={stationId} bind:selectedValue={stationName}/>
+		<MultiSelect options={platformNames} bind:selected={selectedPlatforms} outerDivClass="flex-row-reverse w-min-[280px]! h-9 flex-nowrap! bg-white! border! rounded-md!">
+			{#snippet expandIcon({ open })}
+				<ChevronsUpDownIcon class="w-4 h-4 opacity-50" />
+			{/snippet}
+		</MultiSelect>
+		<div></div>
+	</div>
+
 	<p class="text-white font-medium">{time}</p>
 </div>
 
@@ -98,8 +131,8 @@
 		<p>Loading data...</p>
 	{:else}
 		<div class="flex flex-col gap-2">
-			{#key departures}
-				{#each departures.departureList as departure}
+			{#key departuresToShow}
+				{#each departuresToShow as departure}
 					<div class="flex justify-between items-center py-1">
 						<div class="flex gap-2 items-center">
 							<LineIcon city={departures.cityName} {departure} />
