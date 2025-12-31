@@ -9,6 +9,7 @@
 	import { cn } from '@/utils.js';
 	import { searchStops } from '@/components/ui/searchbar/search-bar';
 
+	const placeholderText = "Haltenstelle suchen...";
 	let open = $state(false);
 	let { selectedId = $bindable(), selectedValue = $bindable() } = $props();
 	let stops: { value: string; label: string }[] = $state([
@@ -41,20 +42,20 @@
 			<Button
 				{...props}
 				variant="outline"
-				class="w-[280px] justify-between"
+				class="min-w-0 w-60 flex-initial justify-between"
 				role="combobox"
 				aria-expanded={open}
 			>
-				{selectedValue || 'Search for a stop...'}
+				<span class="truncate">{selectedValue || placeholderText}</span>
 				<ChevronsUpDownIcon class="opacity-50" />
 			</Button>
 		{/snippet}
 	</Popover.Trigger>
 
-	<Popover.Content class="w-[280px] p-0">
+	<Popover.Content class="w-60 p-0">
 		<Command.Root>
 			<Command.Input
-				placeholder="Search stop..."
+				placeholder={placeholderText}
 				oninput={(e) => updateStops(e.currentTarget.value)}
 			/>
 

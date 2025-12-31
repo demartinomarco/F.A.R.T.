@@ -9,11 +9,14 @@
 		.replace(' InterCityExpress', '')
 		.replace(' Train a grande Vitesse', '')
 		.replace(' Eurocity-Express', '')
-		.replace(' InterCity', '');
+		.replace(' InterCity', '')
+		.replace(' Fernreisezug externer EU', '')
+		.replace(' NightJet', '')
+		.replace(' Saaletal', '');
 </script>
 
 <div
-	class="min-w-8.5 w-fit p-1 h-8.5 font-bold flex items-center justify-center rounded"
+	class="min-w-8 w-fit p-1 h-8 font-bold text-sm flex items-center justify-center rounded"
 	style="background-color: {style.background}; color: {style.text};"
 >
 	{lineName}
