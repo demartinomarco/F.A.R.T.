@@ -45,7 +45,23 @@ export const LINE_STYLES: Record<string, LineStyle> = {
 	'8': { background: '#f7931d', text: '#000' },
 	'10': { background: '#a4d7bb', text: '#000' }
 };
-const karlsruhe = ["Karlsruhe", "Ettlingen", "Durlach"]
+const karlsruhe = [
+	'Karlsruhe',
+	'Ettlingen',
+	'Durlach',
+	'Hochstetten (Link.)',
+	'Germersheim',
+	'Knielingen',
+	'Wörth (Rhein)',
+	'Daxlanden',
+	'Rastatt',
+	'Bühl (Baden)',
+	'Ittersbach',
+	'Bad Herrenalb',
+	'Berghausen (Baden)',
+	'Grötzingen (b KA)',
+	'Weingarten (Baden)'
+];
 
 export function getLineStyle(line: DepartureMinimal, city: string): LineStyle {
 	const lineName = line.lineName;
@@ -55,11 +71,11 @@ export function getLineStyle(line: DepartureMinimal, city: string): LineStyle {
 		return { background: "#afb4bb", text: "#000" };
 	} else if (lineName.startsWith("TGV")) {
 		return { background: "#224980", text: "#fff" };
-	} else if (line.type === "Regionalbus") {
+	} else if (line.type === "Regionalbus" || line.type === "Stadtbus") {
 		return { background: "#90268f", text: "#fff" };
 	}
 
-	if (karlsruhe.indexOf(city) !== -1) {
+	if (karlsruhe.indexOf(city) !== -1 || city.indexOf("Karlsruhe") !== -1) {
 		return LINE_STYLES[lineName] ?? { background: "#000", text: "#fff" };
 	}
 

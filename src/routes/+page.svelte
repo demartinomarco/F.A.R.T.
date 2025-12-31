@@ -3,6 +3,7 @@
 	import SearchBar from '@/components/ui/searchbar/search-bar.svelte';
 	import MultiSelect from 'svelte-multiselect'
 	import ChevronsUpDownIcon from '@lucide/svelte/icons/chevrons-up-down';
+	import Ban from '@lucide/svelte/icons/ban';
 	import { onDestroy } from 'svelte';
 	import { page } from '$app/state';
 	import type { ApiResponse, DepartureMinimal } from '@/types/departure';
@@ -36,7 +37,6 @@
 		const diff = Math.round((t.getTime() - now.getTime()) / 60000);
 
 		if (diff < 0 || diff === 0) return 'Sofort';
-		if (diff === 0) return 'sofort';
 		if (diff > 10) return t.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
 		return `${diff} Min`;
 	};
@@ -48,9 +48,15 @@
 
 	const delayLabel = (d: DepartureMinimal): string | null => {
 		const delay = delayMinutes(d);
-		if (delay > 0) return `(+${delay} Min zu spät)`;
-		if (delay < 0) return `(${Math.abs(delay)} Min früher)`;
-		return null;
+		if (delay == 0) return "";
+
+		const diff = Math.round((d.realTime!.getTime() - now.getTime()) / 60000);
+		if (diff <= 0) return `(${d.plannedTime.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })})`;
+		if (diff > 10) return `(${d.plannedTime.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })})`;
+
+		const plannedCountdown = Math.round((d.plannedTime!.getTime() - now.getTime()) / 60000);
+		if (plannedCountdown > 0) return `(${plannedCountdown} Min)`
+		else return '(Sofort)';
 	};
 
 	const colorClass = (d: DepartureMinimal): string => {
@@ -112,12 +118,23 @@
 	<title>{stationName}</title>
 </svelte:head>
 
-<div class="bg-[#c30a37] flex justify-between items-center p-4">
-	<div class="flex justify-between gap-4 flex-wrap w-full">
+<div class="bg-[#c30a37] flex justify-between items-center p-4 gap-4">
+	<div class="flex justify-between gap-4 flex-wrap w-full min-w-0">
 		<SearchBar bind:selectedId={stationId} bind:selectedValue={stationName}/>
-		<MultiSelect options={platformNames} bind:selected={selectedPlatforms} outerDivClass="flex-row-reverse w-min-[280px]! h-9 flex-nowrap! bg-white! border! rounded-md!">
+		<MultiSelect options={platformNames}
+								 bind:selected={selectedPlatforms}
+								 outerDivClass="flex-row-reverse min-w-0! w-60! h-fit gap-4! flex-nowrap! bg-white! border! rounded-md! py-2! px-3!"
+								 inputClass="text-sm! placeholder:opacity-50! min-w-0! caret-transparent w-0!"
+								 ulOptionsClass="mt-1!"
+								 placeholder="Gleis filter"
+								 readOnly={true}
+								 disabled={platformNames.length === 0}
+		>
 			{#snippet expandIcon({ open })}
-				<ChevronsUpDownIcon class="w-4 h-4 opacity-50" />
+				<ChevronsUpDownIcon class="w-4! h-4! opacity-50 shrink-0" />
+			{/snippet}
+			{#snippet disabledIcon()}
+				<Ban class="w-4! h-4! opacity-50 shrink-0" />
 			{/snippet}
 		</MultiSelect>
 		<div></div>
@@ -136,15 +153,16 @@
 					<div class="flex justify-between items-center py-1">
 						<div class="flex gap-2 items-center">
 							<LineIcon city={departures.cityName} {departure} />
-							<p class="font-medium">{departure.direction}</p>
+							<p class="min-w-1">{departure.direction}</p>
 						</div>
 
-						<p class="font-medium {colorClass(departure)}">
+						<p class="{colorClass(departure)}">
+							{#if delayLabel(departure)}
+								<span class="opacity-50 text-black">{delayLabel(departure)}</span>
+							{/if}
+
 							{countdownText(departure)}
 
-							{#if delayLabel(departure)}
-								<span class="ml-1 text-sm opacity-80">{delayLabel(departure)}</span>
-							{/if}
 						</p>
 					</div>
 				{/each}
