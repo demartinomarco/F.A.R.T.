@@ -1,5 +1,6 @@
 import type { ApiResponse, DateTime, DepartureList, Root } from '@/types/departure';
 import type { RequestHandler } from '@sveltejs/kit';
+import { DateTime as LuxonDT } from "luxon";
 
 export const GET: RequestHandler = async ({ url }) => {
 	const stationId = url.searchParams.get('stationId') ?? '7001003'; // default station
@@ -32,7 +33,7 @@ async function getDepartures(apiUrl: string, stationId: string): Promise<ApiResp
 				lineName: x.servingLine.number,
 				direction: x.servingLine.direction,
 				platformName: x.platformName,
-				plannedTime: toDate(x.dateTime),
+				plannedTime: toDateCET(x.dateTime),
 				type: x.servingLine.name,
 				realTime: toDateNullable(x.realDateTime)
 			}))
@@ -44,19 +45,23 @@ async function getDepartures(apiUrl: string, stationId: string): Promise<ApiResp
 	};
 }
 
+
+function toDateCET(dt: DateTime): Date {
+  return LuxonDT.fromObject(
+    {
+      year: Number(dt.year),
+      month: Number(dt.month),
+      day: Number(dt.day),
+      hour: Number(dt.hour),
+      minute: Number(dt.minute)
+    },
+    { zone: "Europe/Berlin" }
+  ).toJSDate();
+}
+
 function toDateNullable(dt: DateTime): Date | null {
 	if (!dt?.year || !dt?.month || !dt?.day || !dt?.hour || !dt?.minute) {
 		return null;
 	}
-	return toDate(dt);
-}
-
-function toDate(dt: DateTime): Date {
-	return new Date(
-		Number(dt.year),
-		Number(dt.month) - 1,
-		Number(dt.day),
-		Number(dt.hour),
-		Number(dt.minute)
-	);
+	return toDateCET(dt);
 }
