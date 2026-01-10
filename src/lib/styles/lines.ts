@@ -1,4 +1,4 @@
-import type { DepartureMinimal } from '@/types/departure';
+import type { Departure } from '@/types/departure';
 
 export interface LineStyle {
 	background: string;
@@ -63,7 +63,7 @@ const karlsruhe = [
 	'Weingarten (Baden)'
 ];
 
-export function getLineStyle(line: DepartureMinimal, city: string): LineStyle {
+export function getLineStyle(line: Departure, city: string): LineStyle {
 	const lineName = line.lineName;
 	if (lineName.startsWith("ICE") || lineName.startsWith("IC")) {
 		return { background: "#ed1c24", text: "#fff" };

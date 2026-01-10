@@ -245,10 +245,10 @@ export interface Attr2 {
 export interface ApiResponse {
 	stationName: string;
 	cityName: string;
-	departureList: DepartureMinimal[];
+	departureList: Departure[];
 }
 
-export interface DepartureMinimal {
+export interface Departure {
 	lineName: string;
 	direction: string;
 	platformName: string;
