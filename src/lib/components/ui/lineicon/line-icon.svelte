@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { getLineStyle } from '@/styles/lines';
-	import type { DepartureMinimal } from '@/types/departure';
+	import type { Departure } from '@/types/departure';
 
 	let { departure, city } = $props();
 
@@ -21,4 +21,3 @@
 >
 	{lineName}
 </div>
-
