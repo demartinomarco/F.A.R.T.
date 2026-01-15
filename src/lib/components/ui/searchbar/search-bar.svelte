@@ -53,7 +53,7 @@
 	</Popover.Trigger>
 
 	<Popover.Content class="w-60 p-0">
-		<Command.Root>
+		<Command.Root shouldFilter={false}>
 			<Command.Input
 				placeholder={placeholderText}
 				oninput={(e) => updateStops(e.currentTarget.value)}
@@ -62,9 +62,9 @@
 			<Command.List>
 				{#key stops}
 					<Command.Group value="stops">
-						{#each stops as stop (stop.label)}
+						{#each stops as stop (stop.value)}
 							<Command.Item
-								value={stop.label}
+								value={stop.value}
 								onSelect={() => {
 									selectedId = stop.value;
 									closeAndFocusTrigger();

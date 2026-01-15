@@ -4,9 +4,9 @@ import { DateTime as LuxonDT } from "luxon";
 
 export const GET: RequestHandler = async ({ url }) => {
 	const stationId = url.searchParams.get('stationId') ?? '7001003'; // default station
-	const api = `https://projekte.kvv-efa.de/sl3-alone/XSLT_DM_REQUEST?outputFormat=JSON&coordOutputFormat=WGS84[dd.ddddd]&depType=stopEvents&locationServerActive=1&mode=direct&name_dm=${stationId}&type_dm=stop&useOnlyStops=1&useRealtime=1&limit=20`;
+	const api = `https://projekte.kvv-efa.de/sl3-alone/XSLT_DM_REQUEST?outputFormat=JSON&coordOutputFormat=WGS84[dd.ddddd]&depType=stopEvents&locationServerActive=1&mode=direct&name_dm=${stationId}&type_dm=stop&useOnlyStops=1&useRealtime=1&limit=100`;
 
-	const departures = await getDepartures(api, stationId);
+	const departures = await getDepartures(api);
 
 	return new Response(JSON.stringify(departures), {
 		headers: {
@@ -17,18 +17,16 @@ export const GET: RequestHandler = async ({ url }) => {
 
 // const url = 'https://projekte.kvv-efa.de/sl3-alone/XSLT_DM_REQUEST?outputFormat=JSON&coordOutputFormat=WGS84[dd.ddddd]&depType=stopEvents&locationServerActive=1&mode=direct&name_dm=7001002&type_dm=stop&useOnlyStops=1&useRealtime=1&limit=10';
 
-async function getDepartures(apiUrl: string, stationId: string): Promise<ApiResponse> {
+async function getDepartures(apiUrl: string): Promise<ApiResponse> {
 	const response = await fetch(apiUrl);
 	const data: Root = await response.json();
 
-	const trimmedStationId = stationId.split(':')[0];
 	const station = data.dm?.points?.point;
 
 	return {
 		stationName: station?.name ?? '',
 		cityName: station?.ref.place ?? '',
 		departureList: data.departureList
-			.filter((d: DepartureList) => d.stopID === trimmedStationId)
 			.map((x: DepartureList) => ({
 				lineName: x.servingLine.number,
 				direction: x.servingLine.direction,

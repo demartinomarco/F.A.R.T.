@@ -1,0 +1,2150 @@
+gid;place_name;stop_name
+de:08317:33013;Achern;Bahnhof
+de:08317:30032;Achern;Gymnasium
+de:08125:2032;Affaltrach;Affaltrach
+de:08226:37;Altlußheim;Raiffeisenbank
+de:08226:38;Altlußheim;Rebstöckl
+de:08216:32231;Altschweier;Grautenbach
+de:08216:32230;Altschweier;Kirche
+de:08216:32229;Altschweier;Tankstelle
+de:08216:6411;Au am Rhein;Diehl
+de:08216:6413;Au am Rhein;Elchesheimer Str.
+de:08216:32075;Au am Rhein;Industriegebiet
+de:08216:6412;Au am Rhein;Ortsmitte
+de:08216:6419;Au am Rhein;Würmersheimer Str.
+de:08215:8616;Auerbach (Karlsbad);Ahornweg
+de:08215:8614;Auerbach (Karlsbad);Am Neubruch
+de:08215:8607;Auerbach (Karlsbad);Hailerstraße
+de:08215:8608;Auerbach (Karlsbad);Rathaus
+de:08215:8613;Auerbach (Karlsbad);Rosenweg
+de:08215:8615;Auerbach (Karlsbad);Zehntstraße
+de:08436:1584;Aulendorf (Württ);Haslach, L275
+de:05554:21231;Averesch;Abzw. L560
+de:07314:2282;BASF;B714
+de:07314:11025;BASF;B818
+de:07314:2211;BASF;C600
+de:07314:2307;BASF;C703
+de:07314:2183;BASF;F206
+de:07314:2245;BASF;J601
+de:07314:2256;BASF;L541
+de:07314:2257;BASF;L745
+de:07314:2279;BASF;M401
+de:07314:2228;BASF;M810
+de:07314:11049;BASF;O520
+de:07314:2229;BASF;Q920
+de:07314:11033;BASF;S310
+de:07314:2128;BASF;T200
+de:07314:2262;BASF;T405
+de:07314:11048;BASF;T713
+de:07314:11013;BASF;Tor 12/T509
+de:07314:2271;BASF;U309
+de:07314:11047;BASF;W166
+de:07314:11026;BASF;W205
+de:08125:6232;Babstadt;Babstadt
+de:08125:518;Bad Friedrichshall;Rathaus
+de:08235:9558;Bad Herrenalb;Bad Herrenalb
+de:08235:9556;Bad Herrenalb;Bleiche
+de:08235:9559;Bad Herrenalb;Falkensteinschule
+de:08235:9772;Bad Herrenalb;Freibad
+de:08235:9746;Bad Herrenalb;Gernsbacher Straße
+de:08235:9745;Bad Herrenalb;Hotel Post
+de:08235:9711;Bad Herrenalb;Kullenmühle
+de:08235:9749;Bad Herrenalb;Kurhaus
+de:08235:9557;Bad Herrenalb;Post
+de:08235:9748;Bad Herrenalb;Rathausplatz
+de:08235:9765;Bad Herrenalb;Rotenbächle
+de:08235:9703;Bad Herrenalb;Steinhäusle
+de:08235:9742;Bad Herrenalb;Sägwasenplatz
+de:08125:4615;Bad Rappenau;Bad Rappenau
+de:08125:1630;Bad Rappenau;Bad Rappenau Kurpark
+de:08216:34762;Bad Rotenfels;Bahnhof/Rotherma
+de:08216:32768;Bad Rotenfels;Eichelbergstraße
+de:08216:31942;Bad Rotenfels;Feuerwehr
+de:08216:32169;Bad Rotenfels;Glasersteg
+de:08216:34908;Bad Rotenfels;Ludwig-Erhard-Straße
+de:08216:32825;Bad Rotenfels;Schloss
+de:08216:31862;Bad Rotenfels;Schulzentrum Dachgrub
+de:08216:34800;Bad Rotenfels;Thermalbad
+de:08216:32826;Bad Rotenfels;Weinbrennerstraße
+de:08235:8960;Bad Wildbad;Bahnhof Bad Wildbad
+de:08235:8961;Bad Wildbad;Kurpark
+de:08235:9695;Bad Wildbad;Schwarzer Weg
+de:08235:402;Bad Wildbad;Uhlandplatz Sommerbergbahn
+de:08235:424;Bad Wildbad;Wildbad, Nord
+de:08125:2002;Bad Wimpfen;Bad Wimpfen
+de:08125:4595;Bad Wimpfen;Bad Wimpfen Im Tal
+de:08211:32549;Baden-Baden;Altenpflegeheim Schafberg
+de:08211:32388;Baden-Baden;Augustaplatz / Museum Burda
+de:08211:1847;Baden-Baden;Baden-Baden
+de:08211:31963;Baden-Baden;Bauernfeldstraße
+de:08211:31960;Baden-Baden;Bertholdplatz
+de:08211:31958;Baden-Baden;Birkenbuckel
+de:08211:33109;Baden-Baden;Bretagne
+de:08211:31954;Baden-Baden;Bäderviertel
+de:08211:33089;Baden-Baden;Campus Cité / VHS
+de:08211:32387;Baden-Baden;Caracalla Therme
+de:08211:31925;Baden-Baden;Charles-de-Gaulle-Platz
+de:08211:31953;Baden-Baden;Dreieichenkapelle
+de:08211:31949;Baden-Baden;Ebertplatz
+de:08211:31946;Baden-Baden;Engel/Höhenblick
+de:08211:31945;Baden-Baden;Entenstallhütte
+de:08211:31944;Baden-Baden;Falkenstraße
+de:08211:32389;Baden-Baden;Festspielhaus
+de:08211:31940;Baden-Baden;Friedrichshöhe
+de:08211:31937;Baden-Baden;Gausplatz
+de:08211:33091;Baden-Baden;Gewerbepark Cité
+de:08211:31935;Baden-Baden;Golfplatz
+de:08211:31934;Baden-Baden;Große Dollenstraße
+de:08211:31933;Baden-Baden;Hans-Bredow-Str. (SWR)
+de:08211:31932;Baden-Baden;Hans-Thoma-Straße
+de:08211:31853;Baden-Baden;Hauptfriedhof
+de:08211:31929;Baden-Baden;Herchenbachstraße
+de:08211:31927;Baden-Baden;Herrengut
+de:08211:32254;Baden-Baden;Hindenburgplatz (Kaiserallee)
+de:08211:32209;Baden-Baden;Hindenburgplatz/Stadtbibliothek
+de:08211:31924;Baden-Baden;Hochstraße
+de:08211:31921;Baden-Baden;Hubertusstraße
+de:08211:34770;Baden-Baden;Im Metzenacker
+de:08211:31886;Baden-Baden;Kaiser-Wilhelm-Straße
+de:08211:31911;Baden-Baden;Kettenbrücke
+de:08211:33108;Baden-Baden;Kino Cité / P+R
+de:08211:32385;Baden-Baden;Kleine Dollenstraße
+de:08211:31910;Baden-Baden;Klinik Dr. Dengler
+de:08211:31909;Baden-Baden;Klostergut Fremersberg
+de:08211:31907;Baden-Baden;Kronprinzenstraße
+de:08211:31906;Baden-Baden;Kuppenheimer Straße
+de:08211:31905;Baden-Baden;Kurfürstenstraße
+de:08211:34774;Baden-Baden;Kurhaus
+de:08211:32384;Baden-Baden;Königsberger Straße
+de:08211:32392;Baden-Baden;Leopoldsplatz (Luisenstraße)
+de:08211:32393;Baden-Baden;Leopoldsplatz (Sophienstraße)
+de:08211:31904;Baden-Baden;Leopoldstraße
+de:08211:31901;Baden-Baden;Lichtentaler Allee/Museen
+de:08211:31900;Baden-Baden;Lilienmattstr./Klinik Annaberg
+de:08211:31897;Baden-Baden;Mariahalden
+de:08211:31896;Baden-Baden;Markgrafenplatz
+de:08211:31895;Baden-Baden;Marktplatz/Rathaus
+de:08211:31893;Baden-Baden;Maximilianstr./Falkenstr.
+de:08211:31891;Baden-Baden;Maximilianstraße
+de:08211:31890;Baden-Baden;Merkurwald
+de:08211:31889;Baden-Baden;Moltkestr./Rosengarten
+de:08211:31888;Baden-Baden;Neues Schloss
+de:08211:31885;Baden-Baden;Obere Breite
+de:08211:31883;Baden-Baden;Obere Prinz-Weimar-Str.
+de:08211:31882;Baden-Baden;Obere Schußbach
+de:08211:34769;Baden-Baden;Ooswinkel
+de:08211:31957;Baden-Baden;Oskar-Schlemmer-Platz
+de:08211:31922;Baden-Baden;Otto-Flake-Straße
+de:08211:33088;Baden-Baden;Pariser Platz Cité
+de:08211:31880;Baden-Baden;Quettigstaffeln
+de:08211:31873;Baden-Baden;Rheumazentrum
+de:08211:31928;Baden-Baden;Robert-Koch-Straße
+de:08211:32380;Baden-Baden;Rotenbachtalstraße
+de:08211:34791;Baden-Baden;Römerweg
+de:08211:31864;Baden-Baden;Schirmhofweg
+de:08211:34772;Baden-Baden;Schußbachstraße
+de:08211:34771;Baden-Baden;Schwarzwaldstraße
+de:08211:32379;Baden-Baden;Schweigrother Platz
+de:08211:33090;Baden-Baden;Shopping Cité
+de:08211:31856;Baden-Baden;Sinzheimer Straße
+de:08211:31855;Baden-Baden;Solmsstraße
+de:08211:31854;Baden-Baden;Stadelhoferstraße
+de:08211:31849;Baden-Baden;Tiergarten/cts-Klinik
+de:08211:31846;Baden-Baden;Untere Prinz-Weimar-Str.
+de:08211:31844;Baden-Baden;Voglergasse
+de:08211:31843;Baden-Baden;Waldcafé
+de:08211:31841;Baden-Baden;Waldseestr./Verfassungsplatz
+de:08211:31840;Baden-Baden;Werderstraße
+de:08211:31839;Baden-Baden;Wilhelm-Drapp-Str.
+de:08211:31837;Baden-Baden;Wörthstraße
+de:08215:32008;Bahnbrücken;Bahnbrücken
+de:08215:13722;Bahnbrücken;Gochsheimer Str.
+de:08215:13723;Bahnbrücken;Kindergarten
+de:08215:13701;Bahnbrücken;Rathaus
+de:08237:1201;Baiersbronn;Bahnhof
+de:08237:1202;Baiersbronn;Schule
+de:08211:31962;Balg;Baumackerstraße
+de:08211:31965;Balg;Friedhof
+de:08211:31936;Balg;Gaßeck
+de:08211:31964;Balg;Kirche
+de:08211:31852;Balg;Klinikum Mittelbaden
+de:08216:37233;Balzhofen (Baden);Hauptfeld
+de:08216:34692;Balzhofen (Baden);Kirche
+fr:24057:97150;Basse-Ham;Rd654
+de:08215:32617;Bauerbach (Baden);Bauerbach (Baden)
+de:08215:14211;Bauerbach (Baden);Schule
+de:08212:6217;Beiertheim;Beiertheim West
+fr:24067:327;Beinheim;Mairie
+fr:24067:1811;Beinheim;Route du Rhin
+de:07334:1746;Bellheim;Am Mühlbuckel
+de:07334:32660;Bellheim;Bahnhof
+de:08215:1634;Berghausen (Baden);Am Stadion
+de:08215:2008;Berghausen (Baden);Berghausen (Baden)
+de:08215:2006;Berghausen (Baden);Georgstraße
+de:08215:1526;Berghausen (Baden);Hummelberg
+de:08215:99912;Berghausen (Baden);Keplerstraße
+de:08215:2007;Berghausen (Baden);Kirche
+de:08215:1601;Berghausen (Baden);Pfinzbrücke
+de:08215:9020;Berghausen (Baden);Weiherstraße (Ersatzhalt)
+de:08212:4409;Bergwald (Karlsruhe);Bergwald Mitte
+de:08212:4415;Bergwald (Karlsruhe);Bergwaldschule
+de:08212:4414;Bergwald (Karlsruhe);Elsa-Brändström-Straße
+de:08212:4412;Bergwald (Karlsruhe);Fridtjof-Nansen-Straße
+de:08212:4413;Bergwald (Karlsruhe);Hooverstraße
+de:08216:34671;Bermersbach/Murgtal;Rathaus
+de:08235:9721;Bernbach (Bad Herr.);Althof
+de:08235:9720;Bernbach (Bad Herr.);Rathaus
+de:08235:9739;Bernbach (Bad Herr.);Talblickstraße
+de:08437:47626;Beuron;Kohlplatte K8214/L439
+de:08216:32072;Bietigheim (Baden);Badenstraße
+de:08216:1820;Bietigheim (Baden);Bietigheim (Baden)
+de:08216:32085;Bietigheim (Baden);Krone
+de:08216:32091;Bietigheim (Baden);Rheinstraße
+de:08216:32071;Bietigheim (Baden);Schneidergarten
+de:08216:32096;Bietigheim (Baden);Sofienstraße (Ersatz)
+de:08216:32616;Bietigheim (Baden);Ötigheimer Weg
+de:08236:1792;Bilfingen;Bahnhof
+de:08236:1090;Birkenfeld (Württ);Bahnhof
+de:08216:32236;Bischweier (Baden);Bahnhofstraße
+de:08216:34764;Bischweier (Baden);Bischweier (Baden)
+de:08216:32235;Bischweier (Baden);Kirche
+de:08216:32234;Bischweier (Baden);Murgtalstraße Süd
+de:08216:32233;Bischweier (Baden);Rathaus
+de:08216:32834;Bischweier (Baden);Winkelberg
+de:08237:4322;Bittelbronn (Horb);Bahnhof
+de:08126:19601;Bitzfeld;Bitzfeld
+de:08215:32239;Blankenloch;Blankenloch
+de:08215:32031;Blankenloch;Kirche
+de:08215:32703;Blankenloch;Lorenzstraße
+de:08215:1906;Blankenloch;Mühlenweg
+de:08215:32033;Blankenloch;Nord
+de:08215:32238;Blankenloch;Rathaus
+de:08215:32036;Blankenloch;Schloss Stutensee
+de:08215:32237;Blankenloch;Schulzentrum
+de:08215:32432;Blankenloch;Stutensee-Center
+de:08215:1903;Blankenloch;Süd
+de:08215:32030;Blankenloch;Tolna-Platz
+de:08115:4510;Bondorf (Kr Böbl.);Bondorf
+de:08216:32102;Breithurst;Abzw. Breithurst
+de:08216:14812;Breithurst;Kapelle
+de:08215:14603;Bretten (Baden);Albert-Einstein-Str.
+de:08215:12602;Bretten (Baden);Alte Post
+de:08215:14108;Bretten (Baden);Anne-Frank-Str.
+de:08215:14118;Bretten (Baden);Bismarckstraße
+de:08215:1551;Bretten (Baden);Bretten (Baden)
+de:08215:14117;Bretten (Baden);Brunnenstube
+de:08215:14310;Bretten (Baden);Derdinger Straße
+de:08215:14133;Bretten (Baden);Edisonstraße
+de:08215:14120;Bretten (Baden);Friedhof
+de:08215:14106;Bretten (Baden);Gymnasium
+de:08215:14111;Bretten (Baden);Gölshäuser Lücke
+de:08215:14119;Bretten (Baden);Hausertalstraße
+de:08215:14105;Bretten (Baden);Im Grüner
+de:08215:1556;Bretten (Baden);Kupferhälde
+de:08215:14604;Bretten (Baden);Otto-Hahn-Str.
+de:08215:14109;Bretten (Baden);Rechbergklinik
+de:08215:14602;Bretten (Baden);Ruiter Straße
+de:08215:1555;Bretten (Baden);Schulzentrum
+de:08215:14309;Bretten (Baden);Schwarzerdhof
+de:08215:14121;Bretten (Baden);Seniorenheim
+de:08215:12601;Bretten (Baden);Sporgasse
+de:08215:14124;Bretten (Baden);St. Johann
+de:08215:1553;Bretten (Baden);Stadtmitte
+de:08215:14116;Bretten (Baden);Virchowstraße
+de:08215:1554;Bretten (Baden);Wannenweg
+de:08215:14114;Bretten (Baden);Wilhelmstraße
+de:08126:10101;Bretzfeld;Bretzfeld
+de:08215:8302;Bruchhausen (Kr KA);Am Sang
+de:08215:8320;Bruchhausen (Kr KA);Blütenstraße
+de:08215:1841;Bruchhausen (Kr KA);Bruchhausen (b. Ettlingen)
+de:08215:8322;Bruchhausen (Kr KA);Fère-Champenoise-Str.
+de:08215:8323;Bruchhausen (Kr KA);Haselweg
+de:08215:8303;Bruchhausen (Kr KA);Oberfeld
+de:08215:8321;Bruchhausen (Kr KA);Westring
+de:08215:32335;Bruchsal;Adolf-Bieringer-Str.
+de:08215:12658;Bruchsal;Altenzentrum
+de:08215:32329;Bruchsal;Alter Güterbahnhof
+de:08215:32985;Bruchsal;Am Mantel
+de:08215:12635;Bruchsal;Asamstraße
+de:08215:32333;Bruchsal;Augsteiner
+de:08215:12643;Bruchsal;Auweg
+de:08215:12632;Bruchsal;Bahnhof/Hildastraße
+de:08215:32324;Bruchsal;Bahnstadt
+de:08215:12651;Bruchsal;Beethovenstraße
+de:08215:1856;Bruchsal;Bruchsal
+de:08215:32327;Bruchsal;Bussardweg
+de:08215:12616;Bruchsal;Bürgerpark
+de:08215:12614;Bruchsal;Campus
+de:08215:12633;Bruchsal;Damianstor
+de:08215:12650;Bruchsal;Dittmannswiesen
+de:08215:32326;Bruchsal;Drosselweg
+de:08215:12653;Bruchsal;Durlacher Straße
+de:08215:12654;Bruchsal;Eggerten
+de:08215:32293;Bruchsal;Eichelbergweg
+de:08215:32328;Bruchsal;Eichenweg
+de:08215:32321;Bruchsal;Eisweiher
+de:08215:32325;Bruchsal;Ernst-Blickle-Straße
+de:08215:34854;Bruchsal;Eschenweg
+de:08215:12626;Bruchsal;Europaplatz
+de:08215:32319;Bruchsal;Florian-Geyer-Str.
+de:08215:32318;Bruchsal;Flugplatz
+de:08215:32317;Bruchsal;Flüsselweg
+de:08215:32294;Bruchsal;Friedhof
+de:08215:12622;Bruchsal;Friedrichsplatz
+de:08215:32316;Bruchsal;Germersheimer Str.
+de:08215:1855;Bruchsal;Gewerbliches Bildungszentrum
+de:08215:12657;Bruchsal;Habichtweg
+de:08215:32314;Bruchsal;Hans-Thoma-Straße
+de:08215:32545;Bruchsal;Haydnstraße
+de:08215:32312;Bruchsal;Hochstraße
+de:08215:32287;Bruchsal;Im Wendelrot
+de:08215:32311;Bruchsal;Industriestr./L558
+de:08215:12655;Bruchsal;Industriestraße
+de:08215:32309;Bruchsal;Josef-Heid-Straße
+de:08215:32308;Bruchsal;Justus-Knecht-Gymnasium
+de:08215:32307;Bruchsal;Kaiserstraße
+de:08215:32553;Bruchsal;Karl-Berberich-Schule
+de:08215:32306;Bruchsal;Karlsruher Straße
+de:08215:12659;Bruchsal;Krankenhaus
+de:08215:32546;Bruchsal;Krankenhaus/B3
+de:08215:32303;Bruchsal;Kändelweg
+de:08215:32550;Bruchsal;Käthe-Kollwitz-Schule
+de:08215:32304;Bruchsal;Kübelmarkt
+de:08215:32552;Bruchsal;Lebenshilfe
+de:08215:12631;Bruchsal;Liebigstraße
+de:08215:32302;Bruchsal;Linkenheimer Weg
+de:08215:12645;Bruchsal;Lortzingstraße
+de:08215:32305;Bruchsal;Mozartweg
+de:08215:12623;Bruchsal;Neutorstraße
+de:08215:32299;Bruchsal;Paul-Gerhardt-Str.
+de:08215:12619;Bruchsal;Pfeilerstraße
+de:08215:32297;Bruchsal;SEW
+de:08215:33173;Bruchsal;Saalbachcenter
+de:08215:12630;Bruchsal;Salinenstraße
+de:08215:32547;Bruchsal;Schloss
+de:08215:1857;Bruchsal;Schlossgarten
+de:08215:32548;Bruchsal;Schlossstraße
+de:08215:12641;Bruchsal;Schwetzinger Str.
+de:08215:12638;Bruchsal;Schwimmbad
+de:08215:32551;Bruchsal;Schönbornstraße
+de:08215:32593;Bruchsal;Siemens
+de:08215:32295;Bruchsal;Siemens Wohnheim
+de:08215:12624;Bruchsal;Silberhölle
+de:08215:12640;Bruchsal;Speyerer Straße
+de:08215:32300;Bruchsal;Stadtwerke
+de:08215:1858;Bruchsal;Stegwiesen
+de:08215:32291;Bruchsal;Steinackerstraße
+de:08215:12667;Bruchsal;Südstadt
+de:08215:12642;Bruchsal;Weidenbusch
+de:08215:12627;Bruchsal;Weiherberg
+de:08215:12628;Bruchsal;Weiherbergstraße
+de:08215:12637;Bruchsal;Zaisental
+de:08215:12634;Bruchsal;Zickstraße
+de:08215:32334;Bruchsal;Ärztehaus Südstadt
+de:08231:208;Brötzingen;Bahnhof (Bus)
+de:08231:3991;Brötzingen;Mitte
+de:08231:3994;Brötzingen;Sandweg
+de:08231:3995;Brötzingen;Wohnlichstraße
+de:08212:5016;Bulach;Friedhof
+de:08212:6216;Bulach;West
+de:08215:9302;Burbach (Marxzell);Burbach Speiglerstraße
+de:08215:8505;Busenbach (Waldbr.);Albtherme
+de:08215:8502;Busenbach (Waldbr.);Apotheke
+de:08215:1241;Busenbach (Waldbr.);Busenbach
+de:08215:8503;Busenbach (Waldbr.);Oberdorf
+de:08215:8516;Busenbach (Waldbr.);Ostendstraße
+de:08215:8504;Busenbach (Waldbr.);Rathausmarkt
+de:08121:2000;Böckingen;Berufsschulzentrum
+de:08121:2001;Böckingen;Böckingen West
+de:08121:59;Böckingen;Sandhof
+de:08121:77;Böckingen;Sonnenbrunnen
+de:08215:12649;Büchenau;Im Grün
+de:08215:32284;Büchenau;Pfarrzentrum
+de:08215:32283;Büchenau;Schule
+de:08215:32282;Büchenau;Verwaltungsstelle
+de:08215:14104;Büchig (Bretten);Hügellandstraße
+de:08215:14107;Büchig (Bretten);Rathaus
+de:08215:14103;Büchig (Bretten);Teich/Wanne
+de:08215:1902;Büchig (Stutensee);Büchig
+de:08216:34730;Bühl (Baden);A.-Stifter-Straße
+de:08216:34765;Bühl (Baden);Am Froschbächle
+de:08216:34736;Bühl (Baden);Arndtstr./Berliner Str.
+de:08216:34734;Bühl (Baden);Beethoven-/Robert-Schumann-Str
+de:08216:31835;Bühl (Baden);Bußmatten I
+de:08216:31834;Bühl (Baden);Bußmatten II
+de:08216:32227;Bühl (Baden);Bühl (Baden)
+de:08216:34810;Bühl (Baden);Bühlertalstr/Hauptstr
+de:08216:34809;Bühl (Baden);Bühlertalstr/Kappelwindeckstr
+de:08216:34749;Bühl (Baden);Dieselstraße
+de:08216:34743;Bühl (Baden);Draisstraße
+de:08216:32226;Bühl (Baden);Erich-Burger-Heim
+de:08216:34855;Bühl (Baden);Erlenstraße
+de:08216:33081;Bühl (Baden);Fridolin-Stiegler-Straße
+de:08216:32225;Bühl (Baden);Gymnasium
+de:08216:34850;Bühl (Baden);Henri-Dunant-Platz
+de:08216:34738;Bühl (Baden);Im Grün
+de:08216:34686;Bühl (Baden);Industriegebiet
+de:08216:34747;Bühl (Baden);Industriestraße
+de:08216:34863;Bühl (Baden);Industriestraße (Ersatz)
+de:08216:34733;Bühl (Baden);Kirchgassweg
+de:08216:32223;Bühl (Baden);Klostergarten
+de:08216:34600;Bühl (Baden);Krankenhaus
+de:08216:34659;Bühl (Baden);Krankenhaus (Robert-Koch-Str.)
+de:08216:34731;Bühl (Baden);Martin-Luther-Str./Arndtstr.
+de:08216:34735;Bühl (Baden);O.-Haefelin-/P.-Fischer-Str.
+de:08216:32221;Bühl (Baden);Rathaus
+de:08216:34687;Bühl (Baden);Rheinstraße
+de:08216:32752;Bühl (Baden);Rheintalschule
+de:08216:34761;Bühl (Baden);Rheintalstraße
+de:08216:34748;Bühl (Baden);Robert-Bosch-Straße
+de:08216:34713;Bühl (Baden);Robert-Koch-Str./Bachschlossweg
+de:08216:34732;Bühl (Baden);Siemensstraße
+de:08216:32219;Bühl (Baden);Tankstelle Jäger
+de:08216:34858;Bühl (Baden);Untere Strut
+de:08216:32218;Bühlerhöhe;Bühlerhöhe/Plättig
+de:08216:34758;Bühlertal;Abzw. Burg Windeck
+de:08216:32205;Bühlertal;Adlergasse
+de:08216:12027;Bühlertal;Altes Feuerwehrhaus
+de:08216:12024;Bühlertal;Am Rebhang
+de:08216:12014;Bühlertal;Boosweg
+de:08216:32204;Bühlertal;Bosch
+de:08216:12020;Bühlertal;Boschbrücke
+de:08216:12010;Bühlertal;Breitmatt
+de:08216:32203;Bühlertal;Buchkopf
+de:08216:12016;Bühlertal;Denni
+de:08216:32202;Bühlertal;Eichwald
+de:08216:30168;Bühlertal;Eichwaldstraße
+de:08216:12012;Bühlertal;Eugen-Seelos-Weg
+de:08216:12019;Bühlertal;Franziska-Höll Schule
+de:08216:32201;Bühlertal;Friedhof Obertal
+de:08216:12026;Bühlertal;Friedhof Untertal
+de:08216:32199;Bühlertal;Geiserschmiede
+de:08216:12001;Bühlertal;Geisloch
+de:08216:32200;Bühlertal;Gertelbachstraße
+de:08216:12002;Bühlertal;Goldbergweg
+de:08216:12008;Bühlertal;Haaberg Mitte
+de:08216:12005;Bühlertal;Hirschbach
+de:08216:12018;Bühlertal;Josef-Schofer Schule
+de:08216:12021;Bühlertal;Klotzberg
+de:08216:12025;Bühlertal;Liehenbachkapelle
+de:08216:32198;Bühlertal;Liehenbachstr./Seniorenzentrum
+de:08216:32197;Bühlertal;Lochweg
+de:08216:12003;Bühlertal;Obere Büchelbach
+de:08216:12007;Bühlertal;Oberer Haaberg
+de:08216:12022;Bühlertal;Oberer Mocken
+de:08216:12006;Bühlertal;Parkdeck
+de:08216:32196;Bühlertal;Post
+de:08216:12009;Bühlertal;Sandgrube
+de:08216:32195;Bühlertal;Schindelpeter
+de:08216:12015;Bühlertal;Schwarzwasen
+de:08216:32194;Bühlertal;Schwimmbad
+de:08216:32193;Bühlertal;Schönbüch
+de:08216:12013;Bühlertal;Steckenhalt
+de:08216:12004;Bühlertal;Untere Büchelbach
+de:08216:12017;Bühlertal;Wiedenbach
+de:08216:34759;Bühlertal;Wiedenfelsen
+de:08216:12023;Bühlertal;Wintereck
+de:08235:420;Calmbach;Bahnhof
+de:08235:9700;Calmbach;Birkenhof/Bhf.
+de:08235:8220;Calmbach;Lindenplatz
+de:08235:9625;Calmbach;Parkanlage
+de:08235:423;Calmbach;Süd
+de:08235:9670;Calmbach;Taubenäckersiedlung
+de:08212:6221;Daxlanden;Agathenstraße
+de:08212:307;Daxlanden;Altrheinbrücke
+de:08212:303;Daxlanden;Ankerstraße
+de:08212:6220;Daxlanden;August-Dosenbach-Straße
+de:08212:206;Daxlanden;Dornröschenweg
+de:08212:305;Daxlanden;Hammweg
+de:08212:205;Daxlanden;Karl-Delisle-Straße
+de:08212:304;Daxlanden;Kirchplatz
+de:08212:6223;Daxlanden;Kirschstraße
+de:08212:302;Daxlanden;Mauerweg
+de:08212:209;Daxlanden;Nussbaumweg
+de:08212:308;Daxlanden;Rappenwört
+de:08212:204;Daxlanden;Thomas-Mann-Straße
+de:08212:6222;Daxlanden;Turnerstraße
+de:08212:306;Daxlanden;Waidweg
+de:08215:14619;Diedelsheim;Diedelsheimer Höhe
+de:08215:12603;Diedelsheim;Eichholz
+de:08215:14618;Diedelsheim;Evangelische Kirche
+de:08215:14614;Diedelsheim;Friedhof
+de:08215:14615;Diedelsheim;Joh.-Seb.-Bach-Str.
+de:08215:12604;Diedelsheim;Rathaus
+de:08215:14613;Diedelsheim;Schubertstraße
+de:08215:14605;Diedelsheim;Schule
+de:08235:9505;Dobel (Württ);Birkengrund
+de:08235:9502;Dobel (Württ);Dreimarkstein
+de:08235:9503;Dobel (Württ);Gesundheitszentrum
+de:08235:9504;Dobel (Württ);Ortsmitte
+de:08235:9575;Dobel (Württ);Schule
+de:08237:8009;Dornstetten (Württ);Aach
+de:08237:4001;Dornstetten (Württ);Bahnhof
+de:03254:21689;Dunsen;Dunsen/B240
+de:08212:3121;Durlach;Am Heegwald
+de:08212:3120;Durlach;An der Fayence
+de:08212:11;Durlach;Auer Straße/Dr.Willmar Schwabe
+de:08212:4608;Durlach;August-Macke-Straße
+de:08212:802;Durlach;Bahnhof
+de:08212:4304;Durlach;Blattwiesenstraße
+de:08212:3112;Durlach;Breit
+de:08212:4305;Durlach;Brühlstraße Mitte
+de:08212:4204;Durlach;Dieselstraße
+de:08212:2302;Durlach;Dürrbachstraße
+de:08212:4407;Durlach;Dürrenwettersbacher Straße
+de:08212:2304;Durlach;Eisenhafengrund
+de:08212:4495;Durlach;Ellmendinger Straße
+de:08212:4607;Durlach;Erich-Heckel-Straße
+de:08212:4604;Durlach;Ernst-Barlach-Straße
+de:08212:2002;Durlach;Friedhof
+de:08212:16;Durlach;Friedrichschule
+de:08212:4606;Durlach;Geigersberg
+de:08212:4499;Durlach;Gritznerstraße
+de:08212:4206;Durlach;Gudrunstraße
+de:08212:1510;Durlach;Hubstraße
+de:08212:19;Durlach;Karl-Weysser-Straße
+de:08212:801;Durlach;Karlsruhe-Durlach
+de:08212:4008;Durlach;Killisfeld
+de:08212:4497;Durlach;Killisfeldstraße
+de:08212:4603;Durlach;Käthe-Kollwitz-Straße
+de:08212:2303;Durlach;Lerchenberg
+de:08212:4602;Durlach;Lußstraße
+de:08212:4605;Durlach;Max-Beckmann-Straße
+de:08212:4505;Durlach;Max-Liebermann-Straße
+de:08212:4203;Durlach;Maybachstraße
+de:08212:2004;Durlach;Neßlerstraße
+de:08212:3114;Durlach;Ochsentorstraße
+de:08212:4494;Durlach;Ostmarkstraße
+de:08212:4205;Durlach;Ottostraße
+de:08212:4503;Durlach;Parkschlössle
+de:08212:798;Durlach;Pfinztalstraße
+de:08212:799;Durlach;Pforzheimer Straße
+de:08212:4002;Durlach;Raiherwiesenstraße
+de:08212:4504;Durlach;Rommelstraße
+de:08212:4302;Durlach;Schlesier Straße Ost
+de:08212:4493;Durlach;Schlesier Straße West
+de:08212:17;Durlach;Schlossplatz
+de:08212:4496;Durlach;Steiermärker Straße
+de:08212:2305;Durlach;Thomashof
+de:08212:4202;Durlach;Tiefbauamt
+de:08212:4308;Durlach;Tiefentalstraße
+de:08212:18;Durlach;Turmberg
+de:08212:10;Durlach;Untermühlstraße
+de:08212:4007;Durlach;Wachhausstraße
+de:08212:4492;Durlach;Zündhütle
+de:08216:32080;Durmersheim;Chennevieresplatz
+de:08216:1819;Durmersheim;Durmersheim
+de:08216:35109;Durmersheim;Durmersheim Nord
+de:08216:30098;Durmersheim;Friedhof
+de:08216:32088;Durmersheim;Gymnasium
+de:08216:32082;Durmersheim;Hans-Thoma-Straße
+de:08216:32089;Durmersheim;Raiffeisenplatz
+de:08216:32079;Durmersheim;Rastatter Straße
+de:08216:32081;Durmersheim;Speyerer Straße
+de:08216:30381;Durmersheim;Südliche Hauptstraße
+de:08216:32078;Durmersheim;Würmersheimer Str.
+de:08215:1548;Dürrenbüchig;Dürrenbüchig
+de:08215:14616;Dürrenbüchig;Ortsmitte
+de:08215:14617;Dürrenbüchig;Siedlung
+de:08211:31952;Ebersteinburg;Kapelle
+de:08211:31950;Ebersteinburg;Klinik Ebersteinburg
+de:08211:31842;Ebersteinburg;Waldkapelle
+de:08211:31838;Ebersteinburg;Wolfsschlucht
+de:08215:1120;Eggenstein;Eggenstein
+de:08215:1123;Eggenstein;Schweriner Straße
+de:08215:1122;Eggenstein;Spöcker Weg
+de:08215:1124;Eggenstein;Süd
+de:08215:30184;Eggenstein-Leopoldshafen;H10 Leopoldshafener Allee
+de:08215:30180;Eggenstein-Leopoldshafen;H12 Grabener Str.
+de:08215:30178;Eggenstein-Leopoldshafen;H14 Stadtbahnhaltestelle
+de:08215:32714;Eggenstein-Leopoldshafen;H18 Casino
+de:08215:30181;Eggenstein-Leopoldshafen;H2 FIZ
+de:08215:30379;Eggenstein-Leopoldshafen;H5 Karlsruher Allee
+de:08215:30164;Eggenstein-Leopoldshafen;H6 Gebäude 605
+de:08215:30182;Eggenstein-Leopoldshafen;H7 Grabener Str.
+de:08215:30183;Eggenstein-Leopoldshafen;H8 Liedolsheimer Straße
+de:08215:1140;Eggenstein-Leopoldshafen;KIT-Campus Nord
+de:08215:30167;Eggenstein-Leopoldshafen;KIT-Campus Nord H9 Nordtor
+de:08215:7619;Eggenstein-Leopoldshafen;KIT-Campus Nord Südtor
+de:08215:32524;Eichelberg (Baden);Brunnen
+de:08216:32232;Eisental (Baden);Abzw. Affental
+de:08216:34744;Eisental (Baden);Auerhahn
+de:08216:31832;Eisental (Baden);Gasthaus Weinberg
+de:08216:34851;Eisental (Baden);Grundschule
+de:08216:34745;Eisental (Baden);Kapelle
+de:08216:32367;Eisental (Baden);Rebstock
+de:08216:31833;Eisental (Baden);Traube
+de:08216:32074;Elchesheim-Illingen;Elchesheim Friedhof
+de:08216:6418;Elchesheim-Illingen;Elchesheim Grüner Baum
+de:08216:31800;Elchesheim-Illingen;Elchesheim Hammenweg
+de:08216:32073;Elchesheim-Illingen;Elchesheim Hirsch
+de:08216:6416;Elchesheim-Illingen;Illingen Durmersheimer Str.
+de:08216:6420;Elchesheim-Illingen;Illingen Gemeindezentrum
+de:08216:6417;Elchesheim-Illingen;Illingen Heimatmuseum
+de:08216:6415;Elchesheim-Illingen;Illingen Speyerer Straße
+de:08125:2003;Ellhofen (Württ);Ellhofen
+de:08125:1598;Ellhofen (Württ);Weinsberg/Ellhofen Gewerbegebiet
+de:08125:33415;Elsenz;Freudenhälde
+de:08125:665;Elsenz;Rathaus
+de:08125:666;Elsenz;Siedlung
+de:03241:6896;Elze (Wedemark);Plumhofer Straße (L190)
+de:08125:5404;Eppingen;Eppingen
+de:08125:1110;Eppingen;Eppingen West
+de:08216:32190;Erbersbronn;Erbersbronn
+de:08416:2052;Ergenzingen;Bahnhof
+de:08236:1791;Ersingen (Kämpfelb.);Bahnhof
+de:08236:1797;Ersingen (Kämpfelb.);Tankstelle
+de:08236:1796;Ersingen (Kämpfelb.);Untere Eisinger Str.
+de:08236:1795;Ersingen (Kämpfelb.);West
+de:08125:1023;Eschenau (Obersulm);Eschenau (b Heilbronn)
+de:08215:37210;Ettlingen;Adolf-Kolping-Str.
+de:08215:4809;Ettlingen;AfB-Zentrale
+de:08215:1235;Ettlingen;Albgaubad
+de:08215:8802;Ettlingen;Am Hardtwald
+de:08215:1224;Ettlingen;Am Lindscharren
+de:08215:37001;Ettlingen;Arndtstraße
+de:08215:1250;Ettlingen;Bertha-von-Suttner-Schule
+de:08215:37216;Ettlingen;Breitscheidstraße
+de:08215:8004;Ettlingen;Bunsenstraße
+de:08215:4810;Ettlingen;Carl-Metz-Straße
+de:08215:8125;Ettlingen;Carl-Orff-Schule
+de:08215:8126;Ettlingen;Eichendorffgymnasium
+de:08215:8404;Ettlingen;Einsteinstraße
+de:08215:8801;Ettlingen;Englerstraße
+de:08215:1223;Ettlingen;Erbprinz / Schloss
+de:08215:1231;Ettlingen;Ettlingen Stadt
+de:08215:1840;Ettlingen;Ettlingen West
+de:08215:8023;Ettlingen;Firma Argus
+de:08215:4805;Ettlingen;Friedhof
+de:08215:37217;Ettlingen;Gabelsberger Straße
+de:08215:8020;Ettlingen;Goethe-/Bachstraße
+de:08215:8137;Ettlingen;Hallenbad
+de:08215:37218;Ettlingen;Hebelweg
+de:08215:4806;Ettlingen;Hedwigshof
+de:08215:8407;Ettlingen;Hertzstraße
+de:08215:8201;Ettlingen;Horbachpark
+de:08215:4804;Ettlingen;Huttenkreuzstraße
+de:08215:8009;Ettlingen;Josef-Stöhrer-Weg
+de:08215:37213;Ettlingen;Kaisereiche
+de:08215:8006;Ettlingen;Kiefernweg
+de:08215:8012;Ettlingen;Kleiner Plom
+de:08215:8003;Ettlingen;Liebfrauenkirche
+de:08215:8011;Ettlingen;Lindenweg
+de:08215:8007;Ettlingen;Lärchenweg
+de:08215:1220;Ettlingen;Neuwiesenreben
+de:08215:9023;Ettlingen;Oberes Albgrün
+de:08215:8017;Ettlingen;Pappelweg (Ersatzhalt)
+de:08215:8002;Ettlingen;Pestalozzischule
+de:08215:9012;Ettlingen;Piazza Menfi
+de:08215:37212;Ettlingen;Rathaus
+de:08215:8403;Ettlingen;Realschule
+de:08215:37221;Ettlingen;Rudolf-Plank-Straße
+de:08215:37214;Ettlingen;Schröderstraße
+de:08215:8103;Ettlingen;Schützenkreuz
+de:08215:1237;Ettlingen;Spinnerei
+de:08215:9014;Ettlingen;Sportpark
+de:08215:8805;Ettlingen;Stadthalle
+de:08215:4811;Ettlingen;Stadtwerke
+de:08215:37215;Ettlingen;Theodor-Heuss-Str.
+de:08215:37211;Ettlingen;Volkshochschule
+de:08215:1221;Ettlingen;Wasen
+de:08215:8104;Ettlingen;Wilhelmshöhe
+de:08215:8010;Ettlingen;Zehntwiesenstraße
+de:08215:8405;Ettlingen;Zeppelinstraße
+de:08215:8204;Ettlingenweier;Bahnhof Bruchhausen
+de:08215:8200;Ettlingenweier;Bürgerhalle
+de:08215:9002;Ettlingenweier;Ettlinger Straße
+de:08215:8212;Ettlingenweier;Im Stöck
+de:08215:9006;Ettlingenweier;Keltergasse
+de:08215:9001;Ettlingenweier;Scheibenhardter Straße
+de:08215:8203;Ettlingenweier;Seestraße
+de:08215:8514;Etzenrot;Esternaystraße
+de:08215:1301;Etzenrot;Etzenrot
+de:08215:8513;Etzenrot;Feuerwehrhaus
+de:08215:8512;Etzenrot;Strauß
+de:08215:8517;Etzenrot;Vogesenstraße
+de:08237:7965;Eutingen im Gäu;Bahnhof
+de:08237:8006;Eutingen im Gäu;Nord
+de:08215:1302;Fischweier;Fischweier
+de:08215:32092;Flehingen;Flehingen
+de:08215:14206;Flehingen;Kraichtalstraße
+de:08215:14205;Flehingen;Ortsmitte
+de:08215:32607;Flehingen;Schlossgartenhalle
+fr:24091:8112;Fleury Merogis;Rond-Point de Fleury RD296
+de:08216:32191;Forbach (Schwarzw);Forbach
+de:08216:32189;Forbach (Schwarzw);Hochries
+de:08216:32188;Forbach (Schwarzw);Holdereck
+de:08216:34672;Forbach (Schwarzw);Klingenbach
+de:08216:32186;Forbach (Schwarzw);Pandurenbronn
+de:08216:32185;Forbach (Schwarzw);Rathaus
+de:08216:32183;Forbach (Schwarzw);Schindelbronn
+de:08216:34673;Forbach (Schwarzw);Schule
+de:08215:8408;Forchheim (b Karlsr);Akazienweg
+de:08215:1818;Forchheim (b Karlsr);Forchheim (b Karlsruhe)
+de:08215:212;Forchheim (b Karlsr);Hallenbad
+de:08215:213;Forchheim (b Karlsr);Hauptstraße
+de:08215:210;Forchheim (b Karlsr);Leichtsandstraße/Messe Karlsruhe
+de:08215:216;Forchheim (b Karlsr);Messe Nord
+de:08215:222;Forchheim (b Karlsr);Messering Mitte
+de:08215:223;Forchheim (b Karlsr);Messering Süd
+de:08215:214;Forchheim (b Karlsr);Oberfeldstraße
+de:08215:8409;Forchheim (b Karlsr);Schwarzwaldschule
+de:08215:32562;Forst (Baden);Bruchsaler Straße
+de:08215:1907;Forst (Baden);Buntstift
+de:08215:32573;Forst (Baden);Burgweg
+de:08215:32565;Forst (Baden);Hambrücker Straße
+de:08215:32717;Forst (Baden);Kinzigstraße
+de:08215:32716;Forst (Baden);Kolpingstraße
+de:08215:32564;Forst (Baden);Kronauer Allee
+de:08215:32563;Forst (Baden);Löwen
+de:08215:32566;Forst (Baden);Rasthof Ost
+de:08215:32567;Forst (Baden);Rasthof West
+de:08215:1908;Forst (Baden);Weiherer Straße
+de:08215:1304;Frauenalb;Frauenalb - Schielberg
+de:08216:32161;Freiolsheim;Friedhof
+de:08216:34783;Freiolsheim;Mayersbild
+de:08216:8120;Freiolsheim;Post
+de:08216:8119;Freiolsheim;Rathaus
+de:08216:8121;Freiolsheim;Waldparkplatz
+de:08317:34700;Freistett;Busbahnhof
+de:08317:15603;Freistett;Seniorenzentrum
+de:08237:1050;Freudenstadt;Hauptbahnhof
+de:08237:1048;Freudenstadt;Industriegebiet/Schmid
+de:08237:32983;Freudenstadt;Schulzentrum/Panoramabad (Bahn
+de:08237:1002;Freudenstadt;Stadtbahnhof
+de:08215:32057;Friedrichstal (Baden);Heidelberger Ring
+de:08215:32056;Friedrichstal (Baden);Leopoldshafener Straße
+de:08215:32743;Friedrichstal (Baden);Mitte
+de:08215:33079;Friedrichstal (Baden);Nord
+de:08215:32705;Friedrichstal (Baden);Parkstraße
+de:08215:32061;Friedrichstal (Baden);Rheinstraße
+de:08215:32704;Friedrichstal (Baden);Saint-Riquier-Platz
+de:08237:1221;Friedrichstal(b FDS);Bahnhof
+de:08216:31997;Förch;Förch
+de:08216:34796;Gaggenau;Altenheim
+de:08216:32164;Gaggenau;Baden-Badener-Straße
+de:08216:32168;Gaggenau;Eckenerstraße
+de:08216:32160;Gaggenau;Gaggenau
+de:08216:34817;Gaggenau;Heil
+de:08216:32158;Gaggenau;Mercedes-Benz Werk
+de:08216:32157;Gaggenau;Michelbacher Straße
+de:08216:34799;Gaggenau;Neuapostolische Kirche
+de:08216:31972;Gaggenau;Neuberg
+de:08216:32156;Gaggenau;Rathaus
+de:08216:34808;Gaggenau;Sommerhalde
+de:08216:32155;Gaggenau;Waldfriedhof
+de:08216:34805;Gaggenau;Waldseebad
+de:08216:31892;Gaggenau;Winkel
+de:08235:9764;Gaistal;Abzw. Unteres Gaistal
+de:08235:9769;Gaistal;Bernbacher Weg
+de:08235:9761;Gaistal;Hirschwinkelbrunnen
+de:08235:9766;Gaistal;Hirschwinkelhütte
+de:08235:9758;Gaistal;Oberes Gaistal
+de:08235:9767;Gaistal;Spechtschmiede
+de:08235:9759;Gaistal;Talwiese
+de:08235:9763;Gaistal;Unteres Gaistal Schule
+de:08235:9762;Gaistal;Wiesengrund
+de:08235:9768;Gaistal;Zieflensberg
+de:08211:31938;Gallenbach (Baden);Gallenbach
+de:08216:32998;Gausbach;Gausbach
+de:08216:32181;Gausbach;Montana
+de:08216:32180;Gausbach;Rathaus
+de:08125:3900;Gemmingen;Gemmingen
+de:08125:4405;Gemmingen;Gemmingen West
+de:07334:32637;Germersheim;Bahnhof
+de:07334:1748;Germersheim;Mitte/Rhein
+de:07334:1747;Germersheim;Süd/Nolte
+de:07334:32636;Germersheim;Wasserturm
+de:08216:32124;Gernsbach;Abzw. Scheuern
+de:08216:32140;Gernsbach;Casimir-Katz-Straße
+de:08216:32142;Gernsbach;Gernsbach
+de:08216:32829;Gernsbach;Gernsbach Mitte
+de:08216:32139;Gernsbach;Rathaus
+de:08216:32133;Gernsbach;Weinbergstraße
+de:08211:34757;Geroldsau;Dr. Fecht Waldheim
+de:08211:32170;Geroldsau;Geroldsauer Mühle
+de:08211:31926;Geroldsau;Heschmattweg
+de:08211:32376;Geroldsau;Malschbacher Straße
+de:08211:32375;Geroldsau;Schmiegrankweg
+de:08211:32374;Geroldsau;Schule
+de:08211:34756;Geroldsau;Schwanenwasen
+de:08211:34755;Geroldsau;Zimmerplatz
+de:08215:34502;Gochsheim (Baden);Bauerbacher Straße
+de:08215:32007;Gochsheim (Baden);Gochsheim (Baden)
+de:08215:37223;Gochsheim (Baden);Kirche/Schule
+de:08215:34500;Gochsheim (Baden);Krone
+de:08215:34501;Gochsheim (Baden);Milchhaus
+de:08215:1837;Gondelsheim (Baden);Gondelsheim (Baden)
+de:08215:12607;Gondelsheim (Baden);Graf-Douglas-Str.
+de:08215:12608;Gondelsheim (Baden);In den Buchen
+de:08215:12606;Gondelsheim (Baden);Marktplatz
+de:08215:7812;Graben (Baden);Bismarckstraße
+de:08215:7803;Graben (Baden);Katholische Kirche
+de:08215:7804;Graben (Baden);Post
+de:08215:32585;Graben-Neudorf;Graben-Neudorf
+de:08215:99103;Graben-Neudorf;Zentrum
+de:08216:37235;Grauelsbaum;Birkenweiher
+de:08216:34632;Grauelsbaum;Salmen
+de:08216:34631;Greffern;Mittelstraße
+de:08216:34633;Greffern;Volksbank
+de:08125:9200;Grombach;Grombach
+de:03452:62601;Großefehn;Moorlage(Großefehn) Moorlager Weg/K103
+de:08215:14308;Großvillars;Kirche
+de:08215:14200;Großvillars;Schule
+de:08215:32609;Großvillars;Wilfenberg
+de:08212:34;Grötzingen (b KA);Am Schwalbenloch
+de:08212:2112;Grötzingen (b KA);An der Pfinz
+de:08212:2003;Grötzingen (b KA);Augustenburg
+de:08212:2107;Grötzingen (b KA);Büchelbergstraße
+de:08212:2111;Grötzingen (b KA);Eisenbahnstraße
+de:08212:2102;Grötzingen (b KA);Emil-Arheit-Halle
+de:08212:33;Grötzingen (b KA);Fikentscherstraße
+de:08212:2103;Grötzingen (b KA);Fröbelstraße
+de:08212:3213;Grötzingen (b KA);Greschbachstraße
+de:08212:1521;Grötzingen (b KA);Grötzingen
+de:08212:2109;Grötzingen (b KA);Gustav-Hofmann-Straße
+de:08212:1527;Grötzingen (b KA);Heilig-Kreuz-Kirche
+de:08212:1644;Grötzingen (b KA);Im Sonnental
+de:08212:2105;Grötzingen (b KA);Karl-Leopold-Straße
+de:08212:1600;Grötzingen (b KA);Krappmühlenweg
+de:08212:2016;Grötzingen (b KA);LTZ Augustenberg
+de:08212:2106;Grötzingen (b KA);Nord
+de:08212:1525;Grötzingen (b KA);Oberausstraße
+de:08212:3212;Grötzingen (b KA);Ohmstraße
+de:08212:32;Grötzingen (b KA);Paul-Rein-Straße
+de:08212:3211;Grötzingen (b KA);Pfinzhof
+de:08212:2104;Grötzingen (b KA);Rathaus
+de:08212:2110;Grötzingen (b KA);Ringelberghohl
+de:08212:3214;Grötzingen (b KA);Rossweid
+de:08212:2108;Grötzingen (b KA);Staigstraße
+de:08212:35;Grötzingen (b KA);Vogelsang
+de:08212:3118;Grötzingen (b KA);Weidbruch
+de:08237:1913;Grüntal (Württ);Grüntal-Wittlensweiler
+de:08212:91004;Grünwettersbach;Heinz-Barth-Schule
+de:08212:4510;Grünwettersbach;Mitte
+de:08212:4509;Grünwettersbach;Rathaus
+de:08212:4511;Grünwettersbach;Seniorenresidenz
+de:08212:6003;Grünwinkel;Friedhof Grünwinkel
+de:08136:2700;Gschwend;L1150
+NL:S:66350340;Gulpen-Wittem;Nijswiller Provincialeweg N281
+de:08125:4569;Gundelsheim (Neckar);Gundelsheim (Neckar)
+de:05566:60258;Guntrup;Brückenüberführung L587
+de:03354:33702;Göhrde;Göhrde-Metzingen B216
+de:08215:14135;Gölshausen;Auf dem Bergel
+de:08215:1557;Gölshausen;Gölshausen
+de:08215:14134;Gölshausen;Im Schreiberle
+de:08215:32831;Gölshausen;Industrie
+de:08215:14128;Gölshausen;Kirche
+de:08215:1559;Gölshausen;Steinäcker (Ersatzhalt)
+de:13075:2031;Görke (Postlow);B199
+de:08216:32101;Haft;Brücke Haft
+de:08212:3106;Hagsfeld;An der Tagweide
+de:08212:3206;Hagsfeld;Brückenstraße
+de:08212:3117;Hagsfeld;Elfmorgenbruch
+de:08212:405;Hagsfeld;Fächerbad
+de:08212:233;Hagsfeld;Geroldsäcker
+de:08212:3102;Hagsfeld;Hagsfeld Bahnhof
+de:08212:231;Hagsfeld;Hagsfeld Süd
+de:08212:3302;Hagsfeld;Hallesche Allee
+de:08212:3301;Hagsfeld;Jenaer Straße
+de:08212:3104;Hagsfeld;Julius-Bender-Straße
+de:08212:3108;Hagsfeld;Neue Wiesen
+de:08212:3115;Hagsfeld;Nord
+de:08212:3103;Hagsfeld;Oberdorfstraße
+de:08212:3105;Hagsfeld;Pfizer
+de:08212:3107;Hagsfeld;Printzstraße
+de:08212:3013;Hagsfeld;Reitschulschlag
+de:08212:3116;Hagsfeld;Schwetzinger Straße
+de:08212:3205;Hagsfeld;Schäferstraße
+de:08212:3110;Hagsfeld;Storrenacker Mitte
+de:08212:3111;Hagsfeld;Storrenacker Nord
+de:08212:3109;Hagsfeld;Storrenacker Süd
+de:08216:1817;Halberstung;Schiftunger Straße
+de:08216:30100;Halberstung;Schule
+de:08215:32690;Hambrücken;Bachweg
+de:08215:32265;Hambrücken;Bastwald
+de:08215:32622;Hambrücken;Gesundheitszentrum
+de:08215:32570;Hambrücken;Hofäcker
+de:08215:32574;Hambrücken;Kriegsstraße
+de:08215:32569;Hambrücken;Ortsmitte
+de:08215:32568;Hambrücken;Prinz Carl
+de:08215:32266;Hambrücken;Schule
+de:08216:34789;Hardtwald (Kr RA);Schule Hardtwald
+de:08216:34792;Hardtwald (Kr RA);Victoriastraße
+de:08317:18518;Haslach b Oberkirch;KiGa Maria Goretti
+de:08317:18517;Haslach b Oberkirch;Rathaus
+de:08216:32100;Hatzenweier;Abzw. Hatzenweier
+de:08211:35110;Haueneberstein;Baden-Baden Haueneberstein
+de:08211:31931;Haueneberstein;Industriegebiet
+de:08211:32372;Haueneberstein;Karlsruher Straße
+de:08211:33151;Haueneberstein;Robert-Bosch-Straße
+de:08211:31930;Haueneberstein;Siemensstraße
+de:08211:32371;Haueneberstein;Waldstraße
+de:08225:8222;Haßmersheim;Bahnhof
+de:08225:2788;Haßmersheim;Ort
+de:08215:12609;Heidelsheim;Brettener Str.
+de:08215:12660;Heidelsheim;Malzfabrik
+de:08215:12611;Heidelsheim;Marktplatz
+de:08215:12668;Heidelsheim;Pfälzer Straße
+de:08215:12661;Heidelsheim;Schwimmbad
+de:08121:3033;Heilbronn;Finanzamt
+de:08121:3032;Heilbronn;Friedensplatz
+de:08121:31004;Heilbronn;Hans-Rießer-Straße
+de:08121:1123;Heilbronn;Harmonie (Stadtbahn)
+de:08121:24;Heilbronn;Harmonie/Hafenmarktpassage
+de:08121:23;Heilbronn;Harmonie/Kunsthalle
+de:08121:1114;Heilbronn;Hauptbahnhof/Willy-Brandt-Pl.
+de:08121:1113;Heilbronn;Hbf/Busbahnhof
+de:08121:26;Heilbronn;Heilbronn Hauptbahnhof
+de:08121:75;Heilbronn;Heilbronn Sülmertor
+de:08121:31003;Heilbronn;Industrieplatz(S-Bahn)
+de:08121:31501;Heilbronn;Kaufland (S-Bahn)
+de:08121:137;Heilbronn;Neckarturm
+de:08121:173;Heilbronn;Pfühlpark
+de:08121:55;Heilbronn;Rathaus
+de:08121:31001;Heilbronn;Technisches Schulzentrum
+de:08121:31002;Heilbronn;Theater
+de:08121:8170;Heilbronn;Trappensee (S-Bahn)
+de:08317:37236;Helmlingen;Dorfstraße
+de:08317:34698;Helmlingen;Molkerei
+de:08317:34697;Helmlingen;Ratz
+de:08215:12647;Helmsheim;Dossentalstraße
+de:08215:1835;Helmsheim;Helmsheim
+de:08215:32281;Helmsheim;Kurpfalzstraße
+de:08215:12662;Helmsheim;Schlossbergring
+de:08215:32279;Helmsheim;Verwaltungsstelle
+de:08216:32178;Herrenwies (Baden);Dorfplatz
+de:08216:32179;Herrenwies (Baden);Jugendherberge
+de:08237:1403;Heselbach (Württ);Bahnhof Hesselbach
+de:08317:40025;Hesselbach (b Oberkirch);Brücke
+de:08317:40022;Hesselbach (b Oberkirch);Hesselbach Grünberg
+de:08317:40020;Hesselbach (b Oberkirch);Hesselbach Haus Braun
+de:08317:40021;Hesselbach (b Oberkirch);Hesselbach Haus Walz
+de:08317:40023;Hesselbach (b Oberkirch);Hesselbach Kapelle
+de:08317:40024;Hesselbach (b Oberkirch);Hesselbach-Albersbach
+de:08216:34695;Hildmannsfeld;Denkmal
+de:08216:32132;Hilpertsau;Abzw. Reichental
+de:08216:34766;Hilpertsau;Hilpertsau
+de:08216:32131;Hilpertsau;Ochsen
+de:08136:4317;Hintersteinbach;K3221
+de:08235:9070;Hochdorf (b Horb);Bahnhof
+de:08216:34788;Hochfeld (Hügelsh.);Ahornbrunnen
+de:08216:34787;Hochfeld (Hügelsh.);Tennisplätze
+de:08215:1156;Hochstetten (Link.);Altenheim
+de:08215:1155;Hochstetten (Link.);Grenzstraße
+de:08215:1157;Hochstetten (Link.);Hochstetten
+de:08215:7703;Hochstetten (Link.);Mitte
+de:08215:7702;Hochstetten (Link.);Waldstraße
+de:08215:7704;Hochstetten (Link.);West
+de:08125:5606;Hohenstadt (HN);Bad Wimpfen-Hohenstadt
+de:08437:41394;Hohentengen b.Saulg.;L283/Ehoch4
+de:08212:4307;Hohenwettersbach;Medersbuckel
+de:08212:4309;Hohenwettersbach;Mitte
+de:08212:4310;Hohenwettersbach;Rathaus
+de:08212:4312;Hohenwettersbach;Taglöhnergärten
+de:08237:5022;Horb a Neckar;Heiligenfeld
+de:08216:32099;Hub (Baden);Hub
+de:08216:30170;Hundsbach (Baden);Am Skihang
+de:08216:32177;Hundsbach (Baden);Aschenplatz
+de:08216:30172;Hundsbach (Baden);Biberach
+de:08216:32176;Hundsbach (Baden);Brücke
+de:08216:30171;Hundsbach (Baden);Kapellenstraße 34
+de:08216:32175;Hundsbach (Baden);Kirche
+de:08216:32174;Hundsbach (Baden);Viehläger Abzw. Biberkessel
+de:08216:30173;Hundsbach (Baden);Viehläger Wendeplatz
+de:08216:32210;Hundseck;Hundseck
+de:08215:7715;Huttenheim (Baden);Hebel
+de:08215:7713;Huttenheim (Baden);Kirche
+de:08215:7714;Huttenheim (Baden);Philippsburger Str.
+de:08237:1421;Huzenbach;Bahnhof
+de:08237:17903;Huzenbach;Kurhaus
+de:08235:8940;Höfen (Enz);Bahnhof
+de:08235:9500;Höfen (Enz);Hindenburgstr.
+de:08235:422;Höfen (Enz);Nord
+de:08235:9635;Höfen (Enz);Rathaus
+de:08235:8941;Höfen (Enz);Sägmühleweg
+de:08216:95000;Hörden (Gaggenau);Bf Hörden
+de:08216:32828;Hörden (Gaggenau);Hörden
+de:08216:34833;Hügelsheim;Bruchweg
+de:08216:34634;Hügelsheim;Grüner Baum
+de:08216:34635;Hügelsheim;Nord
+de:08216:34786;Hügelsheim;Schwarzwaldstraße
+de:08136:4509;Hüttlingen (Württ);Kocherwiesen/K3311
+de:08216:31919;Iffezheim;Bruchweg
+de:08216:33007;Iffezheim;Einkaufszentrum
+de:08216:31918;Iffezheim;Festhalle
+de:08216:31917;Iffezheim;Industriegebiet
+de:08216:31916;Iffezheim;Karlstraße
+de:08216:39004;Iffezheim;Oktorfeld
+de:08216:31915;Iffezheim;Rennbahnstraße
+de:08216:31913;Iffezheim;Tullastraße
+de:03452:24551;Ihlow (Ostfriesl.);Ihlow(Ostfriesl) K140/Plaggefelder Straße
+de:08236:1717;Ispringen;Bahnhof
+de:08236:1716;Ispringen;Kämpfelbachquelle
+de:08215:34878;Ittersbach;Baumgartenstraße
+de:08215:1412;Ittersbach;Descostraße
+de:08215:1409;Ittersbach;Ittersbach
+de:08215:1408;Ittersbach;Ittersbach Industrie
+de:08215:1410;Ittersbach;Rathaus
+de:08125:519;Jagstfeld;Bad Friedrichshall Hbf
+de:07334:35004;Jockgrim;Bahnhof
+fr:24057:6061;Juvelize;Carrefour Château d'Eau / D229
+de:08215:30162;Jöhlingen;B293
+de:08215:29999;Jöhlingen;Hirtenbrunnen
+de:08215:1531;Jöhlingen;Jöhlingen
+de:08215:1530;Jöhlingen;Jöhlingen West
+de:08215:30163;Jöhlingen;Kirchplatz
+de:08215:29998;Jöhlingen;Weingartener Str.
+de:08216:32129;Kaltenbronn (Schw);Infozentrum
+de:08216:34779;Kaltenbronn (Schw);Kreuzle
+de:08216:34777;Kaltenbronn (Schw);Orgelfelsenhaus
+de:08216:34778;Kaltenbronn (Schw);Rankhütte
+de:08216:34780;Kaltenbronn (Schw);Schwarzmisshütte
+de:08216:34727;Kappelwindeck;Bachschlossschule
+de:08216:34723;Kappelwindeck;Brombachweg
+de:08216:34720;Kappelwindeck;Einsiedelhof
+de:08216:34722;Kappelwindeck;Haus Seifried
+de:08216:34726;Kappelwindeck;Kirchplatz
+de:08216:34724;Kappelwindeck;Klotzbergstraße
+de:08216:34721;Kappelwindeck;Schreinerei Rapp
+de:08216:34825;Kappelwindeck;Öhinghaltweg
+de:08215:7801;Karlsdorf (Neuthard);Bahnhofstraße
+de:08215:32621;Karlsdorf (Neuthard);Im Brühl
+de:08215:32240;Karlsdorf (Neuthard);Kirche
+de:08215:32611;Karlsdorf (Neuthard);Kohlfahrtswiesen
+de:08215:32612;Karlsdorf (Neuthard);Kolpingstraße
+de:08215:32708;Karlsdorf (Neuthard);Ostendstraße
+de:08215:32047;Karlsdorf (Neuthard);Rathaus
+de:08215:32050;Karlsdorf (Neuthard);Turnhalle (Ersatzhalt)
+de:08212:1201;Karlsruhe;Albtalbahnhof
+de:08212:7304;Karlsruhe;Am Kanalweg
+de:08212:6012;Karlsruhe;Andreas-Hofer-Straße
+de:08212:64;Karlsruhe;Arbeitsagentur
+de:08212:74;Karlsruhe;Augartenstraße
+de:08212:1104;Karlsruhe;August-Bebel-Straße
+de:08212:9022;Karlsruhe;Ausfahrt über Gleis 22
+de:08212:9044;Karlsruhe;Ausfahrt über Gleis 44
+de:08212:606;Karlsruhe;Bannwaldallee
+de:08212:7019;Karlsruhe;Barbaraweg
+de:08212:5003;Karlsruhe;Barbarossaplatz
+de:08212:5205;Karlsruhe;Belchenplatz
+de:08212:5515;Karlsruhe;Benzstraße
+de:08212:7017;Karlsruhe;Berliner Straße
+de:08212:6209;Karlsruhe;Bernsteinstraße
+de:08212:9088;Karlsruhe;Betriebshof Gerwigstraße (Gleis 88)
+de:08212:991;Karlsruhe;Betriebshof West
+de:08212:7412;Karlsruhe;Binger Straße
+de:08212:6006;Karlsruhe;Birkenweg
+de:08212:6002;Karlsruhe;Blohnstraße
+de:08212:7022;Karlsruhe;Bonner Straße
+de:08212:5005;Karlsruhe;Breite Straße
+de:08212:3004;Karlsruhe;Büchiger Allee
+de:08212:1206;Karlsruhe;Dammerstock
+de:08212:12;Karlsruhe;Duale Hochschule
+de:08212:310;Karlsruhe;Dunantstraße
+de:08212:3;Karlsruhe;Durlacher Tor/KIT-Campus Süd
+de:08212:1001;Karlsruhe;Durlacher Tor/KIT-Campus Süd (U)
+de:08212:6205;Karlsruhe;Durmersheimer Straße
+de:08212:91;Karlsruhe;Ebertstraße
+de:08212:201;Karlsruhe;Eckenerstraße
+de:08212:6010;Karlsruhe;Edelbergstraße
+de:08212:6208;Karlsruhe;Eichelbergstraße
+de:08212:9021;Karlsruhe;Einfahrt über Gleis 21
+de:08212:3014;Karlsruhe;Emil-Gött-Straße
+de:08212:51;Karlsruhe;Entenfang
+de:08212:1211;Karlsruhe;Erlenweg
+de:08212:626;Karlsruhe;Essenweinstraße
+de:08212:71;Karlsruhe;Ettlinger Tor/Staatstheater
+de:08212:1012;Karlsruhe;Ettlinger Tor/Staatstheater (U)
+de:08212:605;Karlsruhe;Europahalle/Europabad
+de:08212:37;Karlsruhe;Europaplatz
+de:08212:1004;Karlsruhe;Europaplatz (U)
+de:08212:10001;Karlsruhe;Falterweg
+de:08212:523;Karlsruhe;Feierabendweg
+de:08212:7405;Karlsruhe;Frankenthaler Straße
+de:08212:5004;Karlsruhe;Gebhardstraße
+de:08212:7016;Karlsruhe;Germersheimer Straße
+de:08212:6;Karlsruhe;Gottesauer Platz/BGV
+de:08212:5513;Karlsruhe;Griesbachstraße
+de:08212:5007;Karlsruhe;Grünwinkler Straße
+de:08212:607;Karlsruhe;Hardecksiedlung
+de:08212:90;Karlsruhe;Hauptbahnhof
+de:08212:89;Karlsruhe;Hauptbahnhof (Vorplatz)
+de:08212:88;Karlsruhe;Hauptbahnhof Süd
+de:08212:402;Karlsruhe;Hauptfriedhof
+de:08212:1106;Karlsruhe;Haus Bethlehem
+de:08212:7009;Karlsruhe;Heidehof
+de:08212:522;Karlsruhe;Hertzstraße
+de:08212:403;Karlsruhe;Hirtenweg/Technologiepark
+de:08212:9043;Karlsruhe;Historisches Depot 1913
+de:08212:5509;Karlsruhe;Holtzstraße
+de:08212:6007;Karlsruhe;Hornisgrindestraße
+de:08212:44;Karlsruhe;Händelstraße
+de:08212:505;Karlsruhe;Hübschstraße
+de:08212:5514;Karlsruhe;Junker-und-Ruh-Straße
+de:08212:38;Karlsruhe;Kaiserplatz
+de:08212:7013;Karlsruhe;Kaiserslauterner Straße
+de:08212:4201;Karlsruhe;Kapellenstraße
+de:08212:401;Karlsruhe;Karl-Wilhelm-Platz
+de:08212:6017;Karlsruhe;Karlsruhe West
+de:08212:6005;Karlsruhe;Karlsruhe Westbahnhof
+de:08212:61;Karlsruhe;Karlstor/Bundesgerichtshof
+de:08212:1103;Karlsruhe;Knielinger Allee/Städt. Klinikum
+de:08212:63;Karlsruhe;Kolpingplatz
+de:08212:72;Karlsruhe;Kongresszentrum
+de:08212:1013;Karlsruhe;Kongresszentrum (U)
+de:08212:510;Karlsruhe;Konzerthaus
+de:08212:80;Karlsruhe;Kronenplatz
+de:08212:1002;Karlsruhe;Kronenplatz (U)
+de:08212:7003;Karlsruhe;Kunstakademie/Hochschule
+de:08212:1105;Karlsruhe;Kurt-Schumacher-Straße
+de:08212:521;Karlsruhe;Kußmaulstraße/Städt. Klinikum
+de:08212:7021;Karlsruhe;Kärcherstraße
+de:08212:504;Karlsruhe;Kühler Krug
+de:08212:58;Karlsruhe;Lameyplatz
+de:08212:7404;Karlsruhe;Landauer Straße
+de:08212:604;Karlsruhe;Landesbausparkasse
+de:08212:5008;Karlsruhe;Landgrabenstraße
+de:08212:507;Karlsruhe;Lessingstraße
+de:08212:8;Karlsruhe;Lilienthalstraße
+de:08212:7302;Karlsruhe;Linkenheimer Tor
+de:08212:5206;Karlsruhe;Links der Alb
+de:08212:5516;Karlsruhe;Liststraße
+de:08212:7018;Karlsruhe;Madenburgweg
+de:08212:1003;Karlsruhe;Marktplatz (Kaiserstraße U)
+de:08212:1011;Karlsruhe;Marktplatz (Pyramide U)
+de:08212:62;Karlsruhe;Mathystraße
+de:08212:1700;Karlsruhe;Maxau
+de:08212:211;Karlsruhe;Messe
+de:08212:224;Karlsruhe;Messe Ost (Messe-Express)
+de:08212:1101;Karlsruhe;Moltkestraße/Städt. Klinikum
+de:08212:103;Karlsruhe;Mühlburg West
+de:08212:503;Karlsruhe;Mühlburger Feld
+de:08212:39;Karlsruhe;Mühlburger Tor
+de:08212:5203;Karlsruhe;Neckarplatz
+de:08212:5006;Karlsruhe;Neue-Anlage-Straße
+de:08212:524;Karlsruhe;Neureuter Straße
+de:08212:5207;Karlsruhe;Nürnberger Straße
+de:08212:7101;Karlsruhe;Ohiostraße
+de:08212:622;Karlsruhe;Ostendstraße
+de:08212:508;Karlsruhe;Otto-Sachs-Straße
+de:08212:10000;Karlsruhe;Pappelallee
+de:08212:3003;Karlsruhe;Pastor-Felke-Straße
+de:08212:5015;Karlsruhe;Petergraben
+de:08212:621;Karlsruhe;Philipp-Reis-Straße
+de:08212:45;Karlsruhe;Philippstraße
+de:08212:98;Karlsruhe;Poststraße
+de:08212:501;Karlsruhe;Rheinhafen
+de:08212:26;Karlsruhe;Rheinhafen Nord
+de:08212:203;Karlsruhe;Rheinhafenstraße
+de:08212:3005;Karlsruhe;Rintheimer Querallee
+de:08212:85;Karlsruhe;Rüppurrer Tor
+de:08212:40;Karlsruhe;Schillerstraße
+de:08212:624;Karlsruhe;Schloss Gottesaue
+de:08212:1207;Karlsruhe;Schloss Rüppurr
+de:08212:7014;Karlsruhe;Schweigener Straße
+de:08212:6213;Karlsruhe;Schwimmschulweg
+de:08212:7303;Karlsruhe;Schützenhaus
+de:08212:6008;Karlsruhe;Sinner
+de:08212:602;Karlsruhe;Sophienstraße
+de:08212:6206;Karlsruhe;St. Josef Kirche
+de:08212:5508;Karlsruhe;St. Vincentius Krankenhaus
+de:08212:315;Karlsruhe;Stadtwerke
+de:08212:101;Karlsruhe;Starckstraße
+de:08212:6011;Karlsruhe;Staufenbergweg
+de:08212:5202;Karlsruhe;Stephanienbad
+de:08212:7402;Karlsruhe;Stresemannstraße
+de:08212:3002;Karlsruhe;Studentenhaus
+de:08212:5;Karlsruhe;Synagoge
+de:08212:5504;Karlsruhe;Südendschule
+de:08212:84;Karlsruhe;Tivoli
+de:08212:7406;Karlsruhe;Trierer Straße
+de:08212:7;Karlsruhe;Tullastraße/Alter Schlachthof
+de:08212:6207;Karlsruhe;TÜV
+de:08212:102;Karlsruhe;Vogesenbrücke
+de:08212:6009;Karlsruhe;Wattkopfstraße
+de:08212:5204;Karlsruhe;Weiherhof
+de:08212:603;Karlsruhe;Weinbrennerplatz
+de:08212:9;Karlsruhe;Weinweg
+de:08212:7015;Karlsruhe;Weißenburger Straße
+de:08212:7305;Karlsruhe;Weißes Haus
+de:08212:6218;Karlsruhe;Welfenstraße
+de:08212:83;Karlsruhe;Werderstraße
+de:08212:6215;Karlsruhe;Windeckstraße
+de:08212:623;Karlsruhe;Wolfartsweierer Straße
+de:08212:41;Karlsruhe;Yorckstraße
+de:08212:65;Karlsruhe;ZKM
+de:08216:31857;Kartung;Abzw. Winden
+de:08216:31045;Kartung;Am Markbach
+de:08216:31056;Kartung;Entenhof
+de:08216:31046;Kartung;Kreuzstraße
+de:08216:34705;Kartung;Schule
+de:08216:31040;Kartung;Tiefenauer Straße
+fr:24067:326;Kesseldorf (Alsace);Centre
+de:08416:13042;Kilchberg (Württ);Schloß/L370
+de:08215:32526;Kirrlach;Am Kreuz
+de:08215:32715;Kirrlach;Bruchsaler Straße
+de:08215:32538;Kirrlach;Fridolinstraße
+de:08215:32539;Kirrlach;Heidelberger Straße
+de:08215:33097;Kirrlach;Hinterfeld
+de:08215:32542;Kirrlach;Kolpingstraße
+de:08215:32523;Kirrlach;Kreuzstraße
+de:08215:33104;Kirrlach;Obere Bachstraße
+de:08215:32521;Kirrlach;Schillerschule
+de:08215:33105;Kirrlach;Taunusstraße
+de:08215:32520;Kirrlach;Waldpark
+de:08216:33118;Kirschbaumwasen;Kaltenbach
+de:08216:32187;Kirschbaumwasen;Kirschbaumwasen
+de:08215:2220;Kleinsteinbach/Baden;Abzw. Bahnhof
+de:08215:2218;Kleinsteinbach/Baden;Bockstalstraße
+de:08215:2223;Kleinsteinbach/Baden;Hammerwerk
+de:08215:1619;Kleinsteinbach/Baden;Kleinsteinbach
+de:08237:9600;Klosterreichenbach;Bahnhof
+de:08237:1402;Klosterreichenbach;Kirche
+de:08237:1401;Klosterreichenbach;Rathaus
+de:08212:7505;Knielingen;Bruchweg
+de:08212:106;Knielingen;Eggensteiner Straße
+de:08212:239;Knielingen;Egon-Eiermann-Allee
+de:08212:7502;Knielingen;Elsternweg
+de:08212:105;Knielingen;Herweghstraße
+de:08212:7413;Knielingen;Husarenlager
+de:08212:7501;Knielingen;Jakob-Dörr-Straße
+de:08212:32586;Knielingen;Karlsruhe-Knielingen
+de:08212:7503;Knielingen;Kolbengärten
+de:08212:7416;Knielingen;Landeckstraße
+de:08212:7506;Knielingen;Max-Dortu-Straße
+de:08212:240;Knielingen;Nord
+de:08212:238;Knielingen;Pionierstraße
+de:08212:7417;Knielingen;Reinmuthstraße
+de:08212:107;Knielingen;Rheinbergstraße
+de:08212:104;Knielingen;Siemens
+de:08212:525;Knielingen;Siemensallee
+de:08212:237;Knielingen;Sudetenstraße
+de:08236:2319;Knittlingen;Friedrichstraße
+de:08236:2307;Knittlingen;Gewerbegeb.Gröner
+de:08236:2301;Knittlingen;Nord
+de:08236:2300;Knittlingen;ZOB / Schule
+de:08125:1120;Kochendorf;Bad Friedrichshall-Kochendorf
+de:08125:883;Kochendorf;Bergstraße
+de:08125:884;Kochendorf;Mitte
+de:08435:91317;Kressbronn;Kümmertsweiler K7705
+de:08215:32582;Kronau (Baden);Bahnhofstraße
+de:08215:32581;Kronau (Baden);Gewerbegebiet Heidig
+de:08215:32580;Kronau (Baden);Mozartstraße
+de:08215:32614;Kronau (Baden);Ortsmitte
+de:08216:32117;Kuppenheim;Abzw. Favorite
+de:08216:32116;Kuppenheim;Cuppamare
+de:08216:30095;Kuppenheim;Feuerwehr
+de:08216:32115;Kuppenheim;Friedhof
+de:08216:34763;Kuppenheim;Kuppenheim
+de:08216:32114;Kuppenheim;Rathaus
+de:08216:32113;Kuppenheim;Wörtel
+de:08236:1793;Königsbach (Baden);Bahnhof
+de:08236:1700;Königsbach (Baden);Bahnhof (Bus)
+de:08215:14405;Kürnbach (Baden);Flehinger Str.
+de:08215:14403;Kürnbach (Baden);Hessenstraße
+de:08215:14404;Kürnbach (Baden);Ober-Tor-Platz
+fr:24055:5452;Labeuville;Carrefour D903
+de:08215:13801;Landshausen (Baden);Röhrbrunnen
+de:08216:34670;Langenbrand (Murgtal);Langenbrand
+de:08216:32173;Langenbrand (Murgtal);Rathaus
+de:08216:32171;Langenbrand (Murgtal);Wolfsheck
+de:08215:33187;Langenbrücken;Friedhof
+de:08215:33188;Langenbrücken;Grundschule
+de:08215:32541;Langenbrücken;Ochsen
+de:08215:33171;Langenbrücken;Polizei
+de:08215:32544;Langenbrücken;Südring
+de:08215:8612;Langensteinbach (KA);Aussiedlerhöfe
+de:08215:1414;Langensteinbach (KA);Draisstraße
+de:08215:8605;Langensteinbach (KA);Hertzstraße
+de:08215:8611;Langensteinbach (KA);Ittersbacher Straße
+de:08215:8606;Langensteinbach (KA);Kirche
+de:08215:8701;Langensteinbach (KA);Klinikum
+de:08215:1403;Langensteinbach (KA);Langensteinbach
+de:08215:1404;Langensteinbach (KA);Langensteinbach St. Barbara
+de:08215:1411;Langensteinbach (KA);Schießhüttenäcker
+de:08215:8603;Langensteinbach (KA);Schulzentrum
+de:08215:8601;Langensteinbach (KA);Schwimmbad
+de:08215:8602;Langensteinbach (KA);Volksbank
+de:08215:8618;Langensteinbach (KA);Wilferdinger Straße
+de:08317:30084;Lauf (Baden);Abzweig Aubach
+de:08317:30085;Lauf (Baden);Friedhof
+de:08317:30057;Lauf (Baden);Neue Schule
+de:08317:30056;Lauf (Baden);Niederhofen
+de:08317:30059;Lauf (Baden);Rathausplatz
+de:08317:30058;Lauf (Baden);Rebstock
+de:08317:41615;Lauf (Baden);Schänzelstraße
+de:08216:30001;Lautenbach (Kr RA);Bürgerhaus
+de:08216:30000;Lautenbach (Kr RA);Festplatz
+de:08216:34839;Leiberstung;Baggersee
+de:08216:34837;Leiberstung;Grundschule
+de:08216:34681;Leiberstung;Jägerstraße
+de:08216:35825;Leiberstung;Kindergarten
+de:08216:1867;Leiberstung;Leiboldstraße
+de:08216:34499;Leiberstung;Weitenunger Straße
+de:08125:1801;Leingarten;Allmandstr.(Ersatzhalt)
+de:08125:7405;Leingarten;Kiesberg
+de:08125:4402;Leingarten;Kirche
+de:08125:7401;Leingarten;Leingarten
+de:08125:7403;Leingarten;Leingarten Mitte
+de:08125:8402;Leingarten;Leingarten Ost
+de:08125:7404;Leingarten;Leingarten West
+de:08215:1133;Leopoldshafen;Frankfurter Straße
+de:08215:1132;Leopoldshafen;Leopoldstraße
+de:08215:1131;Leopoldshafen;Viermorgen
+de:08436:48615;Leutkirch;Martinshof K7913
+de:08216:34636;Lichtenau (Baden);Hirsch
+de:08216:34840;Lichtenau (Baden);Schule
+de:08216:34637;Lichtenau (Baden);Schwanen
+de:08216:34638;Lichtenau (Baden);Sommerfeldstraße
+de:08211:31967;Lichtental;Aubrücke
+de:08211:31959;Lichtental;Bildeiche
+de:08211:32370;Lichtental;Brahmsplatz
+de:08211:31948;Lichtental;Eckerlestraße
+de:08211:31920;Lichtental;Höllhäuserweg
+de:08211:31908;Lichtental;Klosterplatz
+de:08211:31903;Lichtental;Lerchenbergweg
+de:08211:31902;Lichtental;Lichtental
+de:08211:31887;Lichtental;Oberbeuern
+de:08211:31866;Lichtental;Sauersbosch
+de:08211:31851;Lichtental;Steinackergasse
+de:08215:7705;Liedolsheim;Festhalle
+de:08215:7813;Liedolsheim;Friedrichstraße
+de:08215:7707;Liedolsheim;Kirchfeld
+de:08215:7706;Liedolsheim;Mitte
+de:08215:1152;Linkenheim;Friedrichstraße
+de:08215:1153;Linkenheim;Rathaus
+de:08215:1154;Linkenheim;Schulzentrum
+de:08215:1151;Linkenheim;Süd
+de:08216:32110;Loffenau;Breitenackerweg
+de:08216:34782;Loffenau;Käppele
+de:08216:32109;Loffenau;Marktplatz
+de:08216:32108;Loffenau;Obere Dorfstraße
+de:08216:32107;Loffenau;Schönblick
+fr:24031:83648;Luscan;Pont de Luscan
+de:14521:40444;Lößnitz (Kr ERZ);Lessingstr/B169
+de:08317:14030;Maisenbühl;Abzweig
+de:08215:8209;Malsch (Kr Karlsruhe);Adler
+de:08215:8313;Malsch (Kr Karlsruhe);Am Fischweier
+de:08215:8305;Malsch (Kr Karlsruhe);Am Hänfig
+de:08215:8019;Malsch (Kr Karlsruhe);Bahnhof (Industriegebiet)
+de:08215:8022;Malsch (Kr Karlsruhe);Boschstraße
+de:08215:8030;Malsch (Kr Karlsruhe);Dieselstraße
+de:08215:8025;Malsch (Kr Karlsruhe);Durmersheimer Straße
+de:08215:8214;Malsch (Kr Karlsruhe);Freibad
+de:08215:8027;Malsch (Kr Karlsruhe);Fuchseck
+de:08215:8024;Malsch (Kr Karlsruhe);Hadermark
+de:08215:8309;Malsch (Kr Karlsruhe);Hans-Thoma-Schule
+de:08215:8310;Malsch (Kr Karlsruhe);Heckenäcker
+de:08215:8031;Malsch (Kr Karlsruhe);Heinrich-Hertz-Straße
+de:08215:8013;Malsch (Kr Karlsruhe);Kesselstraße
+de:08215:8210;Malsch (Kr Karlsruhe);Kreuzstraße
+de:08215:8021;Malsch (Kr Karlsruhe);Linde
+de:08215:8306;Malsch (Kr Karlsruhe);Malsch (Kr Karlsruhe)
+de:08215:8301;Malsch (Kr Karlsruhe);Malsch Süd
+de:08215:8208;Malsch (Kr Karlsruhe);Mozartstraße
+de:08215:8026;Malsch (Kr Karlsruhe);Murgtaler Straße
+de:08215:8015;Malsch (Kr Karlsruhe);Neumalsch
+de:08215:8211;Malsch (Kr Karlsruhe);Rathaus
+de:08215:8029;Malsch (Kr Karlsruhe);Stephanstraße
+de:08215:8028;Malsch (Kr Karlsruhe);Weite Str.
+de:08211:31898;Malschbach;Malschbach
+de:01057:59656;Martensrade;Martensrade-Wittenberger Passau B202
+de:08215:1303;Marxzell;Marxzell
+de:07232:20051;Masholder;B257 Abzw.
+de:07334:1721;Maximiliansau;Eisenbahnstraße
+de:07334:1723;Maximiliansau;West
+de:08317:34699;Memprechtshofen;B36
+de:08215:37241;Menzingen (Baden);Heilbronner Str.
+de:08215:37244;Menzingen (Baden);L553
+de:08215:32009;Menzingen (Baden);Menzingen (Baden)
+de:08215:37222;Menzingen (Baden);Rathaus
+de:08215:37237;Menzingen (Baden);Schule
+fr:24057:2123;Metzervisse;Croisement D56 / D918
+de:08216:32150;Michelbach (Murgtal);Feldstraße
+de:08216:32149;Michelbach (Murgtal);Kirche
+de:08216:32712;Michelbach (Murgtal);Moosbronner Straße
+de:08216:32148;Michelbach (Murgtal);Mühlplatz
+de:08216:32147;Michelbach (Murgtal);Wiesental
+de:08215:1863;Mingolsheim;Bad Schönborn-Kronau
+de:08215:32540;Mingolsheim;Bruchsaler Straße
+de:08215:34711;Mingolsheim;Kurpark
+de:08215:33189;Mingolsheim;Michael-Ende-Schule
+de:08215:33099;Mingolsheim;Rochus-Klinik
+de:08215:33103;Mingolsheim;Schettler-Weil-Klinik
+de:08215:37230;Mingolsheim;Schulzentrum
+de:08215:37229;Mingolsheim;Thermarium
+de:08215:32596;Mingolsheim;Volksbank
+de:08216:34794;Moos (Bühl);Kindergarten
+de:08216:34694;Moos (Bühl);Mooser Straße
+de:08216:34693;Moos (Bühl);Weiherstraße
+de:08216:32146;Moosbronn;Kirche
+de:08225:8209;Mosbach (Baden);Bahnhof
+de:08225:6343;Mosbach (Baden);Westbahnhof
+de:08216:34847;Muckenschopf;Abzw. Eichwaldstraße
+de:08216:34639;Muckenschopf;Muckenschopf
+de:08216:4001;Muggensturm;Bachstraße
+de:08216:1850;Muggensturm;Badesee
+de:08216:3996;Muggensturm;Feuerwehr
+de:08216:4000;Muggensturm;Freibad
+de:08216:32104;Muggensturm;Hauptstraße
+de:08216:4010;Muggensturm;Haus Margaretha
+de:08216:3998;Muggensturm;Karlsruher Str.
+de:08216:1843;Muggensturm;Muggensturm
+de:08216:3999;Muggensturm;Rastatter Str.
+de:08216:3997;Muggensturm;Rathaus
+de:08215:2219;Mutschelbach;Altes Schulhaus
+de:08215:2216;Mutschelbach;Baum
+de:08215:2213;Mutschelbach;Rathaus
+de:08215:2212;Mutschelbach;Sonnenberg
+de:08215:2214;Mutschelbach;Wiesenstraße
+de:08215:1500;Mörsch (Rheinstett.);Am Hang
+de:08215:1501;Mörsch (Rheinstett.);Bach-West
+de:08215:221;Mörsch (Rheinstett.);Hertzstraße
+de:08215:32083;Mörsch (Rheinstett.);Leisbuckel
+de:08215:220;Mörsch (Rheinstett.);Merkurstraße
+de:08215:217;Mörsch (Rheinstett.);Narzissenstraße
+de:08215:219;Mörsch (Rheinstett.);Rheinaustraße
+de:08215:218;Mörsch (Rheinstett.);Römerstraße
+de:08215:215;Mörsch (Rheinstett.);Rösselsbrünnle
+de:08215:32606;Mörsch (Rheinstett.);Sonnenstraße
+de:08212:32587;Mühlburg;Karlsruhe-Mühlburg
+de:08216:31983;Müllhofen;Müllhofen
+de:08216:31820;Müllhofen;Sandbachbrücke
+de:08215:35102;Münzesheim;Karlsruher Straße
+de:08215:32005;Münzesheim;Münzesheim
+de:08215:32006;Münzesheim;Münzesheim Ost
+de:08215:37224;Münzesheim;Schulzentrum
+de:14522:43101;Nassau (Erzgeb);B171/Dorfstr
+de:08225:9180;Neckarelz;Bahnhof
+de:08125:623;Neckarsulm;AUDI Forum
+de:08125:9249;Neckarsulm;Bahnhof Ost/Vorplatz
+de:08125:1621;Neckarsulm;Bahnhof West
+de:08125:630;Neckarsulm;Kaufland
+de:08125:620;Neckarsulm;Neckarsulm
+de:08125:31503;Neckarsulm;Neckarsulm Mitte
+de:08125:31504;Neckarsulm;Neckarsulm Nord
+de:08125:31502;Neckarsulm;Neckarsulm Süd
+de:08125:511;Neckarsulm;Nord/AUDI Tor 6
+de:08225:8223;Neckarzimmern;Bahnhof
+de:08225:32;Neckarzimmern;Rathaus
+de:08215:14110;Neibsheim;Fürthstraße
+de:08215:14102;Neibsheim;Große Gasse
+de:08215:14101;Neibsheim;Kirche
+de:09780:865;Nellenbruck;St2055
+de:08215:6409;Neuburgweier;Breslauer Straße
+de:08215:6408;Neuburgweier;Mitte
+de:08215:32242;Neudorf (b Karlsr.);Amalienstraße
+de:08215:7808;Neudorf (b Karlsr.);Festplatz
+de:08215:7807;Neudorf (b Karlsr.);Kirche
+de:08215:7806;Neudorf (b Karlsr.);Polizei
+de:08215:13501;Neuenbürg (Baden);Raiffeisenbank
+de:08236:1490;Neuenbürg (Enzkreis);Bahnhof
+de:08236:1413;Neuenbürg (Enzkreis);Bahnhofstraße
+de:08236:1493;Neuenbürg (Enzkreis);Eyachbrücke
+de:08236:5660;Neuenbürg (Enzkreis);Eyachbrücke (Bus)
+de:08236:1492;Neuenbürg (Enzkreis);Freibad
+de:08236:1491;Neuenbürg (Enzkreis);Süd
+de:08435:91202;Neukirch (b Tettn.);K7778 Abzw. Langenseestrasse
+de:08435:91201;Neukirch (b Tettn.);Mehetsweiler K7701/L333
+de:08212:1114;Neureut (Karlsruhe);Adolf-Ehrmann-Bad
+de:08212:7306;Neureut (Karlsruhe);Alte Kreisstraße
+de:08212:7111;Neureut (Karlsruhe);Am Bachkanal
+de:08212:7307;Neureut (Karlsruhe);Am Hubengut
+de:08212:7110;Neureut (Karlsruhe);Am Zinken
+de:08212:7204;Neureut (Karlsruhe);An der Trift
+de:08212:7105;Neureut (Karlsruhe);Bachenweg
+de:08212:7020;Neureut (Karlsruhe);Blankenlocher Weg
+de:08212:1111;Neureut (Karlsruhe);Bärenweg
+de:08212:7113;Neureut (Karlsruhe);Dammweg
+de:08212:7206;Neureut (Karlsruhe);Donauschwabenstraße
+de:08212:7012;Neureut (Karlsruhe);Flughafenstraße
+de:08212:7207;Neureut (Karlsruhe);Forlenweg
+de:08212:7109;Neureut (Karlsruhe);Friedhof
+de:08212:7202;Neureut (Karlsruhe);Grünewaldstraße
+de:08212:13;Neureut (Karlsruhe);Heide
+de:08212:7210;Neureut (Karlsruhe);Holbeinstraße
+de:08212:7112;Neureut (Karlsruhe);Im Kleinen Bruch
+de:08212:7108;Neureut (Karlsruhe);Kirche
+de:08212:1115;Neureut (Karlsruhe);Kirchfeld
+de:08212:7023;Neureut (Karlsruhe);Kirchfeld Fortuna
+de:08212:7024;Neureut (Karlsruhe);Kirchfeld Nord
+de:08212:7107;Neureut (Karlsruhe);Mitteltorstraße
+de:08212:7205;Neureut (Karlsruhe);Moldaustraße
+de:08212:23;Neureut (Karlsruhe);Rosmarinweg
+de:08212:7203;Neureut (Karlsruhe);Spöcker Straße
+de:08212:7106;Neureut (Karlsruhe);Südschule
+de:08212:7104;Neureut (Karlsruhe);Waldenserkirche
+de:08212:1110;Neureut (Karlsruhe);Welschneureuter Straße
+de:08216:32216;Neusatz (Baden);Bach
+de:08216:34605;Neusatz (Baden);Dreiröhrenbrunnen
+de:08216:32215;Neusatz (Baden);Friedhof
+de:08216:34604;Neusatz (Baden);Im Heizler
+de:08216:34609;Neusatz (Baden);Immenstein
+de:08216:34607;Neusatz (Baden);Kirchbühlstraße
+de:08216:34608;Neusatz (Baden);Kloster
+de:08216:32214;Neusatz (Baden);Laube
+de:08216:32213;Neusatz (Baden);Löwen
+de:08216:33082;Neusatz (Baden);Rathaus
+de:08216:32212;Neusatz (Baden);Rathaus (Drei-Tore)
+de:08216:34663;Neusatz (Baden);Sommerseite
+de:08216:34606;Neusatz (Baden);Tannenweg
+de:08216:34754;Neusatz (Baden);Unterstmatt
+de:08216:32211;Neusatz (Baden);Wörth
+de:08235:9550;Neusatz (Württ);Calwer Straße
+de:08235:9552;Neusatz (Württ);Kirche
+de:08215:32059;Neuthard;Büchenauer Str.
+de:08215:32044;Neuthard;Mitte
+de:08215:32045;Neuthard;Nord
+de:08215:32043;Neuthard;Süd
+de:08211:31956;Neuweier (Baden);Buchgasse
+de:08211:32366;Neuweier (Baden);Kirche
+de:08211:32364;Neuweier (Baden);Schneckenbach
+de:08211:32363;Neuweier (Baden);Winzergenossenschaft
+de:08216:31996;Niederbühl;Murgtalstraße
+de:08216:33154;Niederbühl;Schule
+de:08216:31995;Niederbühl;Siedlung
+de:08216:32145;Niederweier;Ortsstraße
+de:08317:14042;Nußbach (Renchtal);Kirche
+de:01058:69037;Nübbel;Nübbel Lurup/B203
+de:08215:13601;Oberacker;Rathaus
+de:08216:34864;Oberbruch (Bühl);Böschstraße
+de:08216:34690;Oberbruch (Bühl);Rathaus
+de:08216:34689;Oberbruch (Bühl);Seestraße
+de:08215:14302;Oberderdingen;Allmend
+de:08215:32608;Oberderdingen;Amthof
+de:08215:14303;Oberderdingen;Blanco Verwaltung
+de:08215:14501;Oberderdingen;Blanco Werk III
+de:08215:14311;Oberderdingen;Freibad
+de:08215:14306;Oberderdingen;Gesundheitszentrum
+de:08215:14304;Oberderdingen;Kelterplatz
+de:08215:14305;Oberderdingen;Langwiesenstraße
+de:08215:1561;Oberderdingen;Oberderdingen-Flehingen
+de:08215:14313;Oberderdingen;Paula-Fürst-Schule
+de:08215:14407;Oberderdingen;Schulzentrum
+de:08435:44703;Obereisenbach(Tettn);Obereisenb. L326
+de:08215:32278;Obergrombach;Alter Kindergarten
+de:08215:32276;Obergrombach;Friedhof
+de:08215:32275;Obergrombach;Kirche
+de:08215:12648;Obergrombach;Untere Au
+de:08215:33155;Oberhausen (Baden);Hammelsäcker
+de:08215:34849;Oberhausen (Baden);Jahnstraße
+de:08215:32504;Oberhausen (Baden);Kirchplatz
+de:08215:32543;Oberhausen (Baden);Marienkapelle
+de:08215:32505;Oberhausen (Baden);Schule
+de:08215:34824;Oberhausen (Baden);Tonwerk
+de:08215:32507;Oberhausen (Baden);Weiherweg
+de:08317:14020;Oberkirch;Bahnhof
+de:08317:14022;Oberkirch;Blumenau
+de:08317:40010;Oberkirch;Bottenau Maisenbühl
+de:08317:40012;Oberkirch;Bottenau Rathaus
+de:08317:40013;Oberkirch;Bottenau Schlatten
+de:08317:40011;Oberkirch;Bottenau St. Wendel
+de:08317:40000;Oberkirch;Friedhof
+de:08317:14027;Oberkirch;Hans-Furler-Gymnasium
+de:08317:40004;Oberkirch;KiGa Sr. Giovanna
+de:08317:40062;Oberkirch;Niederlehen Haus Hildebrand
+de:08317:40060;Oberkirch;Niederlehen Schwarzwaldtanne
+de:08317:40061;Oberkirch;Niederlehen Schwender Straße
+de:08317:14031;Oberkirch;Raiffeisenstraße
+de:08317:40001;Oberkirch;Realschule
+de:08317:14023;Oberkirch;Renchener Straße
+de:08317:40040;Oberkirch;Ringelbach Rathaus
+de:08317:14024;Oberkirch;Stadthalle
+de:08317:40030;Oberkirch;Ödsbach Alm
+de:08317:40032;Oberkirch;Ödsbach Heuberg
+de:08317:40033;Oberkirch;Ödsbach Obere Alm
+de:08317:40035;Oberkirch;Ödsbach Schule
+de:08317:40063;Oberkirch;Ödsbach Vordere Alm
+de:08317:14028;Oberkirch;Ölmühle
+de:08216:32112;Oberndorf (Kuppenhm);Abzw. B462
+de:08216:32111;Oberndorf (Kuppenhm);EKZ
+de:08212:608;Oberreut (Karlsruhe);Albert-Braun-Straße
+de:08212:611;Oberreut (Karlsruhe);Badeniaplatz
+de:08212:5017;Oberreut (Karlsruhe);Bernhard-Lichtenberg-Straße
+de:08212:5014;Oberreut (Karlsruhe);Eugen-Geck-Straße
+de:08212:612;Oberreut (Karlsruhe);Eva-Maria-Buch-Straße
+de:08212:5013;Oberreut (Karlsruhe);Johanna-Kirchner-Straße
+de:08212:91006;Oberreut (Karlsruhe);Oberreut Realschule
+de:08212:5012;Oberreut (Karlsruhe);Rudolf-Breitscheid-Straße
+de:08212:610;Oberreut (Karlsruhe);Wilhelm-Leuschner-Straße
+de:08212:609;Oberreut (Karlsruhe);Zentrum
+de:08216:32127;Obertsrot (Murgtal);Brücke
+de:08216:32153;Obertsrot (Murgtal);Obertsrot
+de:08216:32126;Obertsrot (Murgtal);Siedlung
+de:08216:34701;Oberweier (Bühl);Alte Schule
+de:08216:34846;Oberweier (Bühl);Kapellenstraße
+de:08215:8206;Oberweier (Kr KA);Am Haberacker
+de:08215:8205;Oberweier (Kr KA);Neuwiesenstraße
+de:08215:8213;Oberweier (Kr KA);Zentrum
+de:08216:31973;Oberweier (Murgtal);Freiburger Straße
+de:08216:32144;Oberweier (Murgtal);Kirche
+de:08216:32143;Oberweier (Murgtal);Sportplatz
+de:08215:31036;Oberöwisheim;Feuerwehrhaus
+de:08215:13502;Oberöwisheim;Friedhof
+de:08215:37226;Oberöwisheim;Neuenwegstraße
+de:08215:32004;Oberöwisheim;Oberöwisheim
+de:08215:31037;Oberöwisheim;Schule
+de:08215:32537;Odenheim;Eppinger Straße
+de:08215:3186;Odenheim;Felsenkeller
+de:08215:3188;Odenheim;Kirchstraße
+de:08215:31008;Odenheim;Odenheim
+de:08215:31007;Odenheim;Odenheim West
+de:08215:32598;Odenheim;Schindelberg
+de:08215:37231;Odenheim;Schule
+de:08125:4557;Offenau;Offenau
+de:07232:21151;Olzheim;Abzw.B265
+de:08216:31966;Ottenau;Badener Brücke
+de:08216:31894;Ottenau;Marxstraße
+de:08216:34677;Ottenau;Merkurschule
+de:08216:32827;Ottenau;Ottenau
+de:08216:31881;Ottenau;Schwimmbad
+de:08216:34676;Ottenau;Sulzbacher Straße
+de:08216:34611;Ottersdorf (Baden);Friedrichstraße
+de:08216:34873;Ottersdorf (Baden);Im Streibelgrund
+de:08216:34612;Ottersdorf (Baden);Kirche
+de:08216:34859;Ottersdorf (Baden);Lindenallee
+de:08216:34610;Ottersdorf (Baden);Schule
+de:08216:32105;Ottersweier;Am Notbach
+de:08216:33124;Ottersweier;Hard
+de:08216:32097;Ottersweier;Kirche
+de:08216:32095;Ottersweier;Maria Linden
+de:08216:32000;Ottersweier;Münchhofstraße
+de:08216:14811;Ottersweier;Schule
+de:08216:32228;Ottersweier;Schwarzwaldstraße
+de:08216:32103;Ottersweier;Seebühl
+de:08212:4517;Palmbach;Auf der Römerstraße
+de:08212:4514;Palmbach;Im Kloth
+de:08212:4512;Palmbach;Kirche
+de:08212:4523;Palmbach;Rudolf-Link-Straße
+de:08212:4518;Palmbach;Waldenserplatz
+de:08215:9312;Pfaffenrot;Carl-Benz-Schule
+de:08215:9308;Pfaffenrot;Im Neufeld
+de:08215:9313;Pfaffenrot;Im Strietwälle
+de:08215:9314;Pfaffenrot;Karlsruher Straße
+de:08215:9316;Pfaffenrot;Kirche
+de:08215:9304;Pfaffenrot;Pforzheimer Straße
+de:08215:9315;Pfaffenrot;Schwarzenbusch
+de:08215:9317;Pfaffenrot;Schwarzenbusch (Ersatz)
+de:08231:50;Pforzheim;Hauptbahnhof
+de:08231:3993;Pforzheim;Maihälden
+de:08231:11;Pforzheim;ZOB
+de:08215:32602;Philippsburg (Baden);Alter Messplatz
+de:08215:7717;Philippsburg (Baden);Dammstraße
+de:08215:7716;Philippsburg (Baden);Goodyear
+de:08215:7719;Philippsburg (Baden);Marktplatz
+de:08215:32589;Philippsburg (Baden);Philippsburg
+de:08215:7718;Philippsburg (Baden);Schulzentrum
+de:13076:6140;Pinnow (b Schwerin);B321
+de:08216:34628;Plittersdorf (Oberrhein);Blumenstraße
+de:08216:34623;Plittersdorf (Oberrhein);Bühlstraße
+de:08216:34624;Plittersdorf (Oberrhein);Freizeitparadies
+de:08216:34767;Plittersdorf (Oberrhein);Fähre
+de:08216:34709;Plittersdorf (Oberrhein);Riedstraße
+de:08216:34627;Plittersdorf (Oberrhein);Rödereckring
+de:08216:34737;Plittersdorf (Oberrhein);Schulstraße
+de:01057:74181;Plön;Plön Stadtgraben/B430
+de:09472:22831;Pottenstein (Kr.BT);B470
+de:08216:31063;Rastatt;Akazienstraße
+de:08216:32048;Rastatt;Am Hasenwäldchen
+de:08216:34647;Rastatt;Am Köpfel
+de:08216:32023;Rastatt;Anne-Frank-Schule
+de:08216:1845;Rastatt;Bahnhof/Niederwaldstraße
+de:08216:33115;Rastatt;Bahnhofstraße
+de:08216:32014;Rastatt;Baldenau
+de:08216:31994;Rastatt;Beinle
+de:08216:31993;Rastatt;Berliner Ring
+de:08216:32024;Rastatt;Bernhardusbrunnen
+de:08216:34622;Rastatt;Carl-Benz-Straße
+de:08216:32067;Rastatt;Danziger Straße
+de:08216:31879;Rastatt;Donaustraße
+de:08216:34658;Rastatt;Dr.-Schleyer-Straße
+de:08216:33150;Rastatt;Dreherstraße
+de:08216:31951;Rastatt;EDEKA (Zentrallager)
+de:08216:1816;Rastatt;Fohlenweide
+de:08216:34664;Rastatt;Forum Rastatt
+de:08216:31992;Rastatt;Friedrich-Ebert-Straße
+de:08216:32019;Rastatt;Fruchthalle
+de:08216:31990;Rastatt;Gewerbepark
+de:08216:34655;Rastatt;Gustav-Heinemann-Schule
+de:08216:34625;Rastatt;Gärtnerei Klingmann
+de:08216:32610;Rastatt;Handelslehranstalt
+de:08216:31824;Rastatt;Hardbergstraße
+de:08216:31053;Rastatt;Im Steingerüst
+de:08216:34621;Rastatt;Im Wöhr
+de:08216:31989;Rastatt;Industriestraße
+de:08216:34648;Rastatt;Josef-Kilmarx-Straße
+de:08216:32020;Rastatt;Kapellenstraße
+de:08216:34665;Rastatt;Karlsruher Straße
+de:08216:31831;Rastatt;Kaufland
+de:08216:31988;Rastatt;Kehler Straße
+de:08216:33112;Rastatt;Krankenhaus
+de:08216:31047;Rastatt;Königsberger Str.
+de:08216:32063;Rastatt;Leopoldfeste
+de:08216:34613;Rastatt;Leopoldring
+de:08216:31049;Rastatt;Lessingstraße
+de:08216:34649;Rastatt;Lindenstraße
+de:08216:31826;Rastatt;Lochfeldstraße
+de:08216:33111;Rastatt;Lyzeumstraße
+de:08216:31987;Rastatt;Lützowerstraße
+de:08216:33113;Rastatt;Marktplatz
+de:08216:34798;Rastatt;Mercedes-Benz Halle 2.1
+de:08216:34669;Rastatt;Mercedes-Benz Montage 4.0
+de:08216:34679;Rastatt;Mercedes-Benz Montage 4.1
+de:08216:34668;Rastatt;Mercedes-Benz Oberfläche
+de:08216:34797;Rastatt;Mercedes-Benz QM
+de:08216:34667;Rastatt;Mercedes-Benz Rohbau
+de:08216:34626;Rastatt;Mercedes-Benz Tor 1
+de:08216:34614;Rastatt;Mercedes-Benz Tor 6
+de:08216:34801;Rastatt;Mercedes-Benz Tor 7
+de:08216:34640;Rastatt;Merzeau
+de:08216:31878;Rastatt;Münchfeldsiedlung
+de:08216:31877;Rastatt;Münchfeldstraße
+de:08216:31986;Rastatt;Niederbühler Tor
+de:08216:34650;Rastatt;Oberwaldstraße
+de:08216:32338;Rastatt;Oranger Platz
+de:08216:34615;Rastatt;Ottersdorfer Straße
+de:08216:1844;Rastatt;Rastatt
+de:08216:31985;Rastatt;Rauentaler Straße
+de:08216:32718;Rastatt;Realschule
+de:08216:34652;Rastatt;Rheinauer Gärtle
+de:08216:34654;Rastatt;Rheinauer Kirchweg
+de:08216:34653;Rastatt;Rheinauer Ring
+de:08216:32018;Rastatt;Rheintorstraße
+de:08216:34656;Rastatt;Richard-Strauss-Straße
+de:08216:32016;Rastatt;Richard-Wagner-Ring
+de:08216:34651;Rastatt;Röttererbergstraße
+de:08216:31050;Rastatt;Scheffelstraße
+de:08216:31051;Rastatt;Schillerstraße
+de:08216:32025;Rastatt;Schloss
+de:08216:32021;Rastatt;SchlossGalerie
+de:08216:31874;Rastatt;Stadionstraße
+de:08216:33110;Rastatt;Stadtfriedhof
+de:08216:34630;Rastatt;Stadtpark
+de:08216:32066;Rastatt;Tulla-Gymnasium
+de:08216:31054;Rastatt;Untere Wiesen
+de:08216:34657;Rastatt;Waldfriedhof
+de:08216:31048;Rastatt;Westring Nord
+de:08216:32017;Rastatt;Zay
+de:08216:32015;Rastatt;Zaystraße
+de:08216:32136;Rastatt;Zum Rohngraben
+de:08216:31984;Rauental (Baden);Bischweierer Str.
+de:08216:34620;Rauental (Baden);Kirche
+de:08216:34784;Raumünzach;Obere Fallbrücke
+de:08216:32184;Raumünzach;Raumünzach
+de:08216:32182;Raumünzach;Schwarzenbachtalsperre
+de:08216:30169;Raumünzach;Siedlung
+de:08216:32192;Raumünzach;Wasserfall
+de:08436:8113;Ravensburg;Geratsberg K7975
+de:08215:8506;Reichenbach (Waldbr);Friedenstraße
+de:08215:8507;Reichenbach (Waldbr);Kulturtreff
+de:08215:8511;Reichenbach (Waldbr);Kurhaus/Etzenroter Str.
+de:08215:8519;Reichenbach (Waldbr);Monmouthplatz/Kurhaus
+de:08215:1402;Reichenbach (Waldbr);Reichenbach (b. Ettlingen)
+de:08215:1401;Reichenbach (Waldbr);Reichenbach Kurpark
+de:08215:8518;Reichenbach (Waldbr);Sportzentrum
+de:08216:32125;Reichental (Baden);Johannesplatz
+de:08216:3200;Reichental (Baden);Rathaus
+de:08236:1794;Remchingen;Wilferdingen-Singen Bahnhof
+de:03241:8302;Resse b Hannover;Köhlerweg / L380
+de:08317:15504;Rheinbischofsheim;Gymnasium
+de:08215:32501;Rheinhausen (Baden);Ostenstraße
+de:08215:32605;Rheinhausen (Baden);Tullahalle
+de:08215:32583;Rheinsheim;Große Rheinstraße
+de:08215:32620;Rheinsheim;Schanzenäcker
+de:08215:32576;Rheinsheim;Schule
+de:07334:1743;Rheinzabern;Alte Römerstraße
+de:07334:35003;Rheinzabern;Bahnhof
+de:07334:1744;Rheinzabern;Rappengasse
+de:08216:34717;Riegel (Bühl);Burg Windeck
+de:08216:34818;Riegel (Bühl);Bühlsbergweg
+de:08216:34716;Riegel (Bühl);Café Jägersteig
+de:08216:34718;Riegel (Bühl);Gasthaus Rebstock
+de:08216:34719;Riegel (Bühl);Haus König
+de:08215:1550;Rinklingen;Bretten-Rinklingen
+de:08215:14606;Rinklingen;Jahnstraße
+de:08215:14607;Rinklingen;Kirche
+de:08215:14620;Rinklingen;Saalbachstraße
+de:08212:313;Rintheim;Forststraße
+de:08212:314;Rintheim;Rintheim
+de:08212:404;Rintheim;Sinsheimer Straße
+de:08216:34714;Rittersbach (Bühl);Gasthaus Blume
+de:08216:34601;Rittersbach (Bühl);Haus Roth
+de:08216:34715;Rittersbach (Bühl);Haus Schneider
+fr:24067:335;Roeschwoog;Centre
+fr:24067:334;Roeschwoog;Gare SNCF
+fr:24067:10331;Roeschwoog;Sud
+fr:24067:328;Roppenheim;Centre
+fr:24067:1899;Roppenheim;Village de Marques
+de:08236:1494;Rotenbach (Enzkr);Bahnhof
+de:08235:9554;Rotensol;Lamm
+de:08235:9555;Rotensol;Schwarzwaldstraße
+de:08235:9553;Rotensol;Viertelstraße
+fr:24067:337;Rountzenheim;Gare SNCF
+de:08237:2401;Ruhestein;Ruhestein
+de:08215:14611;Ruit (Baden);An der Steige
+de:08215:14609;Ruit (Baden);Höhenstraße
+de:08215:14608;Ruit (Baden);Knittlinger Straße
+de:08215:14601;Ruit (Baden);Ortsmitte
+de:08215:7711;Rußheim (Dettenheim);Huttenheimer Straße
+de:08215:7708;Rußheim (Dettenheim);Liedolsheimer Straße
+de:08215:7709;Rußheim (Dettenheim);Mitte
+de:08215:7710;Rußheim (Dettenheim);Rathaus
+de:08237:1411;Röt;Auto Schleeh
+de:08237:9601;Röt;Röt Bahnhof
+de:07334:32451;Rülzheim;Bahnhof
+de:07334:1745;Rülzheim;Freizeitzentrum
+de:08212:1210;Rüppurr;Battstraße
+de:08212:1214;Rüppurr;Hegaustraße
+de:08212:1213;Rüppurr;Heinrich-Heine-Ring
+de:08212:1216;Rüppurr;Märchenring
+de:08212:1208;Rüppurr;Ostendorfplatz
+de:08212:1215;Rüppurr;Prinzenweg
+de:08212:1209;Rüppurr;Tulpenstraße
+de:08216:33500;Sand (Schwarzwald);Kapelle
+de:08216:33117;Sand (Schwarzwald);Mehliskopf
+de:08211:31871;Sandweier;Autobahnkirche
+de:08211:31870;Sandweier;Mitte
+de:08211:31869;Sandweier;Mühlstraße
+de:08211:31868;Sandweier;Nord
+de:08211:31867;Sandweier;Südring
+de:08317:41501;Sasbach (b Achern);Heimschule Lender
+de:08317:30028;Sasbach (b Achern);Ochsen
+de:08317:30029;Sasbachried;Abzweig Sasbachried
+de:08317:42131;Sasbachwalden;Kaltenbrunnen (B 500)
+de:08317:2817;Sasbachwalden;Markwaldhütte
+fr:24055:4831;Saulx les Champlon;Saulx-en-Woëvre - Carrefour D908
+de:08126:19600;Scheppach (Bretzfeld);Scheppach
+de:08216:34642;Scherzheim;Blume
+de:08216:34841;Scherzheim;Schule
+de:08216:31971;Scheuern (Murgtal);Schafhofweg
+de:08216:32123;Scheuern (Murgtal);Schule
+de:08216:32122;Scheuern (Murgtal);Sternen
+de:08215:9306;Schielberg;Lamm
+de:08215:9307;Schielberg;Rathaus
+de:08215:9309;Schielberg;Wässergraben
+de:08216:34706;Schiftung;Kirche
+de:05366:78272;Schleiden (Eifel);I P Walberhof (B266)
+de:08215:8101;Schluttenbach;Am Lindenbrunnen
+de:08215:9004;Schluttenbach;Langenacker
+de:08215:8110;Schluttenbach;Rathaus
+de:08215:9007;Schluttenbach;Schönblick
+de:08215:9003;Schluttenbach;Zellmarkstraße
+de:08237:9604;Schopfloch (b Freud);Bahnhof
+de:08125:1800;Schwaigern (Württ);Heilbronner Straße (Ersatzhalt)
+de:08125:693;Schwaigern (Württ);Schwaigern(Württ)
+de:08125:4391;Schwaigern (Württ);Schwaigern(Württ) Ost
+de:08125:1705;Schwaigern (Württ);Schwaigern(Württ) West
+de:08216:34641;Schwarzach (Baden);Bahnhof
+de:08216:34643;Schwarzach (Baden);Hauptstraße
+de:08216:34598;Schwarzach (Baden);Leislingstraße
+de:08237:1431;Schwarzenberg (Murg);Bahnhof
+de:08215:8109;Schöllbronn;Breuerstraße
+de:08215:8122;Schöllbronn;Hinter der Kirche
+de:08215:8114;Schöllbronn;Rimmelsbacher Hof
+de:08215:8127;Schöllbronn;Schluttenbacher Str.
+de:08215:8111;Schöllbronn;Schule
+de:08215:9005;Schöllbronn;Schwester-Baptista-Straße
+de:08215:8113;Schöllbronn;Schwimmbad
+de:08215:8112;Schöllbronn;Stefanienstraße
+de:08237:1502;Schönmünzach;Bahnhof
+de:16064:8089140;Schönstedt (b Mühlhausen/Thür);B247
+de:08317:41801;Seebach (Baden);Mummelsee
+de:08317:13730;Seebach (Baden);Seibelseckle
+de:08216:31861;Selbach (Baden);Oberdorf
+de:08216:31860;Selbach (Baden);Rennfeld
+de:08216:31859;Selbach (Baden);Unterdorf
+fr:24067:380;Seltz (Alsace);Gare SNCF
+fr:24067:3166;Seltz (Alsace);Le Seltzbach
+fr:24067:5908;Siewiller;RD1061
+de:08115:6746;Sindelfingen;Mercedes-Benz P307
+de:08226:3550;Sinsheim;Hauptbahnhof
+de:08226:3558;Sinsheim;Museum/Arena
+de:08216:31978;Sinzheim;Dr.-Ganther-Straße
+de:08216:31981;Sinzheim;Fa. Wolman
+de:08216:31980;Sinzheim;Goethestraße
+de:08216:34703;Sinzheim;Grundschule
+de:08216:33080;Sinzheim;Hans-Thoma-Straße
+de:08216:31979;Sinzheim;Katholische Kirche
+de:08216:35126;Sinzheim;Kindergarten Vormberg
+de:08216:34704;Sinzheim;LvK-Schule
+de:08216:31982;Sinzheim;Matthäuskirche
+de:08216:35112;Sinzheim;Sinzheim (b. Bühl)
+de:08216:35111;Sinzheim;Sinzheim (b. Bühl) Nord
+de:08216:31977;Sinzheim;Turnhalle
+de:07334:35002;Sondernheim;Bahnhof
+de:07334:32625;Sondernheim;Scherer
+fr:24067:1342;Soufflenheim;Centre de secours
+fr:24067:341;Soufflenheim;Hall du Marché
+de:08215:8128;Spessart (Baden);Brünnäckerweg
+de:08215:8105;Spessart (Baden);Rotes Haus
+de:08215:8107;Spessart (Baden);Schottmüllerstraße
+de:08215:8106;Spessart (Baden);Strauß
+de:08215:8108;Spessart (Baden);Wasserwerk
+de:08215:1406;Spielberg (Baden);Spielberg (Baden)
+de:08215:32055;Spöck (Kr Karlsruhe);Albert-Schweitzer-Straße
+de:08215:32052;Spöck (Kr Karlsruhe);Hochhaus
+de:08215:32058;Spöck (Kr Karlsruhe);Kirche
+de:08215:32042;Spöck (Kr Karlsruhe);Nord
+de:08215:32296;Spöck (Kr Karlsruhe);Richard-Hecht-Schule
+de:08215:32054;Spöck (Kr Karlsruhe);Siedlungstraße
+de:08317:14015;Stadelhofen (Baden);Brücke
+de:08317:14016;Stadelhofen (Baden);Königsgasse
+de:08215:32041;Staffort;Blankenlocher Straße
+de:08215:99104;Staffort;Brühlstraße
+de:08215:32039;Staffort;Weingartener Straße
+de:08215:32040;Staffort;Zollhausstraße
+de:08216:32121;Staufenberg (Baden);Erdbeerweg
+de:08216:32119;Staufenberg (Baden);Mitte
+de:08216:34781;Staufenberg (Baden);Neuhaus
+de:08216:32118;Staufenberg (Baden);Sternen
+de:08211:32362;Steinbach (Baden-B.);Alte Landstraße
+de:08211:31836;Steinbach (Baden-B.);Alte Ziegelei
+de:08211:32368;Steinbach (Baden-B.);Grabenstraße/Postplatz
+de:08211:31923;Steinbach (Baden-B.);Hohlgasse
+de:08211:32365;Steinbach (Baden-B.);Poststraße/Postplatz
+de:08211:35113;Steinbach (Baden-B.);Rebland
+de:08211:31848;Steinbach (Baden-B.);Satzweg (Ersatzhalt)
+de:08211:32357;Steinbach (Baden-B.);Schule
+de:08211:32360;Steinbach (Baden-B.);Steinbacher Str./Postplatz
+de:08211:31847;Steinbach (Baden-B.);Umweger Straße
+de:08211:32356;Steinbach (Baden-B.);Vimbucher Straße
+de:08211:32369;Steinbach (Baden-B.);Yburgstraße/Häfnergasse
+de:08211:32361;Steinbach (Baden-B.);Yburgstraße/Postplatz
+de:08216:33166;Steinmauern (Kr RA);Elchesheimer Straße
+de:08216:32013;Steinmauern (Kr RA);Gartenstraße
+de:08216:34503;Steinmauern (Kr RA);Karl-Späth-Straße
+de:08216:33165;Steinmauern (Kr RA);Kirche
+de:08216:32012;Steinmauern (Kr RA);Rathaus
+de:08216:32011;Steinmauern (Kr RA);Siedlung
+de:08216:32010;Steinmauern (Kr RA);Silberaustraße
+de:08226:3561;Steinsfurt;Bahnhof
+de:08125:700;Stetten am Heuchelb;Kirche
+de:08125:1700;Stetten am Heuchelb;Stetten am Heuchelb
+de:08215:32561;Stettfeld (Baden);Löwenplatz
+de:08215:31004;Stettfeld (Baden);Stettfeld
+de:08216:34644;Stollhofen;Krone
+de:08216:34680;Stollhofen;Leiberstunger Str.
+de:08212:2222;Stupferich;Efeustraße
+de:08212:2306;Stupferich;Gerberastraße
+de:08212:2307;Stupferich;Karlsbader Straße
+de:08212:4713;Stupferich;Kirche
+de:08212:4717;Stupferich;Pfefferäcker
+de:08212:4715;Stupferich;Rathaus
+de:08212:4712;Stupferich;Rebgärtenstraße
+de:08212:4711;Stupferich;Rieslingstraße
+de:08212:4714;Stupferich;Wiesentalstraße
+de:08111:25;Stuttgart;Neckartor
+de:08216:34674;Sulzbach (Gagg.);Oberdorf
+de:08216:34675;Sulzbach (Gagg.);Unterdorf
+de:08215:8207;Sulzbach (Malsch);Sulzbach
+de:08215:14402;Sulzfeld (Baden);Amalienhof
+de:08215:14401;Sulzfeld (Baden);Ortsmitte
+de:08215:14400;Sulzfeld (Baden);Schule
+de:08215:32093;Sulzfeld (Baden);Sulzfeld (Baden)
+de:08216:34790;Söllingen (Rheinmst);Airpark Eisstadion
+de:08216:31041;Söllingen (Rheinmst);Airpark Terminal (FKB)
+de:08216:31042;Söllingen (Rheinmst);Airpark Verwaltung
+de:08216:34645;Söllingen (Rheinmst);Kirche
+de:08216:34836;Söllingen (Rheinmst);Schule
+de:08215:1627;Söllingen (b Karlsr);Kapellenstraße
+de:08215:2210;Söllingen (b Karlsr);Leerdamplatz
+de:08215:2209;Söllingen (b Karlsr);Rathaus
+de:08215:1616;Söllingen (b Karlsr);Reetzstraße
+de:08215:1617;Söllingen (b Karlsr);Söllingen (b. Karlsruhe)
+de:08125:2004;Sülzbach;Sülzbach
+de:08125:2005;Sülzbach;Sülzbach Schule
+de:08435:128;Tettnang;Notzenhaus/ K7712
+de:08215:32594;Tiefenbach (Östringen);Kreuzbergsee
+de:08215:32534;Tiefenbach (Östringen);Ost
+de:08215:32535;Tiefenbach (Östringen);Rathaus
+de:08215:37232;Tiefenbach (Östringen);Schule
+de:08215:32536;Tiefenbach (Östringen);West
+de:08317:14017;Tiergarten (Baden);Gemeindehalle
+de:08317:14018;Tiergarten (Baden);Rebstock
+de:08317:14019;Tiergarten (Baden);Spring
+de:05382:54541;Troisdorf;Bergstr./L269
+de:08215:3181;Ubstadt;Rathaus
+de:08215:32001;Ubstadt;Salzbrunnenstraße
+de:08215:32263;Ubstadt;Schulzentrum
+de:08215:32560;Ubstadt;Stachus
+de:08215:3182;Ubstadt;Stettfelder Straße
+de:08215:31002;Ubstadt;Ubstadt Ort
+de:08215:32603;Ubstadt;Uhlandstraße
+de:08216:34696;Ulm (Lichtenau);Rathaus
+de:08216:37234;Ulm (Lichtenau);Zinken
+de:08215:32274;Untergrombach;Bahnhof Ost
+de:08215:12666;Untergrombach;Bahnhof West
+de:08215:32272;Untergrombach;Bruchsaler Str.
+de:08215:32271;Untergrombach;Evangelische Kirche
+de:08215:32269;Untergrombach;Im Sand
+de:08215:32268;Untergrombach;Joß-Fritz-Schule
+de:08215:12663;Untergrombach;Mitte
+de:08215:32267;Untergrombach;Steigweg
+de:08215:1854;Untergrombach;Untergrombach
+de:08215:12665;Untergrombach;Wendelinusstraße
+de:08215:37228;Unteröwisheim;Bruchsaler Straße
+de:08215:32002;Unteröwisheim;Martin-Luther-Straße
+de:08215:37227;Unteröwisheim;Schule
+de:08215:32003;Unteröwisheim;Unteröwisheim
+de:08216:33162;Unzhurst;Hornisgrindestraße
+de:08216:32087;Unzhurst;Kapelle
+de:08216:31998;Unzhurst;Schule
+de:08216:32423;Unzhurst;Zell Wiesenweg
+de:08211:31968;Varnhalt;Am Kirchberg
+de:08211:32832;Varnhalt;Im Lindenbosch
+de:08211:31845;Varnhalt;Kirche
+NL:S:69300160;Venlo;Arcen Rotonde N271
+de:08216:34683;Vimbuch;Apotheke
+de:08216:34685;Vimbuch;Oberhof
+de:08216:34684;Vimbuch;Rathaus
+de:08216:34725;Vimbuch;Tullaschule
+de:08216:34807;Vimbuch;TÜV
+de:08216:34776;Vimbuch;Vimbuch-Center
+de:08216:34750;Vimbuch;Werkstraße
+de:08215:8129;Völkersbach (Malsch);Am Sportplatz
+de:08215:8308;Völkersbach (Malsch);Brunnen
+de:08215:8115;Völkersbach (Malsch);Dreschhalle
+de:08215:8116;Völkersbach (Malsch);Lamm
+de:08215:8117;Völkersbach (Malsch);Post
+de:08215:8118;Völkersbach (Malsch);Schwarzwaldstraße
+de:03241:5902;Völksen;Auffahrt B217
+de:08215:32555;Waghäusel;Gesundheitszentrum
+de:08215:32508;Waghäusel;Haslacher Straße
+de:08215:32510;Waghäusel;Rathaus
+de:08215:32511;Waghäusel;Verteilerzentrum
+de:08215:32509;Waghäusel;Waghäusel
+de:08215:4520;Waldbronn;Eistreff
+de:08215:4516;Waldbronn;Ermlisgrund
+de:08215:4515;Waldbronn;Freibad
+de:08216:34603;Waldmatt;Panoramastraße
+de:08216:32207;Waldmatt;Waldmatt
+de:08216:34602;Waldmatt;Wolfhagweg
+de:08215:8001;Waldprechtsweier;Lange Str.
+de:08215:8016;Waldprechtsweier;Waldprechtsweier
+de:08212:3008;Waldstadt (Karlsrh.);Breslauer Straße
+de:08212:3017;Waldstadt (Karlsrh.);Elbinger Straße Ost
+de:08212:3011;Waldstadt (Karlsrh.);Elbinger Straße West
+de:08212:3012;Waldstadt (Karlsrh.);Europäische Schule
+de:08212:407;Waldstadt (Karlsrh.);Glogauer Straße
+de:08212:406;Waldstadt (Karlsrh.);Im Eichbäumle
+de:08212:409;Waldstadt (Karlsrh.);Jägerhaus
+de:08212:3010;Waldstadt (Karlsrh.);Kolberger Straße
+de:08212:411;Waldstadt (Karlsrh.);Osteroder Straße
+de:08212:3009;Waldstadt (Karlsrh.);Schneidemühler Straße
+de:08212:408;Waldstadt (Karlsrh.);Zentrum
+de:03158:487;Weferlingen (Dettum);Abzweig L627
+de:08215:32559;Weiher (Baden);Hardtsee
+de:08215:32262;Weiher (Baden);Heerstraße
+de:08215:32261;Weiher (Baden);Oberdorf
+de:08215:32260;Weiher (Baden);Ortsmitte
+de:08215:32258;Weiher (Baden);Unterdorf
+de:08215:32257;Weingarten (Baden);Bahnhof Ost
+de:08215:32256;Weingarten (Baden);Bahnhof West
+de:08215:30822;Weingarten (Baden);Bruchsaler Straße
+de:08215:32255;Weingarten (Baden);Burgstraße
+de:08215:32253;Weingarten (Baden);Jöhlinger Straße
+de:08215:32252;Weingarten (Baden);Kirche
+de:08215:32251;Weingarten (Baden);Liverdunplatz
+de:08215:32250;Weingarten (Baden);Luisenstraße
+de:08215:13805;Weingarten (Baden);Rathaus
+de:08215:31038;Weingarten (Baden);Rudolf-Diesel-Str.
+de:08215:32753;Weingarten (Baden);Seniorenheim
+de:08215:32247;Weingarten (Baden);Tabakschopf
+de:08215:32246;Weingarten (Baden);Uhlandplatz
+de:08215:32245;Weingarten (Baden);Waldbrücke
+de:08215:32244;Weingarten (Baden);Walzbachhalle
+de:08215:1853;Weingarten (Baden);Weingarten (Baden)
+de:08125:4344;Weinsberg;Weinsberg
+de:08125:1939;Weinsberg;Weinsberg West
+de:08216:32830;Weisenbach;Au im Murgtal
+de:08216:31976;Weisenbach;Katz-Werke (Ersatzhalt)
+de:08216:31975;Weisenbach;Kirchplatz
+de:08216:31974;Weisenbach;Neudorf
+de:08216:34768;Weisenbach;Weisenbach
+de:08216:34742;Weitenung;Alte Post
+de:08216:34739;Weitenung;Canadastraße
+de:08216:32377;Weitenung;Friedhof
+de:08216:32208;Weitenung;Gottesacker
+de:08216:31009;Weitenung;Kirchstraße
+de:08216:34682;Weitenung;Ottenhofen
+de:08216:34688;Weitenung;Pfarrhaus
+de:08216:32206;Weitenung;Tankstelle Huck
+de:08216:31010;Weitenung;Wiesenweg
+de:08216:34741;Weitenung;Witstunger Straße
+de:08216:34740;Weitenung;Yburgstraße
+de:08126:10506;Wendischenhof;L515
+de:08215:32512;Wiesental (Baden);Einkaufszentrum
+de:08215:32519;Wiesental (Baden);Friedhof
+de:08215:32513;Wiesental (Baden);Karlsruher Straße
+de:08215:32515;Wiesental (Baden);Mannheimer Straße
+de:08215:32514;Wiesental (Baden);Marktplatz
+de:08215:32528;Wiesental (Baden);Vollmerseckstraße
+de:08215:32516;Wiesental (Baden);Weinbrennerstraße
+de:08125:1565;Wieslensdorf;Wieslensdorf
+de:08125:2017;Willsbach;Willsbach
+de:08216:34832;Winden (Sinzheim);Jagdhausstraße
+de:08216:34702;Winden (Sinzheim);Winden Schulhof
+de:08216:31875;Wintersdorf (Baden);Abzw. Bahnhof
+de:08216:34616;Wintersdorf (Baden);Bannwaldstraße
+de:08216:34618;Wintersdorf (Baden);Kirche
+de:08216:34617;Wintersdorf (Baden);Schule
+de:08212:4801;Wolfartsweier;Brücke
+de:08212:4508;Wolfartsweier;Mitte
+de:08212:4500;Wolfartsweier;Nord
+de:08212:4800;Wolfartsweier;Süd
+de:03352:68374;Wurster Nordseeküste;Nordholz-Süd Wanhödener Straße/L135
+de:07334:1714;Wörth (Rhein);Alte Bahnmeisterei
+de:07334:1739;Wörth (Rhein);Badallee
+de:07334:1738;Wörth (Rhein);Badepark
+de:07334:1731;Wörth (Rhein);Bahnhof
+de:07334:32431;Wörth (Rhein);Berufsschule
+de:07334:1734;Wörth (Rhein);Bienwaldhalle
+de:07334:1735;Wörth (Rhein);Bürgerpark
+de:07334:32429;Wörth (Rhein);Dorschbergstraße
+de:07334:1752;Wörth (Rhein);Ottstraße
+de:07334:1736;Wörth (Rhein);Rathaus
+de:07334:1755;Wörth (Rhein);Richard-Wagner-Straße
+de:07334:1754;Wörth (Rhein);Silcherstraße
+de:07334:1753;Wörth (Rhein);Wasserturm
+de:07334:1741;Wörth (Rhein);Zügelstr.
+de:08215:2011;Wöschbach;Friedenstraße
+de:08215:2010;Wöschbach;Im Saalbrett
+de:08215:2012;Wöschbach;Rathaus
+de:08215:2015;Wöschbach;Schützenhaus
+de:08215:2013;Wöschbach;Steinstraße
+de:08215:13803;Wössingen (Baden);Durlacher Allee
+de:08215:13802;Wössingen (Baden);Grundschule
+de:08215:1541;Wössingen (Baden);Wössingen
+de:08215:1543;Wössingen (Baden);Wössingen Ost
+de:08216:6414;Würmersheim;Auer Straße
+de:08216:33169;Würmersheim;Badener Straße
+de:08216:32084;Würmersheim;Kirche
+de:08216:32076;Würmersheim;Rathausplatz
+de:08215:14503;Zaisenhausen (Baden);Kelter
+de:08215:14504;Zaisenhausen (Baden);Kirche
+de:08215:32618;Zaisenhausen (Baden);Zaisenhausen (Baden)
+de:08215:3184;Zeutern;Abzw. Östringen
+de:08215:32554;Zeutern;Sportplatz
+de:08215:31005;Zeutern;Zeutern
+de:08215:3185;Zeutern;Zeutern Ost
+de:08317:14050;Zusenhofen;Bahnhof
+de:08317:14051;Zusenhofen;Rathaus
+de:08126:10220;Öhringen;Öhringen Hbf
+de:08126:19603;Öhringen;Öhringen West
+de:08126:19602;Öhringen;Öhringen-Cappel
+de:08215:32531;Östringen;Alte Post
+de:08215:32530;Östringen;Freibad
+de:08215:32600;Östringen;Johann-Strauß-Straße
+de:08215:32529;Östringen;Mitte
+de:08215:32533;Östringen;Mozartstraße
+de:08215:32525;Östringen;Mühlhausener Straße
+de:08215:32532;Östringen;Oberdorf
+de:08215:32613;Östringen;Seniorenheim
+de:08215:32599;Östringen;Ullrichsbruch
+de:08216:32151;Ötigheim;Fichtenstraße
+de:08216:32154;Ötigheim;Morgenstraße
+de:08216:32068;Ötigheim;Rastatter Straße
+de:08216:32069;Ötigheim;Rathausstraße
+de:08216:32070;Ötigheim;Tell
+de:08216:1821;Ötigheim;Ötigheim
