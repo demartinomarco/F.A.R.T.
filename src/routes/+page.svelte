@@ -58,8 +58,12 @@
 </div>
 
 <div class="p-4">
-	{#if departures.departureList.length === 0}
+	{#if !departures}
 		<p>Loading data...</p>
+	{:else if departures.stationName === ''}
+		<p>Error: The id {stationId} is invalid.</p>
+	{:else if departuresToShow.length === 0}
+		<p>No departures found for the selected stop.</p>
 	{:else}
 		<div class="flex flex-col gap-2">
 			{#key departuresToShow}

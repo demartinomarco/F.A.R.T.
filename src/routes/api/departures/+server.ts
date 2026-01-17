@@ -26,7 +26,7 @@ async function getDepartures(apiUrl: string): Promise<ApiResponse> {
 	return {
 		stationName: station?.name ?? '',
 		cityName: station?.ref.place ?? '',
-		departureList: data.departureList
+		departureList: (data.departureList ?? [])
 			.map((x: DepartureList) => ({
 				lineName: x.servingLine.number,
 				direction: x.servingLine.direction,
