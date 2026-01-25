@@ -1,10 +1,10 @@
 import type { ApiResponse, DateTime, DepartureList, Root } from '@/types/departure';
 import type { RequestHandler } from '@sveltejs/kit';
-import { DateTime as LuxonDT } from "luxon";
+import { DateTime as LuxonDT } from 'luxon';
 
 export const GET: RequestHandler = async ({ url }) => {
 	const stationId = url.searchParams.get('stationId') ?? '7001003'; // default station
-	const api = `https://projekte.kvv-efa.de/sl3-alone/XSLT_DM_REQUEST?outputFormat=JSON&coordOutputFormat=WGS84[dd.ddddd]&depType=stopEvents&locationServerActive=1&mode=direct&name_dm=${stationId}&type_dm=stop&useOnlyStops=1&useRealtime=1&limit=100`;
+	const api = `https://projekte.kvv-efa.de/sl3-alone/XSLT_DM_REQUEST?outputFormat=JSON&coordOutputFormat=WGS84[dd.ddddd]&depType=stopEvents&locationServerActive=1&mode=direct&name_dm=${stationId}&type_dm=stop&useOnlyStops=1&useRealtime=1&limit=20`;
 
 	const departures = await getDepartures(api);
 
@@ -22,11 +22,13 @@ async function getDepartures(apiUrl: string): Promise<ApiResponse> {
 	const data: Root = await response.json();
 
 	const station = data.dm?.points?.point;
+	const stationId = station.ref?.id;
 
 	return {
 		stationName: station?.name ?? '',
 		cityName: station?.ref.place ?? '',
 		departureList: (data.departureList ?? [])
+			.filter((x: DepartureList) => x.stopID === stationId)
 			.map((x: DepartureList) => ({
 				lineName: x.servingLine.number,
 				direction: x.servingLine.direction,
@@ -43,18 +45,17 @@ async function getDepartures(apiUrl: string): Promise<ApiResponse> {
 	};
 }
 
-
 function toDateCET(dt: DateTime): Date {
-  return LuxonDT.fromObject(
-    {
-      year: Number(dt.year),
-      month: Number(dt.month),
-      day: Number(dt.day),
-      hour: Number(dt.hour),
-      minute: Number(dt.minute)
-    },
-    { zone: "Europe/Berlin" }
-  ).toJSDate();
+	return LuxonDT.fromObject(
+		{
+			year: Number(dt.year),
+			month: Number(dt.month),
+			day: Number(dt.day),
+			hour: Number(dt.hour),
+			minute: Number(dt.minute)
+		},
+		{ zone: 'Europe/Berlin' }
+	).toJSDate();
 }
 
 function toDateNullable(dt: DateTime): Date | null {

@@ -1,9 +1,9 @@
 <script>
-	import MultiSelect from "svelte-multiselect";
+import MultiSelect from 'svelte-multiselect';
 
-    import ChevronsUpDownIcon from '@lucide/svelte/icons/chevrons-up-down';
-    import Ban from '@lucide/svelte/icons/ban';
-    let { platformNames, selectedPlatforms = $bindable() } = $props();
+import ChevronsUpDownIcon from '@lucide/svelte/icons/chevrons-up-down';
+import Ban from '@lucide/svelte/icons/ban';
+let { platformNames, selectedPlatforms = $bindable() } = $props();
 </script>
 
 <MultiSelect
@@ -17,9 +17,9 @@
 	disabled={platformNames.length === 0}
 >
 	{#snippet expandIcon({ open })}
-		<ChevronsUpDownIcon class="w-4! h-4! opacity-50 shrink-0" />
+		<ChevronsUpDownIcon class="h-4! w-4! shrink-0 opacity-50" />
 	{/snippet}
 	{#snippet disabledIcon()}
-		<Ban class="w-4! h-4! opacity-50 shrink-0" />
+		<Ban class="h-4! w-4! shrink-0 opacity-50" />
 	{/snippet}
 </MultiSelect>

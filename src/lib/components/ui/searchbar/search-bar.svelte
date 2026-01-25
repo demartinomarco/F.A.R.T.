@@ -1,48 +1,47 @@
 <script lang="ts">
-	import CheckIcon from '@lucide/svelte/icons/check';
-	import ChevronsUpDownIcon from '@lucide/svelte/icons/chevrons-up-down';
-	import { tick } from 'svelte';
-	import { goto } from '$app/navigation';
-	import * as Command from '@/components/ui/command';
-	import * as Popover from '@/components/ui/popover';
-	import { Button } from '@/components/ui/button';
-	import { cn } from '@/utils.js';
-	import { searchStops } from '@/components/ui/searchbar/search-bar';
+import CheckIcon from '@lucide/svelte/icons/check';
+import ChevronsUpDownIcon from '@lucide/svelte/icons/chevrons-up-down';
+import { tick } from 'svelte';
+import { goto } from '$app/navigation';
+import * as Command from '@/components/ui/command';
+import * as Popover from '@/components/ui/popover';
+import { Button } from '@/components/ui/button';
+import { cn } from '@/utils.js';
+import { searchStops } from '@/components/ui/searchbar/search-bar';
 
-	const placeholderText = "Haltenstelle suchen...";
-	let open = $state(false);
-	let { selectedId = $bindable(), selectedValue = $bindable() } = $props();
-	let stops: { value: string; label: string }[] = $state([
-		{ value: selectedId, label: selectedValue }
-	]);
+const placeholderText = 'Haltenstelle suchen...';
+let open = $state(false);
+let { selectedId = $bindable(), selectedValue = $bindable() } = $props();
+let stops: { value: string; label: string }[] = $state([
+	{ value: selectedId, label: selectedValue }
+]);
 
-	let triggerRef = $state<HTMLButtonElement>(null!);
+let triggerRef = $state<HTMLButtonElement>(null!);
 
-	let prevId = $state(selectedId);
-	$effect(() => {
-		if (selectedId === prevId) return;
+let prevId = $state(selectedId);
+$effect(() => {
+	if (selectedId === prevId) return;
 
-		selectedValue = stops.find((s) => s.value === selectedId)?.label;
-	})
+	selectedValue = stops.find((s) => s.value === selectedId)?.label;
+});
 
-	async function updateStops(searchText: string) {
-		stops = await searchStops(searchText);
-	}
+async function updateStops(searchText: string) {
+	stops = await searchStops(searchText);
+}
 
-
-	function closeAndFocusTrigger() {
-		open = false;
-		tick().then(() => triggerRef.focus());
-	}
+function closeAndFocusTrigger() {
+	open = false;
+	tick().then(() => triggerRef.focus());
+}
 </script>
 
-<Popover.Root bind:open>
+<Popover.Root bind:open={open}>
 	<Popover.Trigger bind:ref={triggerRef}>
 		{#snippet child({ props })}
 			<Button
 				{...props}
 				variant="outline"
-				class="min-w-0 w-60 flex-initial justify-between"
+				class="w-60 min-w-0 flex-initial justify-between"
 				role="combobox"
 				aria-expanded={open}
 			>

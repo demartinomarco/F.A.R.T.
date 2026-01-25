@@ -52,12 +52,10 @@ export const GET: RequestHandler = async ({ url }) => {
 
 	const stops = fuseResults
 		.map((r) => {
-			const isKarlsruhe =
-				r.item.place_name?.toLowerCase() === 'karlsruhe';
+			const isKarlsruhe = r.item.place_name?.toLowerCase() === 'karlsruhe';
 
 			// Fuse score: lower is better
-			const boostedScore =
-				(r.score ?? 1) - (isKarlsruhe ? KARLSRUHE_BONUS : 0);
+			const boostedScore = (r.score ?? 1) - (isKarlsruhe ? KARLSRUHE_BONUS : 0);
 
 			return { ...r, boostedScore };
 		})
@@ -69,7 +67,6 @@ export const GET: RequestHandler = async ({ url }) => {
 			placeName: item.place_name,
 			stopName: item.stop_name
 		}));
-
 
 	return new Response(JSON.stringify(stops), {
 		headers: { 'Content-Type': 'application/json' }

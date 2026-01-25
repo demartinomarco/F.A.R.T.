@@ -1,49 +1,49 @@
 <script lang="ts">
-	import SearchBar from '@/components/ui/searchbar/search-bar.svelte';
-	import { onDestroy } from 'svelte';
-	import { page } from '$app/state';
-	import type { ApiResponse } from '@/types/departure';
-	import type { PageProps } from './$types';
-	import DepartureInfo from '@/components/ui/departure-info/departure-info.svelte';
-	import { _extractPlatformNames, _fetchDepartures, _filterByPlatformName } from './+page';
-	import { formatTime } from '@/utils';
-	import MultiSelect from '@/components/ui/multi-select/multi-select.svelte';
-	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
-	import AppSidebar from '@/components/ui/app-sidebar/app-sidebar.svelte';
+import SearchBar from '@/components/ui/searchbar/search-bar.svelte';
+import { onDestroy } from 'svelte';
+import { page } from '$app/state';
+import type { ApiResponse } from '@/types/departure';
+import type { PageProps } from './$types';
+import DepartureInfo from '@/components/ui/departure-info/departure-info.svelte';
+import { _extractPlatformNames, _fetchDepartures, _filterByPlatformName } from './+page';
+import { formatTime } from '@/utils';
+import MultiSelect from '@/components/ui/multi-select/multi-select.svelte';
+import * as Sidebar from '$lib/components/ui/sidebar/index.js';
+import AppSidebar from '@/components/ui/app-sidebar/app-sidebar.svelte';
 
-	const { data }: PageProps = $props();
+const { data }: PageProps = $props();
 
-	let now = $state(new Date());
-	let time = $derived(formatTime(now));
+let now = $state(new Date());
+let time = $derived(formatTime(now));
 
-	let selectedPlatforms: string[] = $state([]);
-	let departures: ApiResponse = $state(data.item);
-	let departuresToShow = $derived(_filterByPlatformName(departures, selectedPlatforms));
-	const platformNames = $derived(_extractPlatformNames(departures));
+let selectedPlatforms: string[] = $state([]);
+let departures: ApiResponse = $state(data.item);
+let departuresToShow = $derived(_filterByPlatformName(departures, selectedPlatforms));
+const platformNames = $derived(_extractPlatformNames(departures));
 
-	let stationId = $derived(page.url.searchParams.get('stationId') || 'de:08212:89');
-	let stationName = $derived(departures.stationName);
+let stationId = $derived(page.url.searchParams.get('stationId') || 'de:08212:89');
+let stationName = $derived(departures.stationName);
 
-	async function fetchAndSetDepartures(stationId: string) {
-		departures = await _fetchDepartures(stationId);
-		selectedPlatforms = [];
-	}
+async function fetchAndSetDepartures(stationId: string) {
+	departures = await _fetchDepartures(stationId);
+	selectedPlatforms = [];
+}
 
-	$effect(() => {
-		fetchAndSetDepartures(stationId);
-	});
+$effect(() => {
+	fetchAndSetDepartures(stationId);
+});
 
-	const depTimer = setInterval(async () => {
-		departures = await _fetchDepartures(stationId);
-	}, 15000);
+const depTimer = setInterval(async () => {
+	departures = await _fetchDepartures(stationId);
+}, 15000);
 
-	const clockTimer = setInterval(() => (now = new Date()), 1000);
+const clockTimer = setInterval(() => (now = new Date()), 1000);
 
-	onDestroy(() => {
-		clearInterval(depTimer);
-		clearInterval(clockTimer);
-	});
-	let sidebarOpen = $state(false);
+onDestroy(() => {
+	clearInterval(depTimer);
+	clearInterval(clockTimer);
+});
+let sidebarOpen = $state(false);
 </script>
 
 <svelte:head>
@@ -63,8 +63,7 @@
 			</div>
 
 			<p class="font-medium text-white">{time}</p>
-			<Sidebar.Trigger class="text-white"/>
-
+			<Sidebar.Trigger class="text-white" />
 		</div>
 
 		<div class="p-4">

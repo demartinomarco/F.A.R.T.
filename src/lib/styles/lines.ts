@@ -65,19 +65,19 @@ const karlsruhe = [
 
 export function getLineStyle(line: Departure, city: string): LineStyle {
 	const lineName = line.lineName;
-	if (lineName.startsWith("ICE") || lineName.startsWith("IC")) {
-		return { background: "#ed1c24", text: "#fff" };
-	} else if (lineName.startsWith("RE")) {
-		return { background: "#afb4bb", text: "#000" };
-	} else if (lineName.startsWith("TGV")) {
-		return { background: "#224980", text: "#fff" };
-	} else if (line.type === "Regionalbus" || line.type === "Stadtbus") {
-		return { background: "#90268f", text: "#fff" };
+	if (lineName.startsWith('ICE') || lineName.startsWith('IC')) {
+		return { background: '#ed1c24', text: '#fff' };
+	} else if (lineName.startsWith('RE')) {
+		return { background: '#afb4bb', text: '#000' };
+	} else if (lineName.startsWith('TGV')) {
+		return { background: '#224980', text: '#fff' };
+	} else if (line.type === 'Regionalbus' || line.type === 'Stadtbus') {
+		return { background: '#90268f', text: '#fff' };
 	}
 
-	if (karlsruhe.indexOf(city) !== -1 || city.indexOf("Karlsruhe") !== -1) {
-		return LINE_STYLES[lineName] ?? { background: "#000", text: "#fff" };
+	if (karlsruhe.indexOf(city) !== -1 || city.indexOf('Karlsruhe') !== -1) {
+		return LINE_STYLES[lineName] ?? { background: '#000', text: '#fff' };
 	}
 
-	return { background: "#000", text: "#fff" };
+	return { background: '#000', text: '#fff' };
 }
