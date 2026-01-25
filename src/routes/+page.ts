@@ -48,8 +48,27 @@ export function _extractPlatformNames(departures: ApiResponse): string[] {
 export function _filterByPlatformName(
 	departures: ApiResponse,
 	selectedPlatforms: string[]
-): Departure[] {
-	return departures.departureList.filter(
+): DeparturesByPlatform[] {
+	const filtered = departures.departureList.filter(
 		(d) => selectedPlatforms.length === 0 || selectedPlatforms.includes(d.platformName)
 	);
+
+	// TODO: add "Gleis" to platformName if it is only a number
+	const grouped = filtered.reduce<Record<string, Departure[]>>((acc, departure) => {
+		const platform = departure.platformName;
+
+		if (!acc[platform]) {
+			acc[platform] = [];
+		}
+
+		acc[platform].push(departure);
+		return acc;
+	}, {});
+
+	return Object.entries(grouped)
+		.map(([platformName, departures]) => ({
+			platformName,
+			departures
+		}))
+		.sort((a, b) => a.platformName.localeCompare(b.platformName));
 }

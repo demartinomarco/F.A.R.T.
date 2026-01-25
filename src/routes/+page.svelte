@@ -66,7 +66,7 @@ let sidebarOpen = $state(false);
 			<Sidebar.Trigger class="text-white" />
 		</div>
 
-		<div class="p-4">
+		<div class="flex w-full p-4">
 			{#if !departures}
 				<p>Loading data...</p>
 			{:else if departures.stationName === ''}
@@ -74,13 +74,21 @@ let sidebarOpen = $state(false);
 			{:else if departuresToShow.length === 0}
 				<p>No departures found for the selected stop.</p>
 			{:else}
-				<div class="flex flex-col gap-2">
-					{#key departuresToShow}
-						{#each departuresToShow as departure}
-							<DepartureInfo cityName={departures.cityName} departure={departure} />
+				{#key departuresToShow}
+					<div class="flex w-full flex-col gap-4">
+						{#each departuresToShow as platformDep}
+							<div class="flex flex-col gap-1">
+								{#if departuresToShow.length > 1}
+									{platformDep.platformName}
+									<hr class="h-0.5 rounded-sm bg-gray-500" />
+								{/if}
+								{#each platformDep.departures as departure}
+									<DepartureInfo cityName={departures.cityName} departure={departure} />
+								{/each}
+							</div>
 						{/each}
-					{/key}
-				</div>
+					</div>
+				{/key}
 			{/if}
 		</div>
 	</main>
