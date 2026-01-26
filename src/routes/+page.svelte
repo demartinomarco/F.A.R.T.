@@ -78,10 +78,8 @@ let sidebarOpen = $state(false);
 					<div class="flex w-full flex-col gap-4">
 						{#each departuresToShow as platformDep}
 							<div class="flex flex-col gap-1">
-								{#if departuresToShow.length > 1}
-									{platformDep.platformName}
-									<hr class="h-0.5 rounded-sm bg-gray-500" />
-								{/if}
+							    <p class="font-medium">{platformDep.platformName}</p>
+								<hr class="h-0.5 rounded-sm bg-gray-500" />
 								{#each platformDep.departures as departure}
 									<DepartureInfo cityName={departures.cityName} departure={departure} />
 								{/each}

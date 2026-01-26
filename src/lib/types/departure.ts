@@ -256,3 +256,8 @@ export interface Departure {
 	plannedTime: Date;
 	realTime: Date | null;
 }
+
+export interface DeparturesByPlatform {
+	platformName: string;
+	departures: Departure[];
+}

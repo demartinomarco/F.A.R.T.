@@ -1,4 +1,4 @@
-import type { ApiResponse, Departure } from '@/types/departure';
+import type { ApiResponse, Departure, DeparturesByPlatform } from '@/types/departure';
 import type { PageLoad } from './$types';
 
 export const load: PageLoad = async ({ url, fetch }) => {
@@ -8,18 +8,25 @@ export const load: PageLoad = async ({ url, fetch }) => {
 	return { item: parseDatesOfDepartures(await res.json()) };
 };
 
-function parseDatesOfDepartures(item: any) {
+function parseDatesOfDepartures(item: ApiResponse) {
 	return {
 		...item,
-		departureList: item.departureList.map((d) => ({
+		departureList: item.departureList.map((d: Departure) => ({
 			...d,
+			platformName: formatPlatformName(d.platformName),
 			plannedTime: toDate(d.plannedTime),
 			realTime: toDate(d.realTime)
 		}))
 	};
 }
 
-function toDate(v: any): Date | null {
+function formatPlatformName(platformName: string): string {
+  if (platformName === '') return 'Unbekannter Gleis';
+  if (!isNaN(Number(platformName))) return `Gleis ${platformName}`;
+  return platformName;
+}
+
+function toDate(v: Date | null): Date | null {
 	return v ? new Date(v) : null;
 }
 
