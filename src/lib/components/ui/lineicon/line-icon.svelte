@@ -1,18 +1,11 @@
 <script lang="ts">
 import { getLineStyle } from '@/styles/lines';
-import type { Departure } from '@/types/departure';
 
 let { departure, city } = $props();
 
 const style = getLineStyle(departure, city);
-const lineName = departure.lineName
-	.replace(' InterCityExpress', '')
-	.replace(' Train a grande Vitesse', '')
-	.replace(' Eurocity-Express', '')
-	.replace(' InterCity', '')
-	.replace(' Fernreisezug externer EU', '')
-	.replace(' NightJet', '')
-	.replace(' Saaletal', '');
+// Remove everything after second word, since there often is things like "InterCityExpress", which I don't care about
+const lineName = departure.lineName.trim().split(/\s+/).slice(0, 2).join(" ");
 </script>
 
 <div
