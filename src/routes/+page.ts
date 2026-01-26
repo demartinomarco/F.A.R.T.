@@ -21,9 +21,9 @@ function parseDatesOfDepartures(item: ApiResponse) {
 }
 
 function formatPlatformName(platformName: string): string {
-  if (platformName === '') return 'Unbekannter Gleis';
-  if (!isNaN(Number(platformName))) return `Gleis ${platformName}`;
-  return platformName;
+	if (platformName === '') return 'Unbekannter Gleis';
+	if (!isNaN(Number(platformName))) return `Gleis ${platformName}`;
+	return platformName;
 }
 
 function toDate(v: Date | null): Date | null {
@@ -40,16 +40,8 @@ export function _extractPlatformNames(departures: ApiResponse): string[] {
 	const platformSet = [
 		...new Set(departures.departureList.map((dep) => dep.platformName).filter(Boolean))
 	];
-	// Sometimes platforms are just numbers, othertimes they have a prefix, like "Gleis"
-	// (I sort them as numbers whenever possible otherwise I would get [1, 10, 2] if I would always sort them as strings)
-	return platformSet.sort((a, b) => {
-		const na = Number(a),
-			nb = Number(b);
-		const aNum = !Number.isNaN(na),
-			bNum = !Number.isNaN(nb);
-		if (aNum && bNum) return na - nb;
-		return a.localeCompare(b);
-	});
+
+	return sortPlatforms(platformSet);
 }
 
 export function _filterByPlatformName(
@@ -72,10 +64,35 @@ export function _filterByPlatformName(
 		return acc;
 	}, {});
 
-	return Object.entries(grouped)
-		.map(([platformName, departures]) => ({
-			platformName,
-			departures
-		}))
-		.sort((a, b) => a.platformName.localeCompare(b.platformName));
+	const sortedPlatformNames = sortPlatforms(Object.keys(grouped));
+
+	return sortedPlatformNames.map((platformName) => ({
+		platformName,
+		departures: grouped[platformName]
+	}));
+}
+
+function sortPlatforms(platforms: string[]): string[] {
+	return platforms.sort((a, b) => {
+		const aIsGleis = a.startsWith('Gleis ');
+		const bIsGleis = b.startsWith('Gleis ');
+
+		// If both start with "Gleis", extract and compare numbers
+		if (aIsGleis && bIsGleis) {
+			// Extract the numeric part (e.g., "Gleis 1 (U)" -> "1")
+			const aNum = parseInt(a.substring(6));
+			const bNum = parseInt(b.substring(6));
+
+			if (!isNaN(aNum) && !isNaN(bNum)) {
+				return aNum - bNum;
+			}
+		}
+
+		// If only one starts with "Gleis", it comes first
+		if (aIsGleis && !bIsGleis) return -1;
+		if (!aIsGleis && bIsGleis) return 1;
+
+		// For everything else (including non-Gleis platforms), sort lexicographically
+		return a.localeCompare(b);
+	});
 }
