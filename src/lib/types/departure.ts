@@ -6,7 +6,8 @@ export interface Root {
 	dateRange: DateRange[];
 	option: Option;
 	servingLines: ServingLines;
-	departureList: DepartureList[];
+	departureList: DepartureList[] | undefined;
+	arrivalList: DepartureList[] | undefined;
 }
 
 export interface Parameter {

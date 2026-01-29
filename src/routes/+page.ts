@@ -30,8 +30,8 @@ function toDate(v: Date | null): Date | null {
 	return v ? new Date(v) : null;
 }
 
-export async function _fetchDepartures(stationId: string) {
-	const res = await fetch(`/api/departures?stationId=${stationId}`);
+export async function _fetchDepartures(stationId: string, eventType: 'dep' | 'arr') {
+	const res = await fetch(`/api/departures?stationId=${stationId}&eventType=${eventType}`);
 	const item = await res.json();
 	return parseDatesOfDepartures(item);
 }
