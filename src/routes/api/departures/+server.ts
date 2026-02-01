@@ -1,12 +1,15 @@
+import { getDeparturesLib } from '@/kvv-api/kvv-departures';
 import type { ApiResponse, DateTime, DepartureList, Root } from '@/types/departure';
 import type { RequestHandler } from '@sveltejs/kit';
 import { DateTime as LuxonDT } from 'luxon';
 
 export const GET: RequestHandler = async ({ url }) => {
 	const stationId = url.searchParams.get('stationId') ?? '7001003'; // default station
+	const eventType: 'dep' | 'arr' = url.searchParams.get('eventType') ?? 'dep';
+	const limit = url.searchParams.get('limit') ?? '20';
 	const api = `https://projekte.kvv-efa.de/sl3-alone/XSLT_DM_REQUEST?outputFormat=JSON&coordOutputFormat=WGS84[dd.ddddd]&depType=stopEvents&locationServerActive=1&mode=direct&name_dm=${stationId}&type_dm=stop&useOnlyStops=1&useRealtime=1&limit=20`;
 
-	const departures = await getDepartures(api);
+	const departures = await getDeparturesLib(stationId, eventType, limit);
 
 	return new Response(JSON.stringify(departures), {
 		headers: {

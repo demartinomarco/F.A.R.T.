@@ -43,13 +43,13 @@ const colorClass = (d: Departure): string => {
 };
 </script>
 
-<div class="flex items-center justify-between py-1">
-	<div class="flex items-center gap-2">
+<div class="flex items-center justify-between gap-2 py-1">
+	<div class="flex items-center gap-2 min-w-0">
 		<LineIcon city={cityName} departure={departure} />
-		<p class="min-w-1">{departure.direction}</p>
+		<p class="truncate">{departure.direction}</p>
 	</div>
 
-	<p class={colorClass(departure)}>
+	<p class="text-nowrap {colorClass(departure)}">
 		{#if delayLabel(departure)}
 			<span class="text-black opacity-50">{delayLabel(departure)}</span>
 		{/if}
