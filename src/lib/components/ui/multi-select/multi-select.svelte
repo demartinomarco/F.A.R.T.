@@ -9,10 +9,10 @@ let { platformNames, selectedPlatforms = $bindable() } = $props();
 <MultiSelect
 	options={platformNames}
 	bind:selected={selectedPlatforms}
-	outerDivClass="flex-row-reverse min-w-0! w-60! h-fit gap-4! flex-nowrap! bg-white! border! rounded-md! py-2! px-3!"
+	outerDivClass="flex-row-reverse min-w-0! w-full h-fit gap-4! flex-nowrap! bg-white! border! rounded-md! py-2! px-3!"
 	inputClass="text-sm! placeholder:opacity-50! min-w-0! caret-transparent w-0!"
 	ulOptionsClass="mt-1!"
-	placeholder="Gleis filter"
+	placeholder="Wähle ein Gleis aus..."
 	readOnly={true}
 	disabled={platformNames.length === 0}
 >
