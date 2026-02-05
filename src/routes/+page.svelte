@@ -73,11 +73,11 @@ let sidebarOpen = $state(false);
 
 		<div class="flex w-full p-4">
 			{#if !departures}
-				<p>Loading data...</p>
+				<p>Daten werden geladen...</p>
 			{:else if departures.stationName === ''}
-				<p>Error: The id {stationId} is invalid.</p>
+				<p>Fehler: Die ID {stationId} ist ungültig.</p>
 			{:else if departuresToShow.length === 0}
-				<p>No departures found for the selected stop.</p>
+				<p>Für die ausgewählte Haltestelle wurden keine Abfahrten gefunden.</p>
 			{:else}
 				{#key departuresToShow}
 					<div class="flex w-full flex-col gap-4">

@@ -1,3 +1,4 @@
+import { stopsIdNameMap } from '@/server/stops-search.server';
 import type { ApiResponse, DateTime, DepartureList, Root } from '@/types/departure';
 import { DateTime as LuxonDT } from 'luxon';
 
@@ -25,12 +26,34 @@ export async function getDeparturesLib(
 	const response = await fetch(requestUrl);
 	const data: Root = await response.json();
 
-	const station = data.dm?.points?.point;
-	const effStationId = station.ref?.id;
+	// Non-existing stop
+	if (data.dm?.points == null) {
+		return {
+			stationName: '',
+			cityName: '',
+			departureList: []
+		};
+	}
+
+	const effStationId = data.dm?.points?.point.ref?.id;
+
+	const station = stopsIdNameMap.get(stationId ?? '') ?? { place_name: '', stop_name: '' };
+	const stationName = station.place_name
+		? `${station.stop_name} (${station.place_name})`
+		: station.stop_name;
+
+	// Stop exists but has no departures or arrivals
+  if (data.departureList == null && data.arrivalList == null) {
+    return {
+      stationName: stationName,
+      cityName: station.place_name,
+      departureList: []
+    };
+  }
 
 	return {
-		stationName: station?.name ?? '',
-		cityName: station?.ref.place ?? '',
+		stationName: stationName,
+		cityName: station.place_name,
 		departureList: (data.departureList ?? data.arrivalList)
 			.filter((d: DepartureList) => d.stopID === effStationId)
 			.map((x: DepartureList) => ({
