@@ -23,11 +23,17 @@ const platformNames = $derived(_extractPlatformNames(departures));
 let eventType: 'dep' | 'arr' = $state('dep');
 
 let stationId = $derived(page.url.searchParams.get('stationId') || 'de:08212:89');
+// svelte-ignore state_referenced_locally
+let oldStationId = stationId;
 let stationName = $derived(departures.stationName);
 
 async function fetchAndSetDepartures(stationId: string, eventType: 'dep' | 'arr') {
+	// Reset selected platforms when changing station, since the new station could not have a platform of the same name
+	if (oldStationId !== stationId) {
+		selectedPlatforms = [];
+		oldStationId = stationId;
+	}
 	departures = await _fetchDepartures(stationId, eventType);
-	selectedPlatforms = [];
 }
 
 $effect(() => {
@@ -35,7 +41,7 @@ $effect(() => {
 });
 
 const depTimer = setInterval(async () => {
-	departures = await _fetchDepartures(stationId);
+	departures = await _fetchDepartures(stationId, eventType);
 }, 15000);
 
 const clockTimer = setInterval(() => (now = new Date()), 1000);
