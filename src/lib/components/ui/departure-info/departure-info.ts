@@ -1,35 +1,42 @@
-const countdownText = (d: Departure): string => {
+import { formatTime } from '@/utils';
+import type { Departure } from '@/types/departure';
+
+export const countdownText = (d: Departure, now: Date): string => {
 	const t = d.realTime ?? d.plannedTime;
-	if (!t) return '–';
+	if (!t) return 'keine Angabe';
 
-	const diff = Math.round((t.getTime() - now.getTime()) / 60000);
+	const diff = calculateDifferenceTime(t, now);
 
-	if (diff < 0 || diff === 0) return 'Sofort';
+	if (diff <= 0) return 'Sofort';
 	if (diff > 10) return formatTime(t);
 	return `${diff} Min`;
 };
 
 export const delayMinutes = (d: Departure): number => {
-	if (!d.realTime || !d.plannedTime) return 0;
-	return Math.round((d.realTime.getTime() - d.plannedTime.getTime()) / 60000);
+	if (!d.realTime || !d.plannedTime) return NaN;
+	return calculateDifferenceTime(d.realTime, d.plannedTime);
 };
 
-export const delayLabel = (d: Departure, now: Datetime): string | null => {
+export const plannedTimeLabel = (d: Departure, now: Date): string | null => {
 	const delay = delayMinutes(d);
-	if (delay == 0) return '';
+	if (delay === 0 || isNaN(delay)) return null;
 
-	const diff = Math.round((d.realTime!.getTime() - now.getTime()) / 60000);
-	if (diff <= 0) return `(${formatTime(d.plannedTime)})`;
-	if (diff > 10) return `(${formatTime(d.plannedTime)})`;
-
-	const plannedCountdown = Math.round((d.plannedTime!.getTime() - now.getTime()) / 60000);
-	if (plannedCountdown > 0) return `(${plannedCountdown} Min)`;
-	else return '(Sofort)';
+	const plannedCountdown = calculateDifferenceTime(d.plannedTime!, now);
+	// Planned arrival is in the near future, so return countdown in minutes
+	if (plannedCountdown > 0 && plannedCountdown < 10) return `(${plannedCountdown} Min)`;
+	// In this case, the tram actual arrival either was in the past
+	// OR it was expected to arrive in more than 10 minutes.
+	// In both cases, show the formatted planned time.
+	return `(${formatTime(d.plannedTime)})`;
 };
 
-const colorClass = (d: Departure): string => {
+export const colorClass = (d: Departure): string => {
 	const delay = delayMinutes(d);
 	if (delay < 0) return 'text-green-600';
 	if (delay > 0) return 'text-[#c30a37]';
 	return '';
 };
+
+function calculateDifferenceTime(from: Date, to: Date) {
+	return Math.round((from.getTime() - to.getTime()) / 60000);
+}
