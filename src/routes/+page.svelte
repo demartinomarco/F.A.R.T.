@@ -68,9 +68,8 @@ let sidebarOpen = $state(false);
 	/>
 	<main class="w-full">
 		<div class="flex items-center justify-between gap-4 bg-[#c30a37] p-4">
-			<div class="flex w-full min-w-0 flex-wrap justify-between gap-4">
+			<div class="flex w-full min-w-0">
 				<SearchBar bind:selectedId={stationId} bind:selectedValue={stationName} />
-				<div></div>
 			</div>
 
 			<p class="font-medium text-white">{time}</p>
