@@ -54,8 +54,13 @@ let sidebarOpen = $state(false);
 </script>
 
 <svelte:head>
-	<title>{stationName}</title>
+  <title>{stationName} – Abfahrten | Tram- und ÖPNV-Anzeige</title>
+  <meta
+    name="description"
+    content={`Live-Abfahrten und Fahrplan-Infos für ${stationName}. Unabhängige Anzeige, basierend auf öffentlich verfügbaren Daten. Filter nach Steig/Gleis, Linien und Ereignissen.`}
+  />
 </svelte:head>
+
 
 <Sidebar.Provider
 	bind:open={sidebarOpen}

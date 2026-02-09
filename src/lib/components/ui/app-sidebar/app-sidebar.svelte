@@ -3,6 +3,8 @@ import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 import MultiSelect from '@/components/ui/multi-select/multi-select.svelte';
 import { Label } from '$lib/components/ui/label/index.js';
 import * as RadioGroup from '$lib/components/ui/radio-group/index.js';
+import { Github } from 'lucide-svelte';
+	import { resolve } from '$app/paths';
 
 let { platformNames, selectedPlatforms = $bindable(), eventType = $bindable() } = $props();
 </script>
@@ -37,4 +39,17 @@ let { platformNames, selectedPlatforms = $bindable(), eventType = $bindable() } 
 			</Sidebar.GroupContent>
 		</Sidebar.Group>
 	</Sidebar.Content>
+	<Sidebar.Footer class="flex flex-row justify-around gap-3 p-4 text-sm opacity-80">
+		<a href={resolve("/about/")} rel="nofollow" class="underline">Über diese Seite</a>
+
+		<a
+			href="https://github.com/demartinomarco/F.A.R.T."
+			class="flex items-center gap-1 underline"
+			target="_blank"
+			rel="noopener noreferrer"
+		>
+			<Github class="h-4 w-4" />
+			GitHub
+		</a>
+	</Sidebar.Footer>
 </Sidebar.Root>
