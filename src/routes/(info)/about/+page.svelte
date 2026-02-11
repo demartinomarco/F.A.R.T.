@@ -13,6 +13,15 @@
 			reagieren, unzuverlässig sind, gelegentlich falsche Daten zeigen oder an weniger
 			frequentierten Haltestellen ganz fehlen.
 		</p>
+
+		<p>
+			<strong>Farben der Ankunftszeit:</strong>
+			Ist die Ankunftszeit <span class="font-semibold text-red-600">rot</span>, ist die Bahn/der Bus
+			zu spät. Ist sie <span class="font-semibold text-yellow-500">gelb</span>, liegen keine
+			Echtzeitdaten vor, die Fahrt kommt also möglicherweise nicht.
+			Ist sie <span class="font-semibold text-green-600">grün</span>, kommt die Bahn
+			früher als geplant (als ob das je passieren würde, lol).
+		</p>
 	</header>
 
 	<section aria-labelledby="features" class="space-y-3">

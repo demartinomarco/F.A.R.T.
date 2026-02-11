@@ -5,6 +5,8 @@ export const countdownText = (d: Departure, now: Date): string => {
 	const t = d.realTime ?? d.plannedTime;
 	if (!t) return 'keine Angabe';
 
+	if (!d.realTime) return formatTime(d.plannedTime!);
+
 	const diff = calculateDifferenceTime(t, now);
 
 	if (diff <= 0) return 'Sofort';
@@ -32,6 +34,7 @@ export const plannedTimeLabel = (d: Departure, now: Date): string | null => {
 
 export const colorClass = (d: Departure): string => {
 	const delay = delayMinutes(d);
+	if (isNaN(delay)) return 'text-yellow-500';
 	if (delay < 0) return 'text-green-600';
 	if (delay > 0) return 'text-[#c30a37]';
 	return '';

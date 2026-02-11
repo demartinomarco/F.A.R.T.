@@ -2,14 +2,14 @@
 import LineIcon from '@/components/ui/lineicon/line-icon.svelte';
 import { colorClass, countdownText, plannedTimeLabel } from './departure-info';
 
-let { cityName, departure } = $props();
+let { departure } = $props();
 const now = $state(new Date());
 const delay = plannedTimeLabel(departure, now);
 </script>
 
 <div class="flex items-center justify-between gap-2 py-1">
 	<div class="flex min-w-0 items-center gap-2">
-		<LineIcon city={cityName} departure={departure} />
+		<LineIcon departure={departure} />
 		<p class="truncate">{departure.direction}</p>
 	</div>
 

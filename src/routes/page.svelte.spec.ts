@@ -16,7 +16,7 @@ const mockItem: ApiResponse = {
 			type: 'S-Bahn',
 			realTime: null
 		},
-    {
+		{
 			lineName: 'S1',
 			direction: 'Karlsruhe Hbf',
 			platformName: 'Gleis 1',
@@ -31,7 +31,7 @@ const mockItem: ApiResponse = {
 			plannedTime: new Date('2024-06-01T12:10:00'),
 			type: 'S-Bahn',
 			realTime: new Date('2024-06-01T12:10:30')
-    },
+		},
 		{
 			lineName: 'S1',
 			direction: 'Karlsruhe Hbf',
@@ -63,6 +63,14 @@ const mockItem: ApiResponse = {
 			plannedTime: new Date('2024-06-01T12:25:00'),
 			type: 'S-Bahn',
 			realTime: new Date('2024-06-01T12:22:00')
+		},
+		{
+			lineName: 'S1',
+			direction: 'Karlsruhe Hbf',
+			platformName: 'Gleis 1',
+			plannedTime: new Date('2024-06-01T12:25:00'),
+      type: 'S-Bahn',
+      realTime: null
 		}
 	]
 };

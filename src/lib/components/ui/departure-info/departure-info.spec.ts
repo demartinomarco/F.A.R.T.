@@ -71,30 +71,48 @@ describe('departure-info', () => {
 			} as any;
 			const now = new Date('2024-06-01T12:05:00Z');
 			expect(countdownText(d, now)).toBe('7 Min'); // real - now = 7
+    });
+		
+		it('returns "Sofort" when tram should be arriving now', () => {
+			const d = {
+				plannedTime: new Date('2024-06-01T12:05:00Z'),
+				realTime: new Date('2024-06-01T12:06:00Z')
+			} as any;
+			const now = new Date('2024-06-01T12:06:00Z');
+			expect(countdownText(d, now)).toBe('Sofort');
 		});
 
-		it('returns "Sofort" when diff <= 0', () => {
+		it('returns "hh:mm" when no real-time data is present and tram should be arriving now', () => {
 			const d = {
 				plannedTime: new Date('2024-06-01T12:05:00Z'),
 				realTime: null
 			} as any;
 			const now = new Date('2024-06-01T12:05:00Z');
-			expect(countdownText(d, now)).toBe('Sofort');
+			expect(countdownText(d, now)).toBe('12:05');
 		});
 
-		it('returns "X Min" when 1..10 minutes away (inclusive of 10)', () => {
+		it('returns "hh:mm" when no real-time data is present and tram is scheduled in the future', () => {
 			const d = {
-				plannedTime: new Date('2024-06-01T12:15:00Z'), // 10 min away
+				plannedTime: new Date('2024-06-01T12:15:00Z'),
 				realTime: null
 			} as any;
 			const now = new Date('2024-06-01T12:05:00Z');
-			expect(countdownText(d, now)).toBe('10 Min');
+			expect(countdownText(d, now)).toBe('12:15');
 		});
 
-		it('returns formatted time when diff > 10', () => {
+		it('returns formatted time when diff > 10 and no real-time data is present', () => {
 			const d = {
 				plannedTime: new Date('2024-06-01T12:22:00Z'), // 17 min away
 				realTime: null
+			} as any;
+			const now = new Date('2024-06-01T12:05:00Z');
+			expect(countdownText(d, now)).toBe('12:22');
+    });
+		
+		it('returns formatted time when diff > 10', () => {
+			const d = {
+				plannedTime: new Date('2024-06-01T12:22:00Z'), // 17 min away
+				realTime: new Date('2024-06-01T12:22:00Z')
 			} as any;
 			const now = new Date('2024-06-01T12:05:00Z');
 			expect(countdownText(d, now)).toBe('12:22');
@@ -158,7 +176,7 @@ describe('departure-info', () => {
 	describe('colorClass', () => {
 		it('returns "" when delay is NaN', () => {
 			const d = { plannedTime: null, realTime: null } as any;
-			expect(colorClass(d)).toBe('');
+			expect(colorClass(d)).toBe('text-yellow-500');
 		});
 
 		it('returns "" when delay is 0', () => {
