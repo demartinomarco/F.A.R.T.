@@ -45,25 +45,8 @@ export const LINE_STYLES: Record<string, LineStyle> = {
 	'8': { background: '#f7931d', text: '#000' },
 	'10': { background: '#a4d7bb', text: '#000' }
 };
-const karlsruhe = [
-	'Karlsruhe',
-	'Ettlingen',
-	'Durlach',
-	'Hochstetten (Link.)',
-	'Germersheim',
-	'Knielingen',
-	'Wörth (Rhein)',
-	'Daxlanden',
-	'Rastatt',
-	'Bühl (Baden)',
-	'Ittersbach',
-	'Bad Herrenalb',
-	'Berghausen (Baden)',
-	'Grötzingen (b KA)',
-	'Weingarten (Baden)'
-];
 
-export function getLineStyle(line: Departure, city: string): LineStyle {
+export function getLineStyle(line: Departure): LineStyle {
 	const lineName = line.lineName;
 	if (lineName.startsWith('ICE') || lineName.startsWith('IC')) {
 		return { background: '#ed1c24', text: '#fff' };
@@ -75,9 +58,5 @@ export function getLineStyle(line: Departure, city: string): LineStyle {
 		return { background: '#90268f', text: '#fff' };
 	}
 
-	if (karlsruhe.indexOf(city) !== -1 || city.indexOf('Karlsruhe') !== -1) {
-		return LINE_STYLES[lineName] ?? { background: '#000', text: '#fff' };
-	}
-
-	return { background: '#000', text: '#fff' };
+	return LINE_STYLES[lineName] ?? { background: '#1a1a1a', text: '#fff' };
 }

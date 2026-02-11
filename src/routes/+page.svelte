@@ -54,13 +54,12 @@ let sidebarOpen = $state(false);
 </script>
 
 <svelte:head>
-  <title>{stationName} – Abfahrten | Tram- und ÖPNV-Anzeige</title>
-  <meta
-    name="description"
-    content={`Live-Abfahrten und Fahrplan-Infos für ${stationName}. Unabhängige Anzeige, basierend auf öffentlich verfügbaren Daten. Filter nach Steig/Gleis, Linien und Ereignissen.`}
-  />
+	<title>{stationName} – Abfahrten | Tram- und ÖPNV-Anzeige</title>
+	<meta
+		name="description"
+		content={`Live-Abfahrten und Fahrplan-Infos für ${stationName}. Unabhängige Anzeige, basierend auf öffentlich verfügbaren Daten. Filter nach Steig/Gleis, Linien und Ereignissen.`}
+	/>
 </svelte:head>
-
 
 <Sidebar.Provider
 	bind:open={sidebarOpen}
@@ -96,7 +95,7 @@ let sidebarOpen = $state(false);
 								<p class="font-medium">{platformDep.platformName}</p>
 								<hr class="h-0.5 rounded-sm bg-gray-500" />
 								{#each platformDep.departures as departure}
-									<DepartureInfo cityName={departures.cityName} departure={departure} />
+									<DepartureInfo departure={departure} />
 								{/each}
 							</div>
 						{/each}
