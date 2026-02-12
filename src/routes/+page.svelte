@@ -44,7 +44,7 @@ async function fetchAndSetDepartures(stId: string, ev: 'dep' | 'arr') {
 }
 
 $effect(() => {
-	fetchAndSetDepartures(stationId, eventType);
+	fetchAndSetDepartures(stationIds, eventType);
 });
 
 const depTimer = setInterval(async () => {
@@ -57,6 +57,7 @@ onDestroy(() => {
 	clearInterval(depTimer);
 	clearInterval(clockTimer);
 });
+
 let sidebarOpen = $state(false);
 
 function errorMessage(err: { code: string; message: string } | null) {
@@ -104,7 +105,8 @@ function errorMessage(err: { code: string; message: string } | null) {
 	<main class="w-full">
 		<div class="flex items-center justify-between gap-4 bg-[#c30a37] p-4">
 			<div class="flex w-full min-w-0">
-				<SearchBar bind:selectedId={stationId} bind:selectedValue={stationName} />
+				<!-- IMPORTANT: stationIds is now string[] -->
+				<SearchBar bind:selectedIds={stationIds} bind:selectedLabels={stationNames} />
 			</div>
 
 			<p class="font-medium text-white">{time}</p>
@@ -116,21 +118,38 @@ function errorMessage(err: { code: string; message: string } | null) {
 				<p>{errorMessage(error)}</p>
 			{:else if !departures}
 				<p>Daten werden geladen...</p>
-			{:else if departures.stationName === ''}
-				<p>Fehler: Die ID {stationId} ist ungültig.</p>
-			{:else if departuresToShow.length === 0}
-				<p>Für die ausgewählte Haltestelle wurden keine Abfahrten gefunden.</p>
 			{:else}
 				{#key departuresToShow}
-					<div class="flex w-full flex-col gap-4">
-						{#each departuresToShow as platformDep}
-							<div class="flex flex-col gap-1">
-								<p class="font-medium">{platformDep.platformName}</p>
-								<hr class="h-0.5 rounded-sm bg-gray-500" />
-								{#each platformDep.departures as departure}
-									<DepartureInfo departure={departure} />
-								{/each}
-							</div>
+					<div class="flex w-full flex-col gap-16">
+						{#each departuresToShow as stationBlock (stationBlock.stationName)}
+							{#if stationBlock.stationName === ''}
+								<p>Fehler: Eine ausgewählte Haltestellen-ID ist ungültig.</p>
+							{:else if stationBlock.platforms.length === 0}
+								<div class="flex flex-col gap-2">
+									<p class="text-lg font-semibold">{stationBlock.stationName}</p>
+									<hr class="h-0.5 rounded-sm bg-gray-400" />
+									<p>Für die ausgewählte Haltestelle wurden keine Abfahrten gefunden.</p>
+								</div>
+							{:else}
+								<!-- Your requested layout: Stop name + HR + platforms -->
+								<section class="flex flex-col gap-4">
+									{#if departuresToShow.length > 1}
+										<p class="text-lg font-semibold">{stationBlock.stationName}</p>
+									{/if}
+
+									<div class="flex flex-col gap-4">
+										{#each stationBlock.platforms as platformDep (platformDep.platformName)}
+											<div class="flex flex-col gap-1">
+												<p class="font-medium">{platformDep.platformName}</p>
+												<hr class="h-0.5 rounded-sm bg-gray-500" />
+												{#each platformDep.departures as departure}
+													<DepartureInfo departure={departure} />
+												{/each}
+											</div>
+										{/each}
+									</div>
+								</section>
+							{/if}
 						{/each}
 					</div>
 				{/key}

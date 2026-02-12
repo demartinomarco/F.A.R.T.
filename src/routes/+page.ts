@@ -103,6 +103,10 @@ export function _extractPlatformNames(departures: ApiResponse | null): string[] 
 	return sortPlatforms(platformSet);
 }
 
+/**
+ * Returns per-station grouped departures, filtered by selectedPlatforms.
+ * NOTE: When multi-station, selectedPlatforms contains labels like "3 (StationName)".
+ */
 export function _filterByPlatformName(
 	departures: ApiResponse | null,
 	selectedPlatforms: string[]
@@ -137,6 +141,7 @@ export function _filterByPlatformName(
 		departures: grouped[platformName] ?? []
 	}));
 }
+
 
 function sortPlatforms(platforms: string[]): string[] {
 	return platforms.sort((a, b) => {
