@@ -63,17 +63,21 @@ function errorMessage(err: { code: string; message: string } | null) {
 	if (!err) return '';
 
 	if (err.code?.startsWith('UPSTREAM_')) {
-		return 'KVV ist aktuell nicht erreichbar. Bitte versuche es in 15 Sekunden erneut.';
+		return 'Fehler: KVV ist aktuell nicht erreichbar. Sobald das Problem behoben ist, werden die Ergebnisse automatisch hier angezeigt.';
 	} else if (err.code === 'NETWORK') {
-		return 'Keine Verbindung zum Server.';
+		return 'Fehler: Keine Verbindung zum Server.';
 	} else if (err.code === 'BAD_PARAMS') {
 		if (err.message === 'Invalid stationId') {
-			return `Die ID ${stationId} ist ungültig.`;
+			return `Fehler: Die ID ${stationId} ist ungültig.`;
 		} else if (err.message === 'Invalid limit (must be 1..100)') {
-			return 'Die Anzahl der angezeigten Abfahrten muss zwischen 1 und 100 liegen.';
+			return 'Fehler: Die Anzahl der angezeigten Abfahrten muss zwischen 1 und 100 liegen.';
 		}
 	}
-	return err.message ?? 'Unbekannter Fehler.';
+
+	return (
+		'Tja, das ist peinlich… Ich weiß nicht, was passiert ist, aber ich weiß, dass du wirklich Pech hattest, hier zu landen. Diese Webseite funktioniert zu 99,97% der Zeit einwandfrei, aber heute bist du in den 0,03 % gelandet, in denen etwas schiefgelaufen ist.' +
+		err.message
+	);
 }
 </script>
 
@@ -109,7 +113,7 @@ function errorMessage(err: { code: string; message: string } | null) {
 
 		<div class="flex w-full p-4">
 			{#if error}
-				<p>Fehler: {errorMessage(error)}</p>
+				<p>{errorMessage(error)}</p>
 			{:else if !departures}
 				<p>Daten werden geladen...</p>
 			{:else if departures.stationName === ''}
