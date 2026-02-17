@@ -1,74 +1,140 @@
-import type { ApiResponse, Departure, DeparturesByPlatform } from '@/types/departure';
 import type { PageLoad } from './$types';
+import {
+	isApiEnvelope,
+	type ApiResponse,
+	type Departure,
+	type DeparturesByPlatform
+} from '@/types/departure';
 
-export const load: PageLoad = async ({ url, fetch }) => {
-	const stationId = url.searchParams.get('stationId') || 'de:08212:89';
-	const res = await fetch(`/api/departures?stationId=${stationId}`);
+const DEFAULT_STATION = 'de:08212:89';
 
-	return { item: parseDatesOfDepartures(await res.json()) };
+export type UiModel = {
+	stationId: string;
+	eventType: 'dep' | 'arr';
+	item: ApiResponse | null;
+	error: { code: string; message: string } | null;
 };
 
-function parseDatesOfDepartures(item: ApiResponse) {
+export const load: PageLoad = async ({ url, fetch }) => {
+	const stationId = url.searchParams.get('stationId') ?? DEFAULT_STATION;
+	const eventType = url.searchParams.get('eventType') === 'arr' ? 'arr' : 'dep';
+
+	const model = await _fetchDepartures(fetch, stationId, eventType);
+
+	return { model };
+};
+
+function errorModel(
+	stationId: string,
+	eventType: 'dep' | 'arr',
+	code: string,
+	message: string
+): UiModel {
+	return { stationId, eventType, item: null, error: { code, message } };
+}
+
+function normalize(item: ApiResponse): ApiResponse {
 	return {
-		...item,
-		departureList: item.departureList.map((d: Departure) => ({
-			...d,
-			platformName: formatPlatformName(d.platformName),
-			plannedTime: toDate(d.plannedTime),
-			realTime: toDate(d.realTime)
-		}))
+		stationName: item?.stationName ?? '',
+		cityName: item?.cityName ?? '',
+		departureList: Array.isArray(item?.departureList)
+			? item.departureList
+					.map((d) => ({
+						...d,
+						platformName: formatPlatformName(d.platformName ?? ''),
+						plannedTime: safeDate(d.plannedTime),
+						realTime: safeDate(d.realTime)
+					}))
+					.filter((d) => d.plannedTime)
+			: []
 	};
 }
 
+function safeDate(v: unknown): Date | null {
+	if (!v) return null;
+	const d = new Date(v as any);
+	return Number.isNaN(d.getTime()) ? null : d;
+}
+
 function formatPlatformName(platformName: string): string {
-	if (platformName === '') return 'Unbekannter Gleis';
-	if (!isNaN(Number(platformName))) return `Gleis ${platformName}`;
-	return platformName;
+	const p = platformName.trim();
+	if (p === '') return 'Unbekanntes Gleis';
+	if (!Number.isNaN(Number(p))) return `Gleis ${p}`;
+	return p;
 }
 
-function toDate(v: Date | null): Date | null {
-	return v ? new Date(v) : null;
+export async function _fetchDepartures(
+	fetchFn: typeof fetch,
+	stationId: string,
+	eventType: 'dep' | 'arr'
+): Promise<UiModel> {
+	try {
+		const res = await fetchFn(
+			`/api/departures?stationId=${encodeURIComponent(stationId)}&eventType=129`
+		);
+
+		const text = await res.text();
+
+		let json: unknown = null;
+		try {
+			json = text ? JSON.parse(text) : null;
+		} catch {
+			return errorModel(stationId, eventType, 'BAD_RESPONSE', 'Ungültige Serverantwort.');
+		}
+
+		if (isApiEnvelope<ApiResponse>(json)) {
+			if (json.ok) {
+				return { stationId, eventType, item: normalize(json.data), error: null };
+			}
+			return { stationId, eventType, item: null, error: json.error };
+		}
+
+		return errorModel(stationId, eventType, 'BAD_RESPONSE', 'Unerwartetes Antwortformat.');
+	} catch {
+		return errorModel(stationId, eventType, 'NETWORK', 'Keine Verbindung zum Server.');
+	}
 }
 
-export async function _fetchDepartures(stationId: string, eventType: 'dep' | 'arr') {
-	const res = await fetch(`/api/departures?stationId=${stationId}&eventType=${eventType}`);
-	const item = await res.json();
-	return parseDatesOfDepartures(item);
-}
-
-export function _extractPlatformNames(departures: ApiResponse): string[] {
+export function _extractPlatformNames(departures: ApiResponse | null): string[] {
+	if (!departures) return [];
 	const platformSet = [
-		...new Set(departures.departureList.map((dep) => dep.platformName).filter(Boolean))
+		...new Set((departures.departureList ?? []).map((d) => d.platformName).filter(Boolean))
 	];
-
 	return sortPlatforms(platformSet);
 }
 
 export function _filterByPlatformName(
-	departures: ApiResponse,
+	departures: ApiResponse | null,
 	selectedPlatforms: string[]
 ): DeparturesByPlatform[] {
-	const filtered = departures.departureList.filter(
-		(d) => selectedPlatforms.length === 0 || selectedPlatforms.includes(d.platformName)
-	);
+	if (!departures) return [];
 
-	// TODO: add "Gleis" to platformName if it is only a number
-	const grouped = filtered.reduce<Record<string, Departure[]>>((acc, departure) => {
-		const platform = departure.platformName;
+	const list = Array.isArray(departures.departureList) ? departures.departureList : [];
+	if (list.length === 0) return [];
 
-		if (!acc[platform]) {
-			acc[platform] = [];
-		}
+	const selected = (Array.isArray(selectedPlatforms) ? selectedPlatforms : [])
+		.map((s) => s.trim())
+		.filter(Boolean);
 
-		acc[platform].push(departure);
+	// Clamp selection to available platforms; if none valid -> show all
+	const available = new Set(list.map((d) => (d.platformName ?? '').trim()).filter(Boolean));
+	const selectedValid = selected.filter((p) => available.has(p));
+
+	const filtered =
+		selectedValid.length === 0
+			? list
+			: list.filter((d) => selectedValid.includes((d.platformName ?? '').trim()));
+
+	const grouped = filtered.reduce<Record<string, Departure[]>>((acc, dep) => {
+		const platform = (dep.platformName ?? '').trim() || 'Unbekanntes Gleis';
+		(acc[platform] ??= []).push(dep);
 		return acc;
 	}, {});
 
 	const sortedPlatformNames = sortPlatforms(Object.keys(grouped));
-
 	return sortedPlatformNames.map((platformName) => ({
 		platformName,
-		departures: grouped[platformName]
+		departures: grouped[platformName] ?? []
 	}));
 }
 
@@ -76,23 +142,13 @@ function sortPlatforms(platforms: string[]): string[] {
 	return platforms.sort((a, b) => {
 		const aIsGleis = a.startsWith('Gleis ');
 		const bIsGleis = b.startsWith('Gleis ');
-
-		// If both start with "Gleis", extract and compare numbers
 		if (aIsGleis && bIsGleis) {
-			// Extract the numeric part (e.g., "Gleis 1 (U)" -> "1")
 			const aNum = parseInt(a.substring(6));
 			const bNum = parseInt(b.substring(6));
-
-			if (!isNaN(aNum) && !isNaN(bNum)) {
-				return aNum - bNum;
-			}
+			if (!Number.isNaN(aNum) && !Number.isNaN(bNum)) return aNum - bNum;
 		}
-
-		// If only one starts with "Gleis", it comes first
 		if (aIsGleis && !bIsGleis) return -1;
 		if (!aIsGleis && bIsGleis) return 1;
-
-		// For everything else (including non-Gleis platforms), sort lexicographically
 		return a.localeCompare(b);
 	});
 }
