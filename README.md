@@ -44,3 +44,7 @@ I take reliability seriously. The service is monitored with checks running **eve
 ### ⚠️ Important Legal Notice
 
 **This is not an official offering of the Karlsruher Verkehrsverbund (KVV). The KVV is not responsible for the content or accuracy of the data presented on this site.** The project uses publicly available data but is developed and maintained independently.
+
+### 📜 License
+
+GNU Affero General Public License v3.0
