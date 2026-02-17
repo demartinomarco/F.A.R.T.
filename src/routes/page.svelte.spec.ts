@@ -4,6 +4,13 @@ import { render } from 'vitest-browser-svelte';
 import Page from './+page.svelte';
 import type { ApiResponse } from '@/types/departure';
 
+/*
+lineName	"62"
+direction	"Hauptbahnhof (Umleitung)"
+platformName	"Bstg. A"
+plannedTime	"2026-02-17T19:38:00.000Z"
+type	"bus"
+realTime	"2026-02-17T19:38:42.000Z"*/
 const mockItem: ApiResponse = {
 	stationName: 'Hauptbahnhof (Karlsruhe)',
 	cityName: 'Karlsruhe',
@@ -15,6 +22,14 @@ const mockItem: ApiResponse = {
 			plannedTime: null,
 			type: 'S-Bahn',
 			realTime: null
+		},
+		{
+			lineName: '62',
+			direction: 'Hauptbahnhof (Umleitung)',
+			platformName: 'Bstg. A',
+			plannedTime: new Date('2026-02-17T19:38:00.000Z'),
+			type: 'S-Bahn',
+			realTime: new Date('2026-02-17T19:38:42.000Z')
 		},
 		{
 			lineName: 'S1',
@@ -69,8 +84,8 @@ const mockItem: ApiResponse = {
 			direction: 'Karlsruhe Hbf',
 			platformName: 'Gleis 1',
 			plannedTime: new Date('2024-06-01T12:25:00'),
-      type: 'S-Bahn',
-      realTime: null
+			type: 'S-Bahn',
+			realTime: null
 		}
 	]
 };

@@ -1,6 +1,13 @@
 import { formatTime } from '@/utils';
 import type { Departure } from '@/types/departure';
 
+function roundToNearestMinute(date: Date): Date {
+	const d = new Date(date);
+	const ms = d.getTime();
+	const rounded = Math.round(ms / 60000) * 60000;
+	return new Date(rounded);
+}
+
 export const countdownText = (d: Departure, now: Date): string => {
 	const t = d.realTime ?? d.plannedTime;
 	if (!t) return 'keine Angabe';
@@ -10,7 +17,9 @@ export const countdownText = (d: Departure, now: Date): string => {
 	const diff = calculateDifferenceTime(t, now);
 
 	if (diff <= 0) return 'Sofort';
-	if (diff > 10) return formatTime(t);
+	if (diff > 10) {
+		return formatTime(roundToNearestMinute(t));
+	}
 	return `${diff} Min`;
 };
 

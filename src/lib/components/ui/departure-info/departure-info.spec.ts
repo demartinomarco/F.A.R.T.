@@ -71,8 +71,8 @@ describe('departure-info', () => {
 			} as any;
 			const now = new Date('2024-06-01T12:05:00Z');
 			expect(countdownText(d, now)).toBe('7 Min'); // real - now = 7
-    });
-		
+		});
+
 		it('returns "Sofort" when tram should be arriving now', () => {
 			const d = {
 				plannedTime: new Date('2024-06-01T12:05:00Z'),
@@ -107,8 +107,8 @@ describe('departure-info', () => {
 			} as any;
 			const now = new Date('2024-06-01T12:05:00Z');
 			expect(countdownText(d, now)).toBe('12:22');
-    });
-		
+		});
+
 		it('returns formatted time when diff > 10', () => {
 			const d = {
 				plannedTime: new Date('2024-06-01T12:22:00Z'), // 17 min away
@@ -125,6 +125,20 @@ describe('departure-info', () => {
 			} as any;
 			const now = new Date('2024-06-01T12:05:00Z');
 			expect(countdownText(d, now)).toBe('12:15');
+		});
+
+		it('rounds realTime to nearest minute when diff > 10 so planned and real can differ by seconds', () => {
+			const d = {
+				plannedTime: new Date('2024-06-01T12:38:00Z'),
+				realTime: new Date('2024-06-01T12:38:42Z') // -> should format as 12:39 after rounding to nearest minute
+			} as any;
+
+			// Make sure we hit the "diff > 10 => formatted time" branch:
+			// real(12:38:42) - now(12:20:00) = 18.7 min -> rounds to 19 (>10)
+			const now = new Date('2024-06-01T12:20:00Z');
+
+			expect(plannedTimeLabel(d, now)).toBe('(12:38)');
+			expect(countdownText(d, now)).toBe('12:39');
 		});
 	});
 

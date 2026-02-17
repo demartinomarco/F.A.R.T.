@@ -54,7 +54,7 @@ export function getLineStyle(line: Departure): LineStyle {
 		return { background: '#afb4bb', text: '#000' };
 	} else if (lineName.startsWith('TGV')) {
 		return { background: '#224980', text: '#fff' };
-	} else if (line.type === 'Bus' || line.type === 'Regionalbus' || line.type === 'Stadtbus') {
+	} else if (line.type === 'bus' || line.type === 'Regionalbus' || line.type === 'Stadtbus') {
 		return { background: '#90268f', text: '#fff' };
 	}
 
