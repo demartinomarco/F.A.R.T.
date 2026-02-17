@@ -20,7 +20,7 @@
 			zu spät. Ist sie <span class="font-semibold text-yellow-500">gelb</span>, liegen keine
 			Echtzeitdaten vor, die Fahrt kommt also möglicherweise nicht.
 			Ist sie <span class="font-semibold text-green-600">grün</span>, kommt die Bahn
-			früher als geplant (als ob das je passieren würde, lol).
+			früher als geplant.
 		</p>
 	</header>
 
