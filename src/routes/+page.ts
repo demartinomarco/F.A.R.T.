@@ -70,7 +70,7 @@ export async function _fetchDepartures(
 ): Promise<UiModel> {
 	try {
 		const res = await fetchFn(
-			`/api/departures?stationId=${encodeURIComponent(stationId)}&eventType=129`
+			`/api/departures?stationId=${encodeURIComponent(stationId)}&eventType=${eventType}`
 		);
 
 		const text = await res.text();
