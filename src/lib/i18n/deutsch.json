@@ -1,0 +1,105 @@
+{
+  "error": {
+    "title": "Fehler",
+    "genericMessage": "Tja, das ist peinlich… Ich weiß nicht, was passiert ist, aber ich weiß, dass du wirklich Pech hattest, hier zu landen. Diese Webseite funktioniert zu 99,97% der Zeit einwandfrei, aber heute bist du in den 0,03 % gelandet, in denen etwas schiefgelaufen ist.",
+    "kvvUnreachable": "Fehler: KVV ist aktuell nicht erreichbar. Sobald das Problem behoben ist, werden die Ergebnisse automatisch hier angezeigt.",
+    "noConnection": "Fehler: Keine Verbindung zum Server.",
+    "invalidStationId": "Fehler: Die ID {stationId} ist ungültig.",
+    "invalidLimit": "Fehler: Die Anzahl der angezeigten Abfahrten muss zwischen 1 und 100 liegen.",
+    "unknownStation": "Fehler: Die ID {stationId} ist ungültig.",
+    "invalidServerResponse": "Ungültige Serverantwort.",
+    "unexpectedResponseFormat": "Unerwartetes Antwortformat.",
+    "noConnectionShort": "Keine Verbindung zum Server."
+  },
+  "page": {
+    "titleWithStation": "{stationName} – Abfahrten | Tram- und ÖPNV-Anzeige",
+    "titleWithoutStation": "Abfahrten | Tram- und ÖPNV-Anzeige",
+    "metaDescriptionWithStation": "Live-Abfahrten und Fahrplan-Infos für {stationName}.",
+    "metaDescriptionWithoutStation": "Live-Abfahrten und Fahrplan-Infos.",
+    "loading": "Daten werden geladen...",
+    "noDepartures": "Für die ausgewählte Haltestelle wurden keine Abfahrten gefunden."
+  },
+  "platform": {
+    "unknown": "Unbekanntes Gleis",
+    "named": "Gleis {platform}"
+  },
+  "sidebar": {
+    "opened": "Sidebar opened",
+    "filterGroup": "Filter",
+    "platforms": "Gleise",
+    "displayType": "Anzeigeart",
+    "departure": "Abfahrt",
+    "arrival": "Ankunft",
+    "aboutPage": "Über diese Seite",
+    "github": "GitHub",
+    "title": "Sidebar",
+    "description": "Displays the mobile sidebar.",
+    "toggleSidebar": "Toggle Sidebar"
+  },
+  "search": {
+    "placeholder": "Haltestelle suchen..."
+  },
+  "multiSelect": {
+    "placeholder": "Wähle ein Gleis aus..."
+  },
+  "departureInfo": {
+    "noData": "keine Angabe",
+    "now": "Sofort",
+    "minutes": "{diff} Min",
+    "plannedCountdown": "({plannedCountdown} Min)",
+    "plannedTime": "({time})"
+  },
+  "sheet": {
+    "close": "Close"
+  },
+  "dialog": {
+    "close": "Close",
+    "commandPaletteTitle": "Command Palette",
+    "commandPaletteDescription": "Search for a command to run"
+  },
+  "navigation": {
+    "back": "Zurück"
+  },
+  "about": {
+    "pageTitle": "Über dieses Projekt",
+    "intro": "F.A.R.T. (Finally A Reliable Timetable) ist eine schnelle, zuverlässige und benutzerfreundliche Anzeige für Echtzeit-Abfahrten und Echtzeit-Ankünfte von Bus und Tram im Raum Karlsruhe (KVV-Gebiet).",
+    "motivation": "Entstanden ist das Projekt aus Frust über bestehende (offizielle) Anzeigen, die häufig langsam reagieren, unzuverlässig sind, gelegentlich falsche Daten zeigen oder an weniger frequentierten Haltestellen ganz fehlen.",
+    "arrivalColorsLabel": "Farben der Ankunftszeit:",
+    "arrivalColorsDescription": "Ist die Ankunftszeit rot, ist die Bahn/der Bus zu spät. Ist sie gelb, liegen keine Echtzeitdaten vor, die Fahrt kommt also möglicherweise nicht. Ist sie grün, kommt die Bahn früher als geplant.",
+    "featuresTitle": "Funktionen",
+    "featureStopSearchLabel": "Haltestellensuche:",
+    "featureStopSearchDescription": "Finde Haltestellen im KVV-Netzbereich.",
+    "featureRealtimeLabel": "Echtzeit-Infos:",
+    "featureRealtimeDescription": "Nächste Abfahrt/Ankunft, geplante Zeit, Minuten bis zur Fahrt und Verspätungen.",
+    "featurePlatformFilterLabel": "Filter nach Steig/Gleis:",
+    "featurePlatformFilterDescription": "Anzeige nach Steig-/Gleisnamen einschränken.",
+    "featureToggleLabel": "Abfahrt/Ankunft umschalten:",
+    "featureToggleDescription": "Wähle zwischen Abfahrten von oder Ankünften zu einer Haltestelle.",
+    "featureReliabilityLabel": "Fokus auf Zuverlässigkeit:",
+    "featureReliabilityDescription": "Optimiert für schnelle Ladezeiten und hohe Verfügbarkeit.",
+    "howToTitle": "So nutzt du die Seite",
+    "howToStep1": "Öffne die Website und suche oben nach deiner Haltestelle.",
+    "howToStep2": "Wähle bei Bedarf bestimmte Steige/Gleise über die Filter aus.",
+    "howToStep3": "Schalte zwischen Abfahrten und Ankünften um, je nachdem was du brauchst.",
+    "howToStep4": "Beachte ggf. Hinweise zu Verspätungen.",
+    "howToTip": "Tipp: Wenn du eine Haltestelle häufig nutzt, kannst du die Seite einfach als Lesezeichen speichern.",
+    "uptimeTitle": "Uptime & Zuverlässigkeit",
+    "uptimeDescription": "Verfügbarkeit ist mir wichtig: Der Dienst wird kontinuierlich überwacht. Prüfungen laufen jede Minute, um Ausfälle schnell zu erkennen.",
+    "legalTitle": "Wichtiger rechtlicher Hinweis",
+    "legalDescription": "Diese Website ist ein inoffizielles und unabhängiges Projekt und kein offizielles Angebot des Karlsruher Verkehrsverbunds (KVV). Der KVV ist nicht verantwortlich für Inhalte oder die Richtigkeit der hier dargestellten Daten. Verwendet werden öffentlich zugängliche Informationen; Entwicklung und Betrieb erfolgen unabhängig.",
+    "sourceCodeLabel": "Quellcode und Projektstatus findest du hier:",
+    "sourceCodeUrl": "https://github.com/demartinomarco/F.A.R.T."
+  },
+  "api": {
+    "invalidStationId": "Invalid stationId",
+    "invalidLimit": "Invalid limit (must be 1..100)",
+    "internalServerError": "Internal server error",
+    "invalidEventType": "Invalid eventType (must be dep|arr)"
+  },
+  "trias": {
+    "upstreamError": "KVV TRIAS upstream error: {status} {statusText}",
+    "timeout": "KVV TRIAS timed out",
+    "invalidXml": "KVV TRIAS returned invalid XML",
+    "unexpectedShape": "KVV TRIAS response shape unexpected"
+  }
+}
