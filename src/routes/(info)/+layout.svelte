@@ -4,6 +4,7 @@ import { page } from '$app/state';
 import { goto } from '$app/navigation';
 	import { resolve } from '$app/paths';
 import { translations } from '$lib/i18n';
+import LanguageSelector from '@/components/ui/language-selector/language-selector.svelte';
 
 let { children } = $props();
 
@@ -20,12 +21,15 @@ function goBack() {
 }
 </script>
 
-<div class="flex flex-row items-center gap-4 bg-[#c30a37] p-4">
-	<button onclick={goBack} aria-label="Zurück">
-		<ChevronLeft class="h-6 w-6 text-white hover:cursor-pointer" />
-	</button>
+<div class="flex flex-row items-center justify-between gap-4 bg-[#c30a37] p-4">
+	<div class="flex items-center gap-4">
+		<button onclick={goBack} aria-label="Zurück">
+			<ChevronLeft class="h-6 w-6 text-white hover:cursor-pointer" />
+		</button>
 
-	<h1 class="text-2xl font-bold text-white">{page.data.title || $translations.about.pageTitle}</h1>
+		<h1 class="text-2xl font-bold text-white">{page.data.title || $translations.about.pageTitle}</h1>
+	</div>
+	<LanguageSelector />
 </div>
 
 <main class="space-y-4 p-4">
