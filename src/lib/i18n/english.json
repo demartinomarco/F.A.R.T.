@@ -1,0 +1,105 @@
+{
+  "error": {
+    "title": "Error",
+    "genericMessage": "Well, this is embarrassing… I don't know what happened, but I know you were really unlucky to end up here. This website works flawlessly 99.97% of the time, but today you landed in the 0.03% where something went wrong.",
+    "kvvUnreachable": "Error: KVV is currently unreachable. As soon as the issue is resolved, results will automatically appear here.",
+    "noConnection": "Error: No connection to the server.",
+    "invalidStationId": "Error: The ID {stationId} is invalid.",
+    "invalidLimit": "Error: The number of displayed departures must be between 1 and 100.",
+    "unknownStation": "Error: The ID {stationId} is invalid.",
+    "invalidServerResponse": "Invalid server response.",
+    "unexpectedResponseFormat": "Unexpected response format.",
+    "noConnectionShort": "No connection to the server."
+  },
+  "page": {
+    "titleWithStation": "{stationName} – Departures | Tram & Public Transport Display",
+    "titleWithoutStation": "Departures | Tram & Public Transport Display",
+    "metaDescriptionWithStation": "Live departures and timetable info for {stationName}.",
+    "metaDescriptionWithoutStation": "Live departures and timetable info.",
+    "loading": "Loading data...",
+    "noDepartures": "No departures found for the selected stop."
+  },
+  "platform": {
+    "unknown": "Unknown platform",
+    "named": "Platform {platform}"
+  },
+  "sidebar": {
+    "opened": "Sidebar opened",
+    "filterGroup": "Filter",
+    "platforms": "Platforms",
+    "displayType": "Display type",
+    "departure": "Departure",
+    "arrival": "Arrival",
+    "aboutPage": "About this page",
+    "github": "GitHub",
+    "title": "Sidebar",
+    "description": "Displays the mobile sidebar.",
+    "toggleSidebar": "Toggle Sidebar"
+  },
+  "search": {
+    "placeholder": "Search for a stop..."
+  },
+  "multiSelect": {
+    "placeholder": "Select a platform..."
+  },
+  "departureInfo": {
+    "noData": "no data",
+    "now": "Now",
+    "minutes": "{diff} min",
+    "plannedCountdown": "({plannedCountdown} min)",
+    "plannedTime": "({time})"
+  },
+  "sheet": {
+    "close": "Close"
+  },
+  "dialog": {
+    "close": "Close",
+    "commandPaletteTitle": "Command Palette",
+    "commandPaletteDescription": "Search for a command to run"
+  },
+  "navigation": {
+    "back": "Back"
+  },
+  "about": {
+    "pageTitle": "About this project",
+    "intro": "F.A.R.T. (Finally A Reliable Timetable) is a fast, reliable, and user-friendly display for real-time departures and real-time arrivals of buses and trams in the Karlsruhe area (KVV network).",
+    "motivation": "This project was born out of frustration with existing (official) displays that are often slow, unreliable, occasionally show incorrect data, or are completely absent at less frequented stops.",
+    "arrivalColorsLabel": "Arrival time colors:",
+    "arrivalColorsDescription": "If the arrival time is red, the tram/bus is late. If it's yellow, no real-time data is available, so the service may not arrive. If it's green, the tram is arriving earlier than planned.",
+    "featuresTitle": "Features",
+    "featureStopSearchLabel": "Stop search:",
+    "featureStopSearchDescription": "Find stops within the KVV network area.",
+    "featureRealtimeLabel": "Real-time info:",
+    "featureRealtimeDescription": "Next departure/arrival, planned time, minutes until the service, and delays.",
+    "featurePlatformFilterLabel": "Filter by platform/track:",
+    "featurePlatformFilterDescription": "Narrow down the display by platform/track name.",
+    "featureToggleLabel": "Toggle departure/arrival:",
+    "featureToggleDescription": "Switch between departures from or arrivals at a stop.",
+    "featureReliabilityLabel": "Focus on reliability:",
+    "featureReliabilityDescription": "Optimized for fast loading times and high availability.",
+    "howToTitle": "How to use this page",
+    "howToStep1": "Open the website and search for your stop at the top.",
+    "howToStep2": "If needed, select specific platforms/tracks using the filters.",
+    "howToStep3": "Switch between departures and arrivals depending on what you need.",
+    "howToStep4": "Watch for any delay notices.",
+    "howToTip": "Tip: If you use a stop frequently, you can simply bookmark the page.",
+    "uptimeTitle": "Uptime & Reliability",
+    "uptimeDescription": "Availability matters to me: the service is continuously monitored. Checks run every minute to detect outages quickly.",
+    "legalTitle": "Important legal notice",
+    "legalDescription": "This website is an unofficial and independent project and not an official service of the Karlsruhe Transport Authority (KVV). KVV is not responsible for the content or accuracy of the data displayed here. Publicly available information is used; development and operation are carried out independently.",
+    "sourceCodeLabel": "You can find the source code and project status here:",
+    "sourceCodeUrl": "https://github.com/demartinomarco/F.A.R.T."
+  },
+  "api": {
+    "invalidStationId": "Invalid stationId",
+    "invalidLimit": "Invalid limit (must be 1..100)",
+    "internalServerError": "Internal server error",
+    "invalidEventType": "Invalid eventType (must be dep|arr)"
+  },
+  "trias": {
+    "upstreamError": "KVV TRIAS upstream error: {status} {statusText}",
+    "timeout": "KVV TRIAS timed out",
+    "invalidXml": "KVV TRIAS returned invalid XML",
+    "unexpectedShape": "KVV TRIAS response shape unexpected"
+  }
+}
