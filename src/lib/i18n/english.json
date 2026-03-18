@@ -30,11 +30,7 @@
     "displayType": "Display type",
     "departure": "Departure",
     "arrival": "Arrival",
-    "aboutPage": "About this page",
-    "github": "GitHub",
-    "title": "Sidebar",
-    "description": "Displays the mobile sidebar.",
-    "toggleSidebar": "Toggle Sidebar"
+    "aboutPage": "About this page"
   },
   "search": {
     "placeholder": "Search for a stop..."
@@ -49,17 +45,7 @@
     "plannedCountdown": "({plannedCountdown} min)",
     "plannedTime": "({time})"
   },
-  "sheet": {
-    "close": "Close"
-  },
-  "dialog": {
-    "close": "Close",
-    "commandPaletteTitle": "Command Palette",
-    "commandPaletteDescription": "Search for a command to run"
-  },
-  "navigation": {
-    "back": "Back"
-  },
+
   "about": {
     "pageTitle": "About this project",
     "intro": "F.A.R.T. (Finally A Reliable Timetable) is a fast, reliable, and user-friendly display for real-time departures and real-time arrivals of buses and trams in the Karlsruhe area (KVV network).",
@@ -87,19 +73,6 @@
     "uptimeDescription": "Availability matters to me: the service is continuously monitored. Checks run every minute to detect outages quickly.",
     "legalTitle": "Important legal notice",
     "legalDescription": "This website is an unofficial and independent project and not an official service of the Karlsruhe Transport Authority (KVV). KVV is not responsible for the content or accuracy of the data displayed here. Publicly available information is used; development and operation are carried out independently.",
-    "sourceCodeLabel": "You can find the source code and project status here:",
-    "sourceCodeUrl": "https://github.com/demartinomarco/F.A.R.T."
-  },
-  "api": {
-    "invalidStationId": "Invalid stationId",
-    "invalidLimit": "Invalid limit (must be 1..100)",
-    "internalServerError": "Internal server error",
-    "invalidEventType": "Invalid eventType (must be dep|arr)"
-  },
-  "trias": {
-    "upstreamError": "KVV TRIAS upstream error: {status} {statusText}",
-    "timeout": "KVV TRIAS timed out",
-    "invalidXml": "KVV TRIAS returned invalid XML",
-    "unexpectedShape": "KVV TRIAS response shape unexpected"
+    "sourceCodeLabel": "You can find the source code and project status here:"
   }
 }
