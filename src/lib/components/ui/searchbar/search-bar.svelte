@@ -8,8 +8,8 @@ import * as Popover from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/utils.js';
 import { searchStops } from '@/components/ui/searchbar/search-bar';
+import { translations } from '$lib/i18n';
 
-const placeholderText = 'Haltenstelle suchen...';
 let open = $state(false);
 let { selectedId = $bindable(), selectedValue = $bindable() } = $props();
 let stops: { value: string; label: string }[] = $state([
@@ -45,7 +45,7 @@ function closeAndFocusTrigger() {
 				role="combobox"
 				aria-expanded={open}
 			>
-				<span class="truncate">{selectedValue || placeholderText}</span>
+				<span class="truncate">{selectedValue || $translations.search.placeholder}</span>
 				<ChevronsUpDownIcon class="opacity-50" />
 			</Button>
 		{/snippet}
@@ -54,7 +54,7 @@ function closeAndFocusTrigger() {
 	<Popover.Content class="w-60 p-0">
 		<Command.Root shouldFilter={false}>
 			<Command.Input
-				placeholder={placeholderText}
+				placeholder={$translations.search.placeholder}
 				oninput={(e) => updateStops(e.currentTarget.value)}
 			/>
 
