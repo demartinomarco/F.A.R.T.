@@ -1,5 +1,4 @@
 import type { ApiResponse, EventType } from './types';
-import { stopsIdNameMap } from '@/server/stops-search.server';
 
 import { getKvvTriasConfig } from './env';
 import { nowBerlinIso } from './time';
@@ -8,6 +7,7 @@ import { postXml } from './http';
 import { parseTriasXml, extractStopEventResults } from './parse';
 import { mapStopEventResultToDeparture } from './map';
 import { KvvTriasError } from './errors';
+import { stopsIdNameMap } from '@/server/stops';
 
 function isValidStationId(id: string): boolean {
 	// Keep it permissive; TRIAS IDs look like "de:08212:89"
