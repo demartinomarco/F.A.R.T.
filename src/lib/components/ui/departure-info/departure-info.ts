@@ -14,7 +14,7 @@ export const countdownText = (d: Departure, now: Date): string => {
 
 	if (!d.realTime) return formatTime(d.plannedTime!);
 
-	const diff = calculateDifferenceTime(t, now);
+	const diff = calculateCountdownMinutes(t, now);
 
 	if (diff <= 0) return 'Sofort';
 	if (diff > 10) {
@@ -25,16 +25,18 @@ export const countdownText = (d: Departure, now: Date): string => {
 
 export const delayMinutes = (d: Departure): number => {
 	if (!d.realTime || !d.plannedTime) return NaN;
-	return calculateDifferenceTime(d.realTime, d.plannedTime);
+	return calculateDelayMinutes(d.realTime, d.plannedTime);
 };
 
 export const plannedTimeLabel = (d: Departure, now: Date): string | null => {
 	const delay = delayMinutes(d);
 	if (delay === 0 || isNaN(delay)) return null;
 
-	const plannedCountdown = calculateDifferenceTime(d.plannedTime!, now);
+	const plannedCountdown = calculateCountdownMinutes(d.plannedTime!, now);
+
 	// Planned arrival is in the near future, so return countdown in minutes
 	if (plannedCountdown > 0 && plannedCountdown < 10) return `(${plannedCountdown} Min)`;
+
 	// In this case, the tram actual arrival either was in the past
 	// OR it was expected to arrive in more than 10 minutes.
 	// In both cases, show the formatted planned time.
@@ -49,6 +51,10 @@ export const colorClass = (d: Departure): string => {
 	return '';
 };
 
-function calculateDifferenceTime(from: Date, to: Date) {
+function calculateCountdownMinutes(from: Date, to: Date) {
+	return Math.ceil((from.getTime() - to.getTime()) / 60000);
+}
+
+function calculateDelayMinutes(from: Date, to: Date) {
 	return Math.round((from.getTime() - to.getTime()) / 60000);
 }

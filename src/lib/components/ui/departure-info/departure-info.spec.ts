@@ -185,6 +185,22 @@ describe('departure-info', () => {
 			const now = new Date('2024-06-01T12:05:00Z');
 			expect(plannedTimeLabel(d, now)).toBe('(12:25)');
 		});
+
+		it('does not collapse delay and countdown to the same minute when countdown uses ceil and delay uses round', () => {
+			const d = {
+				// planned is 31s away  -> ceil => 1 Min
+				plannedTime: new Date('2024-06-01T12:00:31Z'),
+				// real is 89s away     -> ceil => 2 Min
+				// delay is 58s         -> round => 1 Min delay
+				realTime: new Date('2024-06-01T12:01:29Z')
+			} as any;
+
+			const now = new Date('2024-06-01T12:00:00Z');
+
+			expect(delayMinutes(d)).toBe(1);
+			expect(plannedTimeLabel(d, now)).toBe('(1 Min)');
+			expect(countdownText(d, now)).toBe('2 Min');
+		});
 	});
 
 	describe('colorClass', () => {

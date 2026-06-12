@@ -86,6 +86,14 @@ const mockItem: ApiResponse = {
 			plannedTime: new Date('2024-06-01T12:25:00'),
 			type: 'S-Bahn',
 			realTime: null
+		},
+		{
+			lineName: '2',
+			direction: 'Knielingen Nord',
+			platformName: 'Gleis 1',
+			plannedTime: new Date('2024-06-01T12:05:31'),
+			type: 'S-Bahn',
+			realTime: new Date('2024-06-01T12:06:29')
 		}
 	]
 };
@@ -113,7 +121,14 @@ describe('/+page.svelte', () => {
 	it('should render h1', async () => {
 		render(Page, {
 			props: {
-				data: { item: mockItem }
+				data: {
+					model: {
+						stationId: 'de:08212:89',
+						eventType: 'dep',
+						error: null,
+						item: mockItem
+					}
+				}
 			}
 		});
 
