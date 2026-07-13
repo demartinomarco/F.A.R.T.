@@ -50,7 +50,7 @@ type RankedResult = {
 const FUSE_CONFIG = {
 	threshold: 0.35,
 	ignoreLocation: true,
-	minMatchCharLength: 2,
+	minMatchCharLength: 1,
 	includeScore: true,
 	keys: [
 		{ name: 'search', weight: 1.0 },
@@ -60,10 +60,10 @@ const FUSE_CONFIG = {
 } as const;
 
 const SEARCH_LIMITS = {
-	MIN_QUERY_LENGTH: 2,
+	MIN_QUERY_LENGTH: 1,
 	FUZZY_RESULTS: 50,
 	FINAL_RESULTS: 9,
-	DISTANCE_WEIGHT: 0.2,
+	DISTANCE_WEIGHT: 0.5,
 	KARLSRUHE_BONUS: 0.08,
 	DISTANCE_NORMALIZATION_KM: 25
 } as const;
