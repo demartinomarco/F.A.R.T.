@@ -81,7 +81,7 @@ function useMyLocation(cache: boolean = false) {
 			<Button
 				{...props}
 				variant="outline"
-				class="w-fit min-w-0 flex-initial justify-between"
+				class="w-90 max-w-full justify-between sm:w-fit sm:min-w-90"
 				role="combobox"
 				aria-expanded={open}
 			>
@@ -128,10 +128,10 @@ function useMyLocation(cache: boolean = false) {
 									goto(`/?stationId=${stop.value}`);
 								}}
 							>
-								<CheckIcon class={cn('mr-2 h-4 w-4', selectedId !== stop.value && 'opacity-0')} />
+								<CheckIcon class={cn('mr-2 h-4 w-4 shrink-0', selectedId !== stop.value && 'opacity-0')} />
 								<span class="flex-1">{stop.label}</span>
 								{#if stop.distanceKm !== undefined}
-									<span class="ml-auto text-xs text-muted-foreground">
+									<span class="ml-auto shrink-0 text-xs text-muted-foreground">
 										{stop.distanceKm < 1
 											? `${Math.round(stop.distanceKm * 1000)} m`
 											: `${stop.distanceKm.toFixed(1)} km`}
