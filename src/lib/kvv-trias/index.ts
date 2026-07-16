@@ -5,7 +5,7 @@ import { nowBerlinIso } from './time';
 import { buildStopEventRequestXml } from './xml';
 import { postXml } from './http';
 import { parseTriasXml, extractStopEventResults } from './parse';
-import { mapStopEventResultToDeparture } from './map';
+import { mapStopEventResultToDeparture, consolidateWagons } from './map';
 import { KvvTriasError } from './errors';
 import { stopsIdNameMap } from '@/server/stops';
 
@@ -59,15 +59,15 @@ export async function getDepartures(
 	const xmlResponse = await postXml(apiUrl, xmlRequest);
 	const parsed = parseTriasXml(xmlResponse);
 	const results = extractStopEventResults(parsed);
-
-	const departureList = results
+	const rawDepartures = results
 		.map(mapStopEventResultToDeparture)
-		.filter((x): x is NonNullable<typeof x> => x != null)
-		.sort((a, b) => {
-			const at = (a.realTime ?? a.plannedTime).getTime();
-			const bt = (b.realTime ?? b.plannedTime).getTime();
-			return at - bt;
-		});
+		.filter((x): x is NonNullable<typeof x> => x != null);
+
+	const departureList = consolidateWagons(rawDepartures).sort((a, b) => {
+		const at = (a.realTime ?? a.plannedTime).getTime();
+		const bt = (b.realTime ?? b.plannedTime).getTime();
+		return at - bt;
+	});
 
 	return {
 		stationName,
