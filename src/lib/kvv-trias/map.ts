@@ -1,7 +1,11 @@
 import type { ApiDeparture } from './types';
 import { utcIsoToBerlinDate } from './time';
 
-export function mapStopEventResultToDeparture(r: any): ApiDeparture | null {
+type InternalDeparture = ApiDeparture & {
+	lineRef: string;
+};
+
+export function mapStopEventResultToDeparture(r: any): InternalDeparture | null {
 	const stopEvent = r?.StopEvent;
 	const callAtStop = stopEvent?.ThisCall?.CallAtStop;
 
@@ -17,10 +21,12 @@ export function mapStopEventResultToDeparture(r: any): ApiDeparture | null {
 	const realTime = utcIsoToBerlinDate(estimated);
 
 	const service = stopEvent?.Service;
+	const direction = readText(service?.DestinationText);
 
 	return {
+		lineRef: service?.LineRef ?? '',
 		lineName: extractLineName(service),
-		direction: readText(service?.DestinationText) ?? '',
+		direction: direction ? [direction] : [],
 		platformName: readText(callAtStop?.PlannedBay) ?? '',
 		type:
 			(typeof service?.Mode?.PtMode === 'string' ? service.Mode.PtMode : null) ??
@@ -29,6 +35,29 @@ export function mapStopEventResultToDeparture(r: any): ApiDeparture | null {
 		plannedTime,
 		realTime
 	};
+}
+
+export function consolidateWagons(departures: InternalDeparture[]): ApiDeparture[] {
+	const uniqueDepartures: InternalDeparture[] = [];
+
+	for (const current of departures) {
+		const match = uniqueDepartures.find(
+			(existing) =>
+				existing.lineRef === current.lineRef &&
+				existing.plannedTime.getTime() === current.plannedTime.getTime() &&
+				existing.realTime?.getTime() === current.realTime?.getTime() &&
+				existing.platformName === current.platformName
+		);
+
+		if (match) {
+			match.direction.push(current.direction[0]);
+		} else {
+			uniqueDepartures.push(current);
+		}
+	}
+
+	// Safely strip lineRef from the objects before returning them to the client
+	return uniqueDepartures.map(({ lineRef, ...apiDeparture }) => apiDeparture);
 }
 
 /**

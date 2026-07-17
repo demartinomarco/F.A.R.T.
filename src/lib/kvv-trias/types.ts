@@ -2,7 +2,7 @@ export type EventType = 'dep' | 'arr';
 
 export type ApiDeparture = {
 	lineName: string;
-	direction: string;
+	direction: string[];
 	platformName: string;
 	plannedTime: Date;
 	type: string;
