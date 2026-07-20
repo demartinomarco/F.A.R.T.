@@ -1,5 +1,7 @@
 import { formatTime } from '@/utils';
 import type { Departure } from '@/types/departure';
+import { get } from 'svelte/store';
+import { translations, interpolate } from '$lib/i18n';
 
 function roundToNearestMinute(date: Date): Date {
 	const d = new Date(date);
@@ -9,18 +11,19 @@ function roundToNearestMinute(date: Date): Date {
 }
 
 export const countdownText = (d: Departure, now: Date): string => {
-	const t = d.realTime ?? d.plannedTime;
-	if (!t) return 'keine Angabe';
+	const strings = get(translations);
+	const tt = d.realTime ?? d.plannedTime;
+	if (!tt) return strings.departureInfo.noData;
 
 	if (!d.realTime) return formatTime(d.plannedTime!);
 
-	const diff = calculateDifferenceTime(t, now);
+	const diff = calculateDifferenceTime(tt, now);
 
-	if (diff <= 0) return 'Sofort';
+	if (diff <= 0) return strings.departureInfo.now;
 	if (diff > 10) {
-		return formatTime(roundToNearestMinute(t));
+		return formatTime(roundToNearestMinute(tt));
 	}
-	return `${diff} Min`;
+	return interpolate(strings.departureInfo.minutes, { diff });
 };
 
 export const delayMinutes = (d: Departure): number => {
@@ -29,16 +32,17 @@ export const delayMinutes = (d: Departure): number => {
 };
 
 export const plannedTimeLabel = (d: Departure, now: Date): string | null => {
+	const strings = get(translations);
 	const delay = delayMinutes(d);
 	if (delay === 0 || isNaN(delay)) return null;
 
 	const plannedCountdown = calculateDifferenceTime(d.plannedTime!, now);
 	// Planned arrival is in the near future, so return countdown in minutes
-	if (plannedCountdown > 0 && plannedCountdown < 10) return `(${plannedCountdown} Min)`;
+	if (plannedCountdown > 0 && plannedCountdown < 10) return interpolate(strings.departureInfo.plannedCountdown, { plannedCountdown });
 	// In this case, the tram actual arrival either was in the past
 	// OR it was expected to arrive in more than 10 minutes.
 	// In both cases, show the formatted planned time.
-	return `(${formatTime(d.plannedTime)})`;
+	return interpolate(strings.departureInfo.plannedTime, { time: formatTime(d.plannedTime) });
 };
 
 export const colorClass = (d: Departure): string => {

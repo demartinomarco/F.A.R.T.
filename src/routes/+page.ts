@@ -5,6 +5,8 @@ import {
 	type Departure,
 	type DeparturesByPlatform
 } from '@/types/departure';
+import { get } from 'svelte/store';
+import { translations, interpolate } from '$lib/i18n';
 
 const DEFAULT_STATION = 'de:08212:89';
 
@@ -57,9 +59,10 @@ function safeDate(v: unknown): Date | null {
 }
 
 function formatPlatformName(platformName: string): string {
+	const strings = get(translations);
 	const p = platformName.trim();
-	if (p === '') return 'Unbekanntes Gleis';
-	if (!Number.isNaN(Number(p))) return `Gleis ${p}`;
+	if (p === '') return strings.platform.unknown;
+	if (!Number.isNaN(Number(p))) return interpolate(strings.platform.named, { platform: p });
 	return p;
 }
 
@@ -79,7 +82,8 @@ export async function _fetchDepartures(
 		try {
 			json = text ? JSON.parse(text) : null;
 		} catch {
-			return errorModel(stationId, eventType, 'BAD_RESPONSE', 'Ungültige Serverantwort.');
+			const strings = get(translations);
+			return errorModel(stationId, eventType, 'BAD_RESPONSE', strings.error.invalidServerResponse);
 		}
 
 		if (isApiEnvelope<ApiResponse>(json)) {
@@ -89,9 +93,9 @@ export async function _fetchDepartures(
 			return { stationId, eventType, item: null, error: json.error };
 		}
 
-		return errorModel(stationId, eventType, 'BAD_RESPONSE', 'Unerwartetes Antwortformat.');
+		return errorModel(stationId, eventType, 'BAD_RESPONSE', get(translations).error.unexpectedResponseFormat);
 	} catch {
-		return errorModel(stationId, eventType, 'NETWORK', 'Keine Verbindung zum Server.');
+		return errorModel(stationId, eventType, 'NETWORK', get(translations).error.noConnectionShort);
 	}
 }
 
@@ -126,7 +130,7 @@ export function _filterByPlatformName(
 			: list.filter((d) => selectedValid.includes((d.platformName ?? '').trim()));
 
 	const grouped = filtered.reduce<Record<string, Departure[]>>((acc, dep) => {
-		const platform = (dep.platformName ?? '').trim() || 'Unbekanntes Gleis';
+		const platform = (dep.platformName ?? '').trim() || get(translations).platform.unknown;
 		(acc[platform] ??= []).push(dep);
 		return acc;
 	}, {});
@@ -139,7 +143,7 @@ export function _filterByPlatformName(
 }
 
 function sortPlatforms(platforms: string[]): string[] {
-	return platforms.sort((a, b) => {
+		return platforms.sort((a, b) => {
 		const aIsGleis = a.startsWith('Gleis ');
 		const bIsGleis = b.startsWith('Gleis ');
 		if (aIsGleis && bIsGleis) {

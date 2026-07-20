@@ -10,8 +10,8 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/utils.js';
 import { type GeoPoint, type SearchResult, searchStops } from '$lib/stops-search';
 import { Spinner } from '$lib/components/ui/spinner/index.js';
+import { translations } from '$lib/i18n';
 
-const placeholderText = 'Haltenstelle suchen...';
 let open = $state(false);
 let loadingLocation = $state(false);
 let locationError = $state(false);
@@ -85,7 +85,7 @@ function useMyLocation(cache: boolean = false) {
 				role="combobox"
 				aria-expanded={open}
 			>
-				<span class="truncate">{selectedValue || placeholderText}</span>
+				<span class="truncate">{selectedValue || $translations.search.placeholder}</span>
 				<div class="flex items-center gap-1">
 					<ChevronsUpDownIcon class="opacity-50" />
 				</div>
@@ -96,7 +96,7 @@ function useMyLocation(cache: boolean = false) {
 	<Popover.Content class="w-[var(--bits-floating-anchor-width)] min-w-0 p-0">
 		<Command.Root shouldFilter={false}>
 			<Command.Input
-				placeholder={placeholderText}
+				placeholder={$translations.search.placeholder}
 				oninput={(e) => updateStops(e.currentTarget.value)}
 			/>
 			<Command.List>

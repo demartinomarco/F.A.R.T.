@@ -3,6 +3,7 @@ import MultiSelect from 'svelte-multiselect';
 
 import ChevronsUpDownIcon from '@lucide/svelte/icons/chevrons-up-down';
 import Ban from '@lucide/svelte/icons/ban';
+import { translations } from '$lib/i18n';
 let { platformNames, selectedPlatforms = $bindable() } = $props();
 </script>
 
@@ -12,7 +13,7 @@ let { platformNames, selectedPlatforms = $bindable() } = $props();
 	outerDivClass="flex-row-reverse min-w-0! w-full h-fit gap-4! flex-nowrap! bg-white! border! rounded-md! py-2! px-3!"
 	inputClass="text-sm! placeholder:opacity-50! min-w-0! caret-transparent w-0!"
 	ulOptionsClass="mt-1!"
-	placeholder="Wähle ein Gleis aus..."
+	placeholder={$translations.multiSelect.placeholder}
 	readOnly={true}
 	disabled={platformNames.length === 0}
 >

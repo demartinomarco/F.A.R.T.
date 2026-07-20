@@ -13,6 +13,8 @@ import {
 import { formatTime } from '@/utils';
 import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 import AppSidebar from '@/components/ui/app-sidebar/app-sidebar.svelte';
+import LanguageSelector from '@/components/ui/language-selector/language-selector.svelte';
+import { translations, interpolate } from '$lib/i18n';
 
 const { data }: PageProps = $props();
 
@@ -63,33 +65,30 @@ function errorMessage(err: { code: string; message: string } | null) {
 	if (!err) return '';
 
 	if (err.code?.startsWith('UPSTREAM_')) {
-		return 'Fehler: KVV ist aktuell nicht erreichbar. Sobald das Problem behoben ist, werden die Ergebnisse automatisch hier angezeigt.';
+		return $translations.error.kvvUnreachable;
 	} else if (err.code === 'NETWORK') {
-		return 'Fehler: Keine Verbindung zum Server.';
+		return $translations.error.noConnection;
 	} else if (err.code === 'BAD_PARAMS') {
 		if (err.message === 'Invalid stationId') {
-			return `Fehler: Die ID ${stationId} ist ungültig.`;
+			return interpolate($translations.error.invalidStationId, { stationId });
 		} else if (err.message === 'Invalid limit (must be 1..100)') {
-			return 'Fehler: Die Anzahl der angezeigten Abfahrten muss zwischen 1 und 100 liegen.';
+			return $translations.error.invalidLimit;
 		}
 	}
 
-	return (
-		'Tja, das ist peinlich… Ich weiß nicht, was passiert ist, aber ich weiß, dass du wirklich Pech hattest, hier zu landen. Diese Webseite funktioniert zu 99,97% der Zeit einwandfrei, aber heute bist du in den 0,03 % gelandet, in denen etwas schiefgelaufen ist.' +
-		err.message
-	);
+	return $translations.error.genericMessage + err.message;
 }
 </script>
 
 <svelte:head>
 	<title
-		>{stationName ? `${stationName} – Abfahrten | Tram- und ÖPNV-Anzeige` : 'Abfahrten | Tram- und ÖPNV-Anzeige'}</title
+		>{stationName ? interpolate($translations.page.titleWithStation, { stationName }) : $translations.page.titleWithoutStation}</title
 	>
 	<meta
 		name="description"
 		content={stationName
-			? `Live-Abfahrten und Fahrplan-Infos für ${stationName}.`
-			: 'Live-Abfahrten und Fahrplan-Infos.'}
+			? interpolate($translations.page.metaDescriptionWithStation, { stationName })
+			: $translations.page.metaDescriptionWithoutStation}
 	/>
 </svelte:head>
 <Sidebar.Provider
@@ -108,6 +107,7 @@ function errorMessage(err: { code: string; message: string } | null) {
 			</div>
 
 			<p class="font-medium text-white">{time}</p>
+			<LanguageSelector />
 			<Sidebar.Trigger class="text-white" />
 		</div>
 
@@ -115,11 +115,11 @@ function errorMessage(err: { code: string; message: string } | null) {
 			{#if error}
 				<p>{errorMessage(error)}</p>
 			{:else if !departures}
-				<p>Daten werden geladen...</p>
+				<p>{$translations.page.loading}</p>
 			{:else if departures.stationName === ''}
-				<p>Fehler: Die ID {stationId} ist ungültig.</p>
+				<p>{interpolate($translations.error.unknownStation, { stationId })}</p>
 			{:else if departuresToShow.length === 0}
-				<p>Für die ausgewählte Haltestelle wurden keine Abfahrten gefunden.</p>
+				<p>{$translations.page.noDepartures}</p>
 			{:else}
 				{#key departuresToShow}
 					<div class="flex w-full flex-col gap-4">
