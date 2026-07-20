@@ -1,10 +1,11 @@
 <script lang="ts">
+import { translations } from '$lib/i18n';
 import LineIcon from '@/components/ui/lineicon/line-icon.svelte';
 import { colorClass, countdownText, plannedTimeLabel } from './departure-info';
 
 let { departure } = $props();
 const now = $state(new Date());
-const delay = plannedTimeLabel(departure, now);
+const delay = $derived(plannedTimeLabel(departure, now, $translations));
 </script>
 
 <div class="flex items-center justify-between gap-2 py-1">
@@ -18,6 +19,6 @@ const delay = plannedTimeLabel(departure, now);
 			<span class="text-black opacity-50">{delay}</span>
 		{/if}
 
-		{countdownText(departure, now)}
+		{countdownText(departure, now, $translations)}
 	</p>
 </div>

@@ -1,7 +1,7 @@
 import { formatTime } from '@/utils';
 import type { Departure } from '@/types/departure';
 import { get } from 'svelte/store';
-import { translations, interpolate } from '$lib/i18n';
+import { translations, interpolate, type Translations } from '$lib/i18n';
 
 function roundToNearestMinute(date: Date): Date {
 	const d = new Date(date);
@@ -10,8 +10,7 @@ function roundToNearestMinute(date: Date): Date {
 	return new Date(rounded);
 }
 
-export const countdownText = (d: Departure, now: Date): string => {
-	const strings = get(translations);
+export const countdownText = (d: Departure, now: Date, strings: Translations): string => {
 	const tt = d.realTime ?? d.plannedTime;
 	if (!tt) return strings.departureInfo.noData;
 
@@ -38,7 +37,8 @@ export const plannedTimeLabel = (d: Departure, now: Date): string | null => {
 
 	const plannedCountdown = calculateDifferenceTime(d.plannedTime!, now);
 	// Planned arrival is in the near future, so return countdown in minutes
-	if (plannedCountdown > 0 && plannedCountdown < 10) return interpolate(strings.departureInfo.plannedCountdown, { plannedCountdown });
+	if (plannedCountdown > 0 && plannedCountdown < 10)
+		return interpolate(strings.departureInfo.plannedCountdown, { plannedCountdown });
 	// In this case, the tram actual arrival either was in the past
 	// OR it was expected to arrive in more than 10 minutes.
 	// In both cases, show the formatted planned time.
