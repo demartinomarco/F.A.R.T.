@@ -21,7 +21,8 @@
   },
   "platform": {
     "unknown": "Unbekanntes Gleis",
-    "named": "Gleis {platform}"
+    "railPlatform": "Gleis {platform}",
+    "busBay": "Bstg. {platform}"
   },
   "sidebar": {
     "opened": "Sidebar opened",

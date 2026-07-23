@@ -1,4 +1,5 @@
-import type { ApiDeparture } from './types';
+import type { ApiDeparture, Platform } from './types';
+import { PlatformType } from './types';
 import { utcIsoToBerlinDate } from './time';
 
 export function mapStopEventResultToDeparture(r: any): ApiDeparture | null {
@@ -21,7 +22,7 @@ export function mapStopEventResultToDeparture(r: any): ApiDeparture | null {
 	return {
 		lineName: extractLineName(service),
 		direction: readText(service?.DestinationText) ?? '',
-		platformName: readText(callAtStop?.PlannedBay) ?? '',
+		platform: extractPlatform(readText(callAtStop?.PlannedBay)),
 		type:
 			(typeof service?.Mode?.PtMode === 'string' ? service.Mode.PtMode : null) ??
 			readText(service?.Mode?.Name) ??
@@ -66,6 +67,30 @@ function readText(node: any): string | null {
 	}
 
 	return null;
+}
+
+function extractPlatform(platformName: string | null): Platform {
+	if (platformName === null || platformName === '')
+		return {
+			type: PlatformType.Unkown,
+			name: ''
+		};
+	if (platformName.startsWith('Gleis')) {
+		return {
+			type: PlatformType.RailPlatform,
+			name: platformName.substring(6)
+		};
+	} else if (platformName.startsWith('Bstg.')) {
+		return {
+			type: PlatformType.RailPlatform,
+			name: platformName.substring(6)
+		};
+	}
+
+	return {
+		type: PlatformType.RailPlatform,
+		name: platformName
+	};
 }
 
 function extractLineName(service: any): string {

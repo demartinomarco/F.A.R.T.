@@ -1,9 +1,20 @@
 export type EventType = 'dep' | 'arr';
 
+export enum PlatformType {
+	RailPlatform,
+	BusBay,
+	Unkown
+}
+
+export type Platform = {
+	type: PlatformType;
+	name: string;
+};
+
 export type ApiDeparture = {
 	lineName: string;
 	direction: string;
-	platformName: string;
+	platform: Platform;
 	plannedTime: Date;
 	type: string;
 	realTime: Date | null;
