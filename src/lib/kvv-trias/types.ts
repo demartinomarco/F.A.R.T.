@@ -1,16 +1,31 @@
 export type EventType = 'dep' | 'arr';
 
-export type ApiDeparture = {
+export enum PlatformType {
+	Rail = 'rail',
+	Bus = 'bus',
+	Unknown = 'unknown'
+}
+
+export type Platform = {
+	type: PlatformType;
+	name: string;
+};
+
+export type Departure = {
 	lineName: string;
 	direction: string[];
-	platformName: string;
 	plannedTime: Date;
-	type: string;
+	vehicleType: string;
 	realTime: Date | null;
 };
 
-export type ApiResponse = {
+export type PlatformDepartures = {
+	platform: Platform;
+	departures: Departure[];
+};
+
+export type StationDepartures = {
 	stationName: string;
 	cityName: string;
-	departureList: ApiDeparture[];
+	platforms: PlatformDepartures[];
 };

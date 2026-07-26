@@ -1,11 +1,11 @@
-import type { ApiResponse, EventType } from './types';
+import type { EventType, PlatformDepartures, StationDepartures } from './types';
 
 import { getKvvTriasConfig } from './env';
 import { nowBerlinIso } from './time';
 import { buildStopEventRequestXml } from './xml';
 import { postXml } from './http';
 import { parseTriasXml, extractStopEventResults } from './parse';
-import { mapStopEventResultToDeparture, consolidateWagons } from './map';
+import { mapStopEventResultToDeparture, consolidateWagons, type MappedDeparture } from './map';
 import { KvvTriasError } from './errors';
 import { stopsIdNameMap } from '@/server/stops';
 
@@ -18,7 +18,7 @@ export async function getDepartures(
 	stationId: string,
 	eventType: EventType,
 	limit = 20
-): Promise<ApiResponse> {
+): Promise<StationDepartures> {
 	if (!isValidStationId(stationId)) {
 		throw new KvvTriasError({
 			code: 'BAD_PARAMS',
@@ -59,19 +59,42 @@ export async function getDepartures(
 	const xmlResponse = await postXml(apiUrl, xmlRequest);
 	const parsed = parseTriasXml(xmlResponse);
 	const results = extractStopEventResults(parsed);
-	const rawDepartures = results
+
+	const mappedDepartures = results
 		.map(mapStopEventResultToDeparture)
 		.filter((x): x is NonNullable<typeof x> => x != null);
 
-	const departureList = consolidateWagons(rawDepartures).sort((a, b) => {
-		const at = (a.realTime ?? a.plannedTime).getTime();
-		const bt = (b.realTime ?? b.plannedTime).getTime();
+	// Merge duplicate wagon entries, then sort by effective departure time.
+	const deduplicatedDepartures = consolidateWagons(mappedDepartures).sort((a, b) => {
+		const at = (a.departure.realTime ?? a.departure.plannedTime).getTime();
+		const bt = (b.departure.realTime ?? b.departure.plannedTime).getTime();
 		return at - bt;
 	});
 
 	return {
 		stationName,
 		cityName: station.place_name,
-		departureList
+		platforms: groupByPlatform(deduplicatedDepartures)
 	};
+}
+
+function groupByPlatform(mapped: MappedDeparture[]): PlatformDepartures[] {
+	const platforms = new Map<string, PlatformDepartures>();
+
+	for (const { platform, departure } of mapped) {
+		const key = `${platform.type}:${platform.name}`;
+		let group = platforms.get(key);
+
+		if (!group) {
+			group = {
+				platform,
+				departures: []
+			};
+			platforms.set(key, group);
+		}
+
+		group.departures.push(departure);
+	}
+
+	return [...platforms.values()];
 }

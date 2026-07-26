@@ -10,8 +10,8 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/utils.js';
 import { type GeoPoint, type SearchResult, searchStops } from '$lib/stops-search';
 import { Spinner } from '$lib/components/ui/spinner/index.js';
+import { translations } from '$lib/i18n';
 
-const placeholderText = 'Haltenstelle suchen...';
 let open = $state(false);
 let loadingLocation = $state(false);
 let locationError = $state(false);
@@ -85,7 +85,7 @@ function useMyLocation(cache: boolean = false) {
 				role="combobox"
 				aria-expanded={open}
 			>
-				<span class="truncate">{selectedValue || placeholderText}</span>
+				<span class="truncate">{selectedValue || $translations.search.placeholder}</span>
 				<div class="flex items-center gap-1">
 					<ChevronsUpDownIcon class="opacity-50" />
 				</div>
@@ -96,7 +96,7 @@ function useMyLocation(cache: boolean = false) {
 	<Popover.Content class="w-[var(--bits-floating-anchor-width)] min-w-0 p-0">
 		<Command.Root shouldFilter={false}>
 			<Command.Input
-				placeholder={placeholderText}
+				placeholder={$translations.search.placeholder}
 				oninput={(e) => updateStops(e.currentTarget.value)}
 			/>
 			<Command.List>
@@ -104,20 +104,20 @@ function useMyLocation(cache: boolean = false) {
 					<div class="flex grow flex-col gap-2">
 						<div class="flex grow gap-2">
 							<MapPinIcon class="h-4 w-4 opacity-50" />
-							<span>Haltestellen in der Nähe</span>
+							<span>{$translations.search.stopsNearBy}</span>
 							{#if loadingLocation}
 								<Spinner class="ml-auto" />
 							{/if}
 						</div>
 						{#if locationError}
-							<p class="text-xs text-muted-foreground">Standort konnte nicht bestimmt werden.</p>
+							<p class="text-xs text-muted-foreground">{$translations.search.gpsError}</p>
 						{/if}
 					</div>
 				</Command.Item>
 				{#key stops}
-					<Command.Group value="stops" heading="Ergebnisse">
+					<Command.Group value="stops" heading={$translations.search.resultsTitle}>
 						{#if stops.length === 0}
-							<span class="text-sm">Keine Haltenstelle konnte gefunden werden.</span>
+							<span class="text-sm">{$translations.search.noStopsFound}</span>
 						{/if}
 						{#each stops as stop (stop.value)}
 							<Command.Item

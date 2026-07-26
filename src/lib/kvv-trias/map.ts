@@ -1,7 +1,13 @@
-import type { ApiDeparture } from './types';
+import type { Departure, Platform } from './types';
+import { PlatformType } from './types';
 import { utcIsoToBerlinDate } from './time';
 
-type InternalDeparture = ApiDeparture & {
+export type MappedDeparture = {
+	platform: Platform;
+	departure: Departure;
+};
+
+type InternalDeparture = MappedDeparture & {
 	lineRef: string;
 };
 
@@ -25,39 +31,45 @@ export function mapStopEventResultToDeparture(r: any): InternalDeparture | null 
 
 	return {
 		lineRef: service?.LineRef ?? '',
-		lineName: extractLineName(service),
-		direction: direction ? [direction] : [],
-		platformName: readText(callAtStop?.PlannedBay) ?? '',
-		type:
-			(typeof service?.Mode?.PtMode === 'string' ? service.Mode.PtMode : null) ??
-			readText(service?.Mode?.Name) ??
-			'',
-		plannedTime,
-		realTime
+		platform: extractPlatform(readText(callAtStop?.PlannedBay)),
+		departure: {
+			lineName: extractLineName(service),
+			direction: direction ? [direction] : [],
+			vehicleType: extractVehicleType(service),
+			plannedTime,
+			realTime
+		}
 	};
 }
 
-export function consolidateWagons(departures: InternalDeparture[]): ApiDeparture[] {
+function extractVehicleType(service: any): string {
+	return (
+		(typeof service?.Mode?.PtMode === 'string' ? service.Mode.PtMode : null) ??
+		readText(service?.Mode?.Name) ??
+		''
+	);
+}
+
+export function consolidateWagons(departures: InternalDeparture[]): MappedDeparture[] {
 	const uniqueDepartures: InternalDeparture[] = [];
 
 	for (const current of departures) {
 		const match = uniqueDepartures.find(
 			(existing) =>
 				existing.lineRef === current.lineRef &&
-				existing.plannedTime.getTime() === current.plannedTime.getTime() &&
-				existing.realTime?.getTime() === current.realTime?.getTime() &&
-				existing.platformName === current.platformName
+				existing.departure.plannedTime.getTime() === current.departure.plannedTime.getTime() &&
+				existing.departure.realTime?.getTime() === current.departure.realTime?.getTime() &&
+				existing.platform.type === current.platform.type &&
+				existing.platform.name === current.platform.name
 		);
 
-		if (match) {
-			match.direction.push(current.direction[0]);
-		} else {
+		if (!match) {
 			uniqueDepartures.push(current);
 		}
 	}
 
-	// Safely strip lineRef from the objects before returning them to the client
-	return uniqueDepartures.map(({ lineRef, ...apiDeparture }) => apiDeparture);
+	// Strip the internal lineRef before returning.
+	return uniqueDepartures.map(({ lineRef, ...mappedDeparture }) => mappedDeparture);
 }
 
 /**
@@ -95,6 +107,31 @@ function readText(node: any): string | null {
 	}
 
 	return null;
+}
+
+function extractPlatform(platformName: string | null): Platform {
+	if (platformName === null || platformName === '')
+		return {
+			type: PlatformType.Unknown,
+			name: ''
+		};
+
+	if (platformName.startsWith('Gleis')) {
+		return {
+			type: PlatformType.Rail,
+			name: platformName.substring(6)
+		};
+	} else if (platformName.startsWith('Bstg.')) {
+		return {
+			type: PlatformType.Bus,
+			name: platformName.substring(6)
+		};
+	}
+
+	return {
+		type: PlatformType.Rail,
+		name: platformName
+	};
 }
 
 function extractLineName(service: any): string {
