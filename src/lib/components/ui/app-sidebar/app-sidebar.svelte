@@ -37,12 +37,18 @@ let { platformNames, selectedPlatforms = $bindable(), eventType = $bindable() } 
 							</div>
 						</RadioGroup.Root>
 					</Sidebar.MenuItem>
-
+				</Sidebar.Menu>
+			</Sidebar.GroupContent>
+		</Sidebar.Group>
+		<Sidebar.Group>
+			<Sidebar.GroupLabel class="text-md px-0! font-medium text-black">{$translations.sidebar.settingsGroups}</Sidebar.GroupLabel>
+			<hr class="mb-4 h-0.5 rounded-sm bg-gray-500" />
+			<Sidebar.GroupContent>
+				<Sidebar.Menu class="flex flex-col gap-4">
 					<Sidebar.MenuItem class="flex flex-col gap-2 px-2">
 						<span class="font-medium">{$translations.sidebar.language}</span>
 						<LanguageSelector />
 					</Sidebar.MenuItem>
-
 				</Sidebar.Menu>
 			</Sidebar.GroupContent>
 		</Sidebar.Group>
