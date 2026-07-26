@@ -15,11 +15,26 @@ import { translations } from '$lib/i18n';
 	<section aria-labelledby="features" class="space-y-3">
 		<h2 id="features" class="text-lg font-semibold">{$translations.about.featuresTitle}</h2>
 		<ul class="list-disc space-y-1 pl-5">
-			<li><strong>{$translations.about.featureStopSearchLabel}</strong> {$translations.about.featureStopSearchDescription}</li>
-			<li><strong>{$translations.about.featureRealtimeLabel}</strong> {$translations.about.featureRealtimeDescription}</li>
-			<li><strong>{$translations.about.featurePlatformFilterLabel}</strong> {$translations.about.featurePlatformFilterDescription}</li>
-			<li><strong>{$translations.about.featureToggleLabel}</strong> {$translations.about.featureToggleDescription}</li>
-			<li><strong>{$translations.about.featureReliabilityLabel}</strong> {$translations.about.featureReliabilityDescription}</li>
+			<li>
+				<strong>{$translations.about.featureStopSearchLabel}</strong>
+				{$translations.about.featureStopSearchDescription}
+			</li>
+			<li>
+				<strong>{$translations.about.featureRealtimeLabel}</strong>
+				{$translations.about.featureRealtimeDescription}
+			</li>
+			<li>
+				<strong>{$translations.about.featurePlatformFilterLabel}</strong>
+				{$translations.about.featurePlatformFilterDescription}
+			</li>
+			<li>
+				<strong>{$translations.about.featureToggleLabel}</strong>
+				{$translations.about.featureToggleDescription}
+			</li>
+			<li>
+				<strong>{$translations.about.featureReliabilityLabel}</strong>
+				{$translations.about.featureReliabilityDescription}
+			</li>
 		</ul>
 	</section>
 

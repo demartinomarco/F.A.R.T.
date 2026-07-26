@@ -2,7 +2,7 @@
 import { ChevronLeft } from 'lucide-svelte';
 import { page } from '$app/state';
 import { goto } from '$app/navigation';
-	import { resolve } from '$app/paths';
+import { resolve } from '$app/paths';
 import { translations } from '$lib/i18n';
 
 let { children } = $props();

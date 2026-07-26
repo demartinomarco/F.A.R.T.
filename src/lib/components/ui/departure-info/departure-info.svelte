@@ -19,25 +19,24 @@ const delay = $derived(plannedTimeLabel(departure, now, $translations));
 				</div>
 			{/each}
 		</div>
-
 	</div>
 
 	<div class="flex flex-col items-end">
-	<div class="flex h-8 w-25 flex-shrink-0 items-center self-center justify-end">
-		<p class="text-nowrap {colorClass(departure)}">
-			{#if delay}
-				<span class="text-black opacity-50">{delay}</span>
-			{/if}
+		<div class="flex h-8 w-25 flex-shrink-0 items-center justify-end self-center">
+			<p class="text-nowrap {colorClass(departure)}">
+				{#if delay}
+					<span class="text-black opacity-50">{delay}</span>
+				{/if}
 
-        {countdownText(departure, now, $translations)}
-		</p>
-	</div>
-	{#if departure.direction.length > 1}
-		<div class="flex h-8 flex-shrink-0 items-center gap-0.5">
-			{#each Array(departure.direction.length)}
-				<TramFront class="opacity-50" />
-			{/each}
+				{countdownText(departure, now, $translations)}
+			</p>
 		</div>
-	{/if}
+		{#if departure.direction.length > 1}
+			<div class="flex h-8 flex-shrink-0 items-center gap-0.5">
+				{#each Array(departure.direction.length)}
+					<TramFront class="opacity-50" />
+				{/each}
+			</div>
+		{/if}
 	</div>
 </div>

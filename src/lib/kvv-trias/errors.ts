@@ -11,7 +11,12 @@ export class KvvTriasError extends Error {
 	status: number;
 	details?: unknown;
 
-	constructor(args: { code: KvvTriasErrorCode; message: string; status: number; details?: unknown }) {
+	constructor(args: {
+		code: KvvTriasErrorCode;
+		message: string;
+		status: number;
+		details?: unknown;
+	}) {
 		super(args.message);
 		this.name = 'KvvTriasError';
 		this.code = args.code;

@@ -1,9 +1,8 @@
 import type { PageLoad } from './$types';
-import { isApiEnvelope } from '@/types/departure';
 import { get } from 'svelte/store';
-import { translations, interpolate } from '$lib/i18n';
-import { PlatformType } from '@/kvv-trias/types';
-import type { StationDepartures, PlatformDepartures, Platform } from '@/kvv-trias/types';
+import { translations } from '$lib/i18n';
+import { PlatformType, isApiEnvelope } from '@/kvv-trias/types';
+import type { StationDepartures, PlatformDepartures } from '@/kvv-trias/types';
 
 const DEFAULT_STATION = 'de:08212:89';
 

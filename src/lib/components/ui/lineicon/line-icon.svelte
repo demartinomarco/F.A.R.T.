@@ -5,7 +5,7 @@ let { departure } = $props();
 
 const style = getLineStyle(departure);
 // Remove everything after second word, since there often is things like "InterCityExpress", which I don't care about
-const lineName = departure.lineName.trim().split(/\s+/).slice(0, 2).join(" ");
+const lineName = departure.lineName.trim().split(/\s+/).slice(0, 2).join(' ');
 </script>
 
 <div

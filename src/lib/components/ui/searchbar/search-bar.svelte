@@ -128,7 +128,9 @@ function useMyLocation(cache: boolean = false) {
 									goto(`/?stationId=${stop.value}`);
 								}}
 							>
-								<CheckIcon class={cn('mr-2 h-4 w-4 shrink-0', selectedId !== stop.value && 'opacity-0')} />
+								<CheckIcon
+									class={cn('mr-2 h-4 w-4 shrink-0', selectedId !== stop.value && 'opacity-0')}
+								/>
 								<span class="flex-1">{stop.label}</span>
 								{#if stop.distanceKm !== undefined}
 									<span class="ml-auto shrink-0 text-xs text-muted-foreground">

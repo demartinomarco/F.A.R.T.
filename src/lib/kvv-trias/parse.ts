@@ -33,8 +33,8 @@ export function extractStopEventResults(doc: unknown): any[] {
 		});
 	}
 
-	const results =
-		(trias as any)?.ServiceDelivery?.DeliveryPayload?.StopEventResponse?.StopEventResult;
+	const results = (trias as any)?.ServiceDelivery?.DeliveryPayload?.StopEventResponse
+		?.StopEventResult;
 
 	if (Array.isArray(results)) return results;
 	if (results) return [results];
