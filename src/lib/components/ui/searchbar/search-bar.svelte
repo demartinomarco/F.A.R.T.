@@ -17,9 +17,15 @@ let loadingLocation = $state(false);
 let locationError = $state(false);
 
 let { selectedId = $bindable(), selectedValue = $bindable() } = $props();
-let stops: SearchResult[] = $state([
-	{ value: selectedId, label: selectedValue, placeName: '', stopName: '' }
-]);
+let stops: SearchResult[] = $state([]);
+const addSelectedStop = () =>
+	(stops = [{ value: selectedId, label: selectedValue, placeName: '', stopName: '' }]);
+
+$effect(() => {
+	if (open) {
+		addSelectedStop();
+	}
+});
 
 let triggerRef = $state<HTMLButtonElement>(null!);
 
@@ -44,8 +50,13 @@ onMount(() => {
 	});
 });
 
-async function updateStops(searchText: string) {
-	stops = await searchStops(searchText, clientLocation);
+async function updateStops(text: string) {
+	// If user deletes all text after typing something
+	if (text.trim().length === 0) {
+		addSelectedStop();
+		return;
+	}
+	stops = await searchStops(text, clientLocation);
 }
 
 function useMyLocation(cache: boolean = false) {
@@ -117,7 +128,9 @@ function useMyLocation(cache: boolean = false) {
 				{#key stops}
 					<Command.Group value="stops" heading={$translations.search.resultsTitle}>
 						{#if stops.length === 0}
-							<span class="text-sm">{$translations.search.noStopsFound}</span>
+							<span class="block px-2 py-1.5 text-sm text-muted-foreground"
+								>{$translations.search.noStopsFound}</span
+							>
 						{/if}
 						{#each stops as stop (stop.value)}
 							<Command.Item
