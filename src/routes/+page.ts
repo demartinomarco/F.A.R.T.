@@ -83,7 +83,9 @@ function reviveDates(data: StationDepartures): StationDepartures {
 export function _extractPlatformNames(departures: StationDepartures | null): string[] {
 	if (!departures) return [];
 
-	return sortPlatforms(departures.platforms).map((p) => p.platform.name);
+	return sortPlatforms(departures.platforms)
+		.map((p) => p.platform.name)
+		.filter((name) => name.trim().length > 0);
 }
 
 export function _filterByPlatformName(
