@@ -2,7 +2,7 @@ import type { PageLoad } from './$types';
 import { get } from 'svelte/store';
 import { translations } from '$lib/i18n';
 import { PlatformType, isApiEnvelope } from '@/kvv-trias/types';
-import type { StationDepartures, PlatformDepartures } from '@/kvv-trias/types';
+import type { StationDepartures, PlatformDepartures, Departure } from '@/kvv-trias/types';
 
 const DEFAULT_STATION = 'de:08212:89';
 
@@ -121,6 +121,22 @@ function sortPlatforms(platforms: PlatformDepartures[]): PlatformDepartures[] {
 		const typeCmp = order[a.platform.type] - order[b.platform.type];
 		if (typeCmp !== 0) return typeCmp;
 
-		return a.platform.name.localeCompare(b.platform.name);
+		return a.platform.name.localeCompare(b.platform.name, undefined, {
+			numeric: true,
+			sensitivity: 'base'
+		});
 	});
+}
+
+export function _getPlatformKey(platformDep: PlatformDepartures): string {
+	return `${platformDep.platform.type}-${platformDep.platform.name}`;
+}
+
+export function _getDepartureKey(departure: Departure): string {
+	const time =
+		departure.plannedTime instanceof Date
+			? departure.plannedTime.getTime()
+			: new Date(departure.plannedTime).getTime();
+
+	return `${departure.lineName}-${time}-${departure.direction.join('-')}`;
 }

@@ -1,4 +1,4 @@
-import type { Departure } from '@/types/departure';
+import type { Departure } from '@/kvv-trias/types';
 
 export interface LineStyle {
 	background: string;
@@ -48,13 +48,27 @@ export const LINE_STYLES: Record<string, LineStyle> = {
 
 export function getLineStyle(line: Departure): LineStyle {
 	const lineName = line.lineName;
-	if (lineName.startsWith('ICE') || lineName.startsWith('IC')) {
+	if (/^(ICE|IC|EC|ECE)/i.test(lineName)) {
 		return { background: '#ed1c24', text: '#fff' };
-	} else if (lineName.startsWith('RE')) {
-		return { background: '#afb4bb', text: '#000' };
-	} else if (lineName.startsWith('TGV')) {
+	}
+
+	if (/^(NJ|EN)/i.test(lineName)) {
+		return { background: '#001f52', text: '#fff' };
+	}
+
+	if (lineName.startsWith('TGV')) {
 		return { background: '#224980', text: '#fff' };
-	} else if (line.type === 'bus' || line.type === 'Regionalbus' || line.type === 'Stadtbus') {
+	}
+
+	if (/^(RE|RB|IRE|MEX)/i.test(lineName)) {
+		return { background: '#ffd600', text: '#000' };
+	}
+
+	if (
+		line.vehicleType === 'bus' ||
+		line.vehicleType === 'Regionalbus' ||
+		line.vehicleType === 'Stadtbus'
+	) {
 		return { background: '#90268f', text: '#fff' };
 	}
 

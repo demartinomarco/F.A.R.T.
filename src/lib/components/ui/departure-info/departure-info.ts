@@ -1,7 +1,6 @@
 import { formatTime } from '@/utils';
-import type { Departure } from '@/types/departure';
-import { get } from 'svelte/store';
-import { translations, interpolate, type Translations } from '$lib/i18n';
+import { interpolate, type Translations } from '$lib/i18n';
+import type { Departure } from '@/kvv-trias/types';
 
 function roundToNearestMinute(date: Date): Date {
 	const d = new Date(date);
@@ -30,19 +29,35 @@ export const delayMinutes = (d: Departure): number => {
 	return calculateDifferenceTime(d.realTime, d.plannedTime);
 };
 
-export const plannedTimeLabel = (d: Departure, now: Date): string | null => {
-	const strings = get(translations);
-	const delay = delayMinutes(d);
-	if (delay === 0 || isNaN(delay)) return null;
+export interface AccompanyingStatus {
+	text: string;
+	plannedTime?: string;
+}
 
-	const plannedCountdown = calculateDifferenceTime(d.plannedTime!, now);
-	// Planned arrival is in the near future, so return countdown in minutes
-	if (plannedCountdown > 0 && plannedCountdown < 10)
-		return interpolate(strings.departureInfo.plannedCountdown, { plannedCountdown });
-	// In this case, the tram actual arrival either was in the past
-	// OR it was expected to arrive in more than 10 minutes.
-	// In both cases, show the formatted planned time.
-	return interpolate(strings.departureInfo.plannedTime, { time: formatTime(d.plannedTime) });
+export const accompanyingStatusText = (d: Departure, strings: Translations): AccompanyingStatus => {
+	const depString = strings.departureInfo;
+	if (!d.realTime) return { text: depString.planned };
+
+	const delay = delayMinutes(d);
+	if (delay === 0 || isNaN(delay)) return { text: depString.onTime };
+
+	const formattedTime = d.plannedTime ? formatTime(d.plannedTime) : '';
+	const absDelay = Math.abs(delay);
+
+	let statusText = '';
+
+	if (delay > 0) {
+		const template = delay === 1 ? depString.minuteLate : depString.minutesLate;
+		statusText = interpolate(template, { delay });
+	} else {
+		const template = absDelay === 1 ? depString.minuteEarly : depString.minutesEarly;
+		statusText = interpolate(template, { delay: absDelay });
+	}
+
+	return {
+		text: statusText,
+		plannedTime: formattedTime ? `(${formattedTime})` : undefined
+	};
 };
 
 export const colorClass = (d: Departure): string => {

@@ -3,6 +3,7 @@ import deutsch from './deutsch.json';
 import english from './english.json';
 
 export type Locale = 'de' | 'en';
+export type Translations = typeof deutsch;
 
 export const locales: { code: Locale; label: string; flag: string }[] = [
 	{ code: 'de', label: 'Deutsch', flag: '🇩🇪' },
