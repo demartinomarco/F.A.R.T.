@@ -30,11 +30,12 @@ let hasPlatforms = $derived(platformNames && platformNames.length > 0);
 				<Sidebar.Menu class="flex flex-col gap-4">
 					<Sidebar.MenuItem class="flex flex-col gap-2">
 						<!-- Field Label dims when disabled -->
-						<span
+						<Label
+							for="platform-select-input"
 							class={cn('text-sm font-medium transition-opacity', !hasPlatforms && 'opacity-50')}
 						>
 							{$translations.sidebar.platforms}
-						</span>
+						</Label>
 						<MultiSelect platformNames={platformNames} bind:selectedPlatforms={selectedPlatforms} />
 					</Sidebar.MenuItem>
 

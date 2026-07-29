@@ -95,6 +95,7 @@ function useMyLocation(cache: boolean = false) {
 				class="w-90 max-w-full justify-between sm:w-fit sm:min-w-90"
 				role="combobox"
 				aria-expanded={open}
+				aria-label={selectedValue || $translations.search.placeholder}
 			>
 				<span class="truncate">{selectedValue || $translations.search.placeholder}</span>
 				<div class="flex items-center gap-1">

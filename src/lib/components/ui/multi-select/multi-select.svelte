@@ -16,6 +16,8 @@ let { platformNames, selectedPlatforms = $bindable() } = $props();
 	placeholder={$translations.multiSelect.placeholder}
 	readOnly={true}
 	disabled={platformNames.length === 0}
+	id="platform-select-input"
+	aria-label={$translations.sidebar.platforms}
 >
 	{#snippet expandIcon({ open })}
 		<ChevronsUpDownIcon class="h-4! w-4! shrink-0 opacity-50" />
