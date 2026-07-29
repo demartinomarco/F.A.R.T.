@@ -20,7 +20,7 @@ const status = $derived(accompanyingStatusText(departure, $translations));
 	<div class="flex min-w-0 items-start gap-2.5">
 		<!-- Vehicle Type Indicator with 2x Badge Bubble -->
 		<div
-			class="relative flex h-7 w-5 shrink-0 items-center justify-center text-slate-400"
+			class="relative flex h-7 w-5 shrink-0 items-center justify-center text-slate-600"
 			title={isBus ? 'Bus' : `${count} Wagon Tram`}
 		>
 			{#if isBus}
@@ -50,9 +50,9 @@ const status = $derived(accompanyingStatusText(departure, $translations));
 
 			{#if status.text}
 				<div class="mt-1 flex items-center gap-1.5 text-[11px] leading-none font-medium">
-					<span class={colorClass(departure) || 'text-slate-500'}>{status.text}</span>
+					<span class={colorClass(departure) || 'text-slate-600'}>{status.text}</span>
 					{#if status.plannedTime}
-						<span class="font-normal text-slate-400 line-through">
+						<span class="font-normal text-slate-600 line-through">
 							{status.plannedTime}
 						</span>
 					{/if}

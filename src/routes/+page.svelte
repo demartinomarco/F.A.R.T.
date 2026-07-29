@@ -124,7 +124,7 @@ function platformName(platformInfo: Platform): string {
 	<main class="min-h-screen w-full bg-slate-50">
 		<!-- Top Bar Header -->
 		<div
-			class="sticky top-0 z-10 flex items-center justify-between gap-3 bg-[#c30a37] px-4 py-3 shadow-sm"
+			class="sticky top-0 z-10 flex items-center justify-between gap-3 bg-[#a8082e] px-4 py-3 shadow-sm"
 		>
 			<div class="flex w-full min-w-0 flex-1 items-center">
 				<SearchBar bind:selectedId={stationId} bind:selectedValue={stationName} />
