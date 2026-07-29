@@ -37,7 +37,8 @@ export function mapStopEventResultToDeparture(r: any): InternalDeparture | null 
 			direction: direction ? [direction] : [],
 			vehicleType: extractVehicleType(service),
 			plannedTime,
-			realTime
+			realTime,
+			wagonCount: 1
 		}
 	};
 }
@@ -58,13 +59,32 @@ export function consolidateWagons(departures: InternalDeparture[]): MappedDepart
 			(existing) =>
 				existing.lineRef === current.lineRef &&
 				existing.departure.plannedTime.getTime() === current.departure.plannedTime.getTime() &&
-				existing.departure.realTime?.getTime() === current.departure.realTime?.getTime() &&
 				existing.platform.type === current.platform.type &&
 				existing.platform.name === current.platform.name
 		);
 
-		if (!match) {
-			uniqueDepartures.push(current);
+		if (match) {
+			match.departure.wagonCount += current.departure.wagonCount;
+
+			// Prefer non-null realTime
+			if (!match.departure.realTime && current.departure.realTime) {
+				match.departure.realTime = current.departure.realTime;
+			}
+
+			// Combine directions without duplicates
+			for (const dir of current.departure.direction) {
+				if (!match.departure.direction.includes(dir)) {
+					match.departure.direction.push(dir);
+				}
+			}
+		} else {
+			uniqueDepartures.push({
+				...current,
+				departure: {
+					...current.departure,
+					direction: [...current.departure.direction]
+				}
+			});
 		}
 	}
 

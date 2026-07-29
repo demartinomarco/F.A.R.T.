@@ -135,10 +135,7 @@ export function _getPlatformKey(platformDep: PlatformDepartures): string {
 }
 
 export function _getDepartureKey(departure: Departure): string {
-	const time =
-		departure.plannedTime instanceof Date
-			? departure.plannedTime.getTime()
-			: new Date(departure.plannedTime).getTime();
+	const time = departure.plannedTime.getTime();
 
 	return `${departure.lineName}-${time}-${departure.direction.join('-')}`;
 }

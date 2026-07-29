@@ -9,7 +9,7 @@ let { departure } = $props();
 const now = $state(new Date());
 
 const isBus = $derived(departure.vehicleType?.toLowerCase() === 'bus');
-const count = $derived(departure.direction?.length > 1 ? 2 : 1);
+const count = $derived(departure.wagonCount);
 const status = $derived(accompanyingStatusText(departure, $translations));
 </script>
 
