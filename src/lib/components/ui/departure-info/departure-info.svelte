@@ -43,7 +43,7 @@ const status = $derived(accompanyingStatusText(departure, $translations));
 		</div>
 
 		<!-- Destination Name + Status Text -->
-		<div class="flex min-w-0 flex-1 flex-col pt-0.5">
+		<div class="flex min-w-0 flex-1 flex-col">
 			{#each departure.direction as direction (direction)}
 				<p class="truncate text-sm leading-tight font-semibold text-slate-800">{direction}</p>
 			{/each}
@@ -62,7 +62,7 @@ const status = $derived(accompanyingStatusText(departure, $translations));
 	</div>
 
 	<!-- Right Section: Departure Countdown / Time -->
-	<div class="flex shrink-0 items-center justify-end pt-0.5">
+	<div class="flex shrink-0 items-center self-center justify-end pt-0.5">
 		<p class="text-sm font-bold whitespace-nowrap {colorClass(departure)}">
 			{countdownText(departure, now, $translations)}
 		</p>
