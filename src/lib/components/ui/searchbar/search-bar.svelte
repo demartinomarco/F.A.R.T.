@@ -2,7 +2,7 @@
 import CheckIcon from '@lucide/svelte/icons/check';
 import ChevronsUpDownIcon from '@lucide/svelte/icons/chevrons-up-down';
 import MapPinIcon from '@lucide/svelte/icons/map-pin';
-import { tick, onMount } from 'svelte';
+import { tick } from 'svelte';
 import { goto } from '$app/navigation';
 import * as Command from '@/components/ui/command';
 import * as Popover from '@/components/ui/popover';
@@ -11,82 +11,79 @@ import { cn } from '@/utils.js';
 import { type GeoPoint, type SearchResult, searchStops } from '$lib/stops-search';
 import { Spinner } from '$lib/components/ui/spinner/index.js';
 import { translations } from '$lib/i18n';
+import {
+	getSelectedStopItem,
+	formatDistance,
+	checkGeolocationPermission,
+	getCurrentLocation,
+	fetchDefaultStops
+} from './search-bar';
+
+let { selectedId = $bindable(), selectedValue = $bindable() } = $props();
 
 let open = $state(false);
 let loadingLocation = $state(false);
 let locationError = $state(false);
 
-let { selectedId = $bindable(), selectedValue = $bindable() } = $props();
 let stops: SearchResult[] = $state([]);
-const addSelectedStop = () =>
-	(stops = [{ value: selectedId, label: selectedValue, placeName: '', stopName: '' }]);
-
-$effect(() => {
-	if (open) {
-		addSelectedStop();
-	}
-});
-
+let clientLocation = $state<GeoPoint | undefined>();
 let triggerRef = $state<HTMLButtonElement>(null!);
 
-let prevId = $state(selectedId);
-$effect(() => {
-	if (selectedId === prevId) return;
+async function loadDefaultStops() {
+	if (!clientLocation && (await checkGeolocationPermission())) {
+		await useMyLocation(true);
+		return;
+	}
+	stops = await fetchDefaultStops(selectedId, selectedValue, clientLocation);
+}
 
-	selectedValue = stops.find((s) => s.value === selectedId)?.label ?? selectedValue;
-});
+async function useMyLocation(cache: boolean = false) {
+	loadingLocation = true;
+	try {
+		clientLocation = await getCurrentLocation(cache);
+		locationError = false;
+		stops = await fetchDefaultStops(selectedId, selectedValue, clientLocation);
+	} catch {
+		locationError = true;
+		const selected = getSelectedStopItem(selectedId, selectedValue);
+		if (selected && stops.length === 0) stops = [selected];
+	} finally {
+		loadingLocation = false;
+	}
+}
+
+async function updateStops(text: string) {
+	if (text.trim().length === 0) {
+		await loadDefaultStops();
+		return;
+	}
+	stops = await searchStops(text, clientLocation);
+}
+
+function handleOpenChange(isOpen: boolean) {
+	if (isOpen) {
+		loadDefaultStops();
+	}
+}
 
 function closeAndFocusTrigger() {
 	open = false;
 	tick().then(() => triggerRef.focus());
 }
 
-let clientLocation = $state<GeoPoint | undefined>();
+let prevId = $state(selectedId);
+$effect(() => {
+	if (selectedId === prevId) return;
 
-onMount(() => {
-	navigator.permissions.query({ name: 'geolocation' }).then((result) => {
-		if (result.state !== 'granted') return;
-		useMyLocation(true);
-	});
+	const matchedStop = stops.find((s) => s.value === selectedId);
+	if (matchedStop) selectedValue = matchedStop.label;
+
+	prevId = selectedId;
+	loadDefaultStops();
 });
-
-async function updateStops(text: string) {
-	// If user deletes all text after typing something
-	if (text.trim().length === 0) {
-		addSelectedStop();
-		return;
-	}
-	stops = await searchStops(text, clientLocation);
-}
-
-function useMyLocation(cache: boolean = false) {
-	loadingLocation = true;
-	navigator.geolocation?.getCurrentPosition(
-		async (pos) => {
-			locationError = false;
-			loadingLocation = false;
-
-			clientLocation = {
-				lat: pos.coords.latitude,
-				lon: pos.coords.longitude
-			};
-
-			stops = await searchStops('', clientLocation);
-		},
-		() => {
-			// user denied or unavailable; just keep normal text search
-			locationError = true;
-			loadingLocation = false;
-		},
-		{
-			maximumAge: cache ? 5 * 60 * 1000 : 0,
-			timeout: 10000
-		}
-	);
-}
 </script>
 
-<Popover.Root bind:open={open}>
+<Popover.Root bind:open={open} onOpenChange={handleOpenChange}>
 	<Popover.Trigger bind:ref={triggerRef}>
 		{#snippet child({ props })}
 			<Button
@@ -112,7 +109,7 @@ function useMyLocation(cache: boolean = false) {
 				oninput={(e) => updateStops(e.currentTarget.value)}
 			/>
 			<Command.List>
-				<Command.Item onclick={useMyLocation}>
+				<Command.Item onclick={() => useMyLocation(false)}>
 					<div class="flex grow flex-col gap-2">
 						<div class="flex grow gap-2">
 							<MapPinIcon class="h-4 w-4 opacity-50" />
@@ -129,18 +126,18 @@ function useMyLocation(cache: boolean = false) {
 				{#key stops}
 					<Command.Group value="stops" heading={$translations.search.resultsTitle}>
 						{#if stops.length === 0}
-							<span class="block px-2 py-1.5 text-sm text-muted-foreground"
-								>{$translations.search.noStopsFound}</span
-							>
+							<span class="block px-2 py-1.5 text-sm text-muted-foreground">
+								{$translations.search.noStopsFound}
+							</span>
 						{/if}
 						{#each stops as stop (stop.value)}
 							<Command.Item
 								value={stop.value}
 								onSelect={() => {
-									selectedId = stop.value;
-									closeAndFocusTrigger();
-									goto(`/?stationId=${stop.value}`);
-								}}
+                                    selectedId = stop.value;
+                                    closeAndFocusTrigger();
+                                    goto(`/?stationId=${stop.value}`);
+                                }}
 							>
 								<CheckIcon
 									class={cn('mr-2 h-4 w-4 shrink-0', selectedId !== stop.value && 'opacity-0')}
@@ -148,9 +145,7 @@ function useMyLocation(cache: boolean = false) {
 								<span class="flex-1">{stop.label}</span>
 								{#if stop.distanceKm !== undefined}
 									<span class="ml-auto shrink-0 text-xs text-muted-foreground">
-										{stop.distanceKm < 1
-											? `${Math.round(stop.distanceKm * 1000)} m`
-											: `${stop.distanceKm.toFixed(1)} km`}
+										{formatDistance(stop.distanceKm)}
 									</span>
 								{/if}
 							</Command.Item>
