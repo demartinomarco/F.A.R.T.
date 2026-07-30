@@ -58,7 +58,7 @@ $effect(() => {
 });
 
 const depTimer = setInterval(async () => {
-	//fetchAndSetDepartures(stationId, eventType);
+	fetchAndSetDepartures(stationId, eventType);
 }, 15000);
 
 const clockTimer = setInterval(() => (now = new Date()), 1000);
