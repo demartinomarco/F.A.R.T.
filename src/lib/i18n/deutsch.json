@@ -50,9 +50,14 @@
 		"now": "Sofort",
 		"minutes": "{diff} Min",
 		"plannedCountdown": "({plannedCountdown} Min)",
-		"plannedTime": "({time})"
+		"plannedTime": "({time})",
+		"planned": "Geplant",
+		"onTime": "Pünktlich",
+		"minuteLate": "{delay} Minute verspätet",
+		"minutesLate": "{delay} Minuten verspätet",
+		"minuteEarly": "{delay} Minute zu früh",
+		"minutesEarly": "{delay} Minuten zu früh"
 	},
-
 	"about": {
 		"pageTitle": "Über dieses Projekt",
 		"intro": "F.A.R.T. (Finally A Reliable Timetable) ist eine schnelle, zuverlässige und benutzerfreundliche Anzeige für Echtzeit-Abfahrten und Echtzeit-Ankünfte von Bus und Tram im Raum Karlsruhe (KVV-Gebiet).",

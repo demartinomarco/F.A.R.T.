@@ -7,7 +7,9 @@ import {
 	_extractPlatformNames,
 	_fetchDepartures,
 	_filterByPlatformName,
-	type UiModel
+	type UiModel,
+	_getPlatformKey,
+	_getDepartureKey
 } from './+page';
 import { formatTime } from '@/utils';
 import * as Sidebar from '$lib/components/ui/sidebar/index.js';
@@ -20,17 +22,24 @@ const { data }: PageProps = $props();
 let now = $state(new Date());
 let time = $derived(formatTime(now));
 
+let stationId = $state('');
+let eventType = $state<'dep' | 'arr'>('dep');
+let departures = $state<StationDepartures | null>(null);
+let error = $state<UiModel['error']>(null);
+
+let oldStationId = $state('');
+
+$effect(() => {
+	stationId = data.model.stationId;
+	eventType = data.model.eventType;
+	departures = data.model.item;
+	error = data.model.error;
+});
+
+let stationName = $derived(departures?.stationName ?? '');
 let selectedPlatforms: string[] = $state([]);
-let departures: StationDepartures | null = $state(data.model.item);
-let error = $state(data.model.error);
 let departuresToShow = $derived(_filterByPlatformName(departures, selectedPlatforms));
 const platformNames = $derived(_extractPlatformNames(departures));
-let eventType: 'dep' | 'arr' = $state(data.model.eventType);
-
-let stationId = $state(data.model.stationId);
-// svelte-ignore state_referenced_locally
-let oldStationId = stationId;
-let stationName = $derived(departures?.stationName ?? '');
 
 async function fetchAndSetDepartures(stId: string, ev: 'dep' | 'arr') {
 	if (oldStationId !== stId) {
@@ -102,44 +111,71 @@ function platformName(platformInfo: Platform): string {
 			: $translations.page.metaDescriptionWithoutStation}
 	/>
 </svelte:head>
+
 <Sidebar.Provider
 	bind:open={sidebarOpen}
-	style="--sidebar-width: 17rem; --sidebar-width-mobile:  fit-content;"
+	style="--sidebar-width: 17rem; --sidebar-width-mobile: fit-content;"
 >
 	<AppSidebar
 		platformNames={platformNames}
 		bind:selectedPlatforms={selectedPlatforms}
 		bind:eventType={eventType}
 	/>
-	<main class="w-full">
-		<div class="flex items-center justify-between gap-4 bg-[#c30a37] p-4">
-			<div class="flex w-full min-w-0">
+	<main class="min-h-screen w-full bg-slate-50">
+		<!-- Top Bar Header -->
+		<div
+			class="sticky top-0 z-10 flex items-center justify-between gap-3 bg-[#a8082e] px-4 py-3 shadow-sm"
+		>
+			<div class="flex w-full min-w-0 flex-1 items-center">
 				<SearchBar bind:selectedId={stationId} bind:selectedValue={stationName} />
 			</div>
 
-			<p class="font-medium text-white">{time}</p>
-			<Sidebar.Trigger class="text-white" />
+			<div class="flex shrink-0 items-center gap-2">
+				<p class="text-sm font-semibold text-white">{time}</p>
+				<Sidebar.Trigger class="text-white" />
+			</div>
 		</div>
 
-		<div class="flex w-full p-4">
+		<!-- Departure Display Area -->
+		<div class="w-full p-4 sm:p-6">
 			{#if error}
-				<p>{errorMessage(error)}</p>
+				<div class="rounded-md bg-red-50 p-3 text-center text-sm text-red-700">
+					<p>{errorMessage(error)}</p>
+				</div>
 			{:else if !departures}
-				<p>{$translations.page.loading}</p>
+				<div class="p-6 text-center text-sm text-slate-500">
+					<p>{$translations.page.loading}</p>
+				</div>
 			{:else if departures.stationName === ''}
-				<p>{interpolate($translations.error.unknownStation, { stationId })}</p>
+				<div class="p-6 text-center text-sm text-slate-500">
+					<p>{interpolate($translations.error.unknownStation, { stationId })}</p>
+				</div>
 			{:else if departuresToShow.length === 0}
-				<p>{$translations.page.noDepartures}</p>
+				<div class="p-6 text-center text-sm text-slate-500">
+					<p>{$translations.page.noDepartures}</p>
+				</div>
 			{:else}
 				{#key departuresToShow}
-					<div class="flex w-full flex-col gap-4">
-						{#each departuresToShow as platformDep}
-							<div class="flex flex-col gap-1">
-								<p class="font-medium">{platformName(platformDep.platform)}</p>
-								<hr class="h-0.5 rounded-sm bg-gray-500" />
-								{#each platformDep.departures as departure}
-									<DepartureInfo departure={departure} />
-								{/each}
+					<div
+						class="grid w-full grid-cols-1 gap-x-10 gap-y-8 sm:grid-cols-[repeat(auto-fit,minmax(340px,1fr))]"
+					>
+						{#each departuresToShow as platformDep (_getPlatformKey(platformDep))}
+							<div class="flex flex-col">
+								<!-- Platform Header with Thicker/Darker Horizontal Divider -->
+								<div
+									class="flex items-baseline justify-between border-b-2 border-slate-700 px-1 pb-1.5"
+								>
+									<h2 class="text-xs font-bold tracking-wider text-slate-800 uppercase">
+										{platformName(platformDep.platform)}
+									</h2>
+								</div>
+
+								<!-- Frameless Departures List with Thin/Light Horizontal Dividers -->
+								<div class="divide-y divide-slate-200/70">
+									{#each platformDep.departures as departure (_getDepartureKey(departure))}
+										<DepartureInfo departure={departure} />
+									{/each}
+								</div>
 							</div>
 						{/each}
 					</div>
