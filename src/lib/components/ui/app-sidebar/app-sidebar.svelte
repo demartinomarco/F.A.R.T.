@@ -4,7 +4,7 @@ import MultiSelect from '@/components/ui/multi-select/multi-select.svelte';
 import { Label } from '$lib/components/ui/label/index.js';
 import * as RadioGroup from '$lib/components/ui/radio-group/index.js';
 import LanguageSelector from '@/components/ui/language-selector/language-selector.svelte';
-import { Github } from 'lucide-svelte';
+import Github from '$lib/components/icons/github.svelte';
 import { resolve } from '$app/paths';
 import { translations } from '$lib/i18n';
 import { cn } from '@/utils.js';

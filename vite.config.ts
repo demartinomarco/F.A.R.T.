@@ -5,7 +5,12 @@ import { defineConfig } from 'vite';
 
 export default defineConfig({
 	plugins: [tailwindcss(), sveltekit()],
-
+	optimizeDeps: {
+		exclude: ['bits-ui', '@lucide/svelte']
+	},
+	ssr: {
+		noExternal: ['bits-ui', '@lucide/svelte']
+	},
 	test: {
 		projects: [
 			{

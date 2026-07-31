@@ -1,5 +1,5 @@
 <script lang="ts">
-import { ChevronLeft } from 'lucide-svelte';
+import ChevronLeft from '@lucide/svelte/icons/chevrons-left';
 import { page } from '$app/state';
 import { goto } from '$app/navigation';
 import { resolve } from '$app/paths';
