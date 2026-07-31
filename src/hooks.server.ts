@@ -1,4 +1,6 @@
 import type { Handle } from '@sveltejs/kit';
+import type { HandleFetch } from '@sveltejs/kit';
+import { env } from '$env/dynamic/private';
 
 export const handle: Handle = async ({ event, resolve }) => {
 	const cookieLocale = event.cookies.get('locale');

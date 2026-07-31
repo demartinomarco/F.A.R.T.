@@ -1,0 +1,195 @@
+{
+	"ok": true,
+	"data": {
+		"platforms": [
+			{
+				"platform": { "name": "1", "type": "rail" },
+				"departures": [
+					{
+						"lineName": "1",
+						"vehicleType": "tram",
+						"direction": ["Durlach Turmberg"],
+						"plannedTime": "2026-08-01T12:00:00.000Z",
+						"realTime": null
+					},
+					{
+						"lineName": "2",
+						"vehicleType": "tram",
+						"direction": ["Durlach Turmberg"],
+						"plannedTime": "2026-08-01T12:00:00.000Z",
+						"realTime": "2026-08-01T12:04:00.000Z"
+					},
+					{
+						"lineName": "3",
+						"vehicleType": "tram",
+						"direction": ["Durlach Turmberg"],
+						"plannedTime": "2026-08-01T12:00:00.000Z",
+						"realTime": null
+					},
+					{
+						"lineName": "4",
+						"vehicleType": "tram",
+						"direction": ["Oberreut"],
+						"plannedTime": "2026-08-01T12:02:00.000Z",
+						"realTime": null
+					},
+					{
+						"lineName": "5",
+						"vehicleType": "tram",
+						"direction": ["Durlach Turmberg"],
+						"plannedTime": "2026-08-01T12:00:00.000Z",
+						"realTime": null
+					},
+					{
+						"lineName": "6",
+						"vehicleType": "tram",
+						"direction": ["Durlach Turmberg"],
+						"plannedTime": "2026-08-01T12:00:00.000Z",
+						"realTime": "2026-08-01T11:58:00.000Z"
+					},
+					{
+						"lineName": "7",
+						"vehicleType": "tram",
+						"direction": ["Durlach Turmberg"],
+						"plannedTime": "2026-08-01T12:00:00.000Z",
+						"realTime": "2026-08-01T11:58:00.000Z"
+					},
+					{
+						"lineName": "8",
+						"vehicleType": "tram",
+						"direction": ["Durlach Turmberg"],
+						"plannedTime": "2026-08-01T12:00:00.000Z",
+						"realTime": "2026-08-01T11:58:00.000Z"
+					},
+					{
+						"lineName": "9",
+						"vehicleType": "tram",
+						"direction": ["Durlach Turmberg"],
+						"plannedTime": "2026-08-01T12:00:00.000Z",
+						"realTime": "2026-08-01T11:58:00.000Z"
+					},
+					{
+						"lineName": "10",
+						"vehicleType": "tram",
+						"direction": ["Durlach Turmberg"],
+						"plannedTime": "2026-08-01T12:00:00.000Z",
+						"realTime": "2026-08-01T11:58:00.000Z"
+					},
+					{
+						"lineName": "S1",
+						"vehicleType": "rail",
+						"direction": ["Hochstetten"],
+						"plannedTime": "2026-08-01T12:05:00.000Z",
+						"realTime": null
+					},
+					{
+						"lineName": "S2",
+						"vehicleType": "rail",
+						"direction": ["Spöck Richard-Hecht-Schule"],
+						"plannedTime": "2026-08-01T12:08:00.000Z",
+						"realTime": null
+					},
+					{
+						"lineName": "S3",
+						"vehicleType": "rail",
+						"direction": ["Spöck Richard-Hecht-Schule"],
+						"plannedTime": "2026-08-01T12:08:00.000Z",
+						"realTime": null
+					},
+
+					{
+						"lineName": "S4",
+						"vehicleType": "rail",
+						"direction": ["Spöck Richard-Hecht-Schule"],
+						"plannedTime": "2026-08-01T12:08:00.000Z",
+						"realTime": null
+					},
+					{
+						"lineName": "S5",
+						"vehicleType": "rail",
+						"direction": ["Spöck Richard-Hecht-Schule"],
+						"plannedTime": "2026-08-01T12:08:00.000Z",
+						"realTime": null
+					},
+					{
+						"lineName": "S6",
+						"vehicleType": "rail",
+						"direction": ["Spöck Richard-Hecht-Schule"],
+						"plannedTime": "2026-08-01T12:08:00.000Z",
+						"realTime": null
+					},
+					{
+						"lineName": "S7",
+						"vehicleType": "rail",
+						"direction": ["Spöck Richard-Hecht-Schule"],
+						"plannedTime": "2026-08-01T12:08:00.000Z",
+						"realTime": null
+					},
+					{
+						"lineName": "S8",
+						"vehicleType": "rail",
+						"direction": ["Spöck Richard-Hecht-Schule"],
+						"plannedTime": "2026-08-01T12:08:00.000Z",
+						"realTime": null
+					},
+					{
+						"lineName": "S9",
+						"vehicleType": "rail",
+						"direction": ["Spöck Richard-Hecht-Schule"],
+						"plannedTime": "2026-08-01T12:08:00.000Z",
+						"realTime": null
+					},
+					{
+						"lineName": "47",
+						"vehicleType": "bus",
+						"direction": ["Zündhütle"],
+						"plannedTime": "2026-08-01T12:10:00.000Z",
+						"realTime": null
+					},
+					{
+						"lineName": "222",
+						"vehicleType": "Regionalbus",
+						"direction": ["Rastatt Bahnhof"],
+						"plannedTime": "2026-08-01T12:15:00.000Z",
+						"realTime": null
+					},
+					{
+						"lineName": "RE 40",
+						"vehicleType": "rail",
+						"direction": ["Freudenstadt Hbf"],
+						"plannedTime": "2026-08-01T12:20:00.000Z",
+						"realTime": null
+					},
+					{
+						"lineName": "ICE 574",
+						"vehicleType": "rail",
+						"direction": ["Hamburg-Altona"],
+						"plannedTime": "2026-08-01T12:25:00.000Z",
+						"realTime": null
+					},
+					{
+						"lineName": "NJ 402",
+						"vehicleType": "rail",
+						"direction": ["Amsterdam Centraal"],
+						"plannedTime": "2026-08-01T12:30:00.000Z",
+						"realTime": null
+					},
+					{
+						"lineName": "TGV 9576",
+						"vehicleType": "rail",
+						"direction": ["Paris Est"],
+						"plannedTime": "2026-08-01T12:35:00.000Z",
+						"realTime": null
+					},
+					{
+						"lineName": "X99",
+						"vehicleType": "unknown",
+						"direction": ["Test Default Style"],
+						"plannedTime": "2026-08-01T12:40:00.000Z",
+						"realTime": null
+					}
+				]
+			}
+		]
+	}
+}
