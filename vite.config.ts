@@ -17,8 +17,11 @@ export default defineConfig({
 	test: {
 		projects: [
 			{
-				name: 'client',
+				// Client-side tests (Svelte components)
+				extends: true,
 				test: {
+					name: 'client',
+					// Timeout for browser tests - prevent hanging on element lookups
 					testTimeout: 2000,
 					browser: {
 						enabled: true,
@@ -27,30 +30,29 @@ export default defineConfig({
 						instances: [{ browser: 'chromium' }]
 					},
 					include: ['src/**/*.svelte.{test,spec}.{js,ts}'],
-					exclude: ['**/*.bench.ts'],
+					exclude: ['src/lib/server/**', 'src/**/*.ssr.{test,spec}.{js,ts}'],
 					setupFiles: ['./src/vitest-setup-client.ts']
 				}
 			},
 			{
-				name: 'ssr',
+				// SSR tests (Server-side rendering)
+				extends: true,
 				test: {
+					name: 'ssr',
 					environment: 'node',
-					include: ['src/**/*.ssr.{test,spec}.{js,ts}'],
-					exclude: ['**/*.bench.ts']
+					include: ['src/**/*.ssr.{test,spec}.{js,ts}']
 				}
 			},
 			{
-				name: 'server',
+				// Server-side tests (Node.js utilities)
+				extends: true,
 				test: {
+					name: 'server',
 					environment: 'node',
 					include: ['src/**/*.{test,spec}.{js,ts}'],
-					exclude: [
-						'**/*.bench.ts',
-						'src/**/*.svelte.{test,spec}.{js,ts}',
-						'src/**/*.ssr.{test,spec}.{js,ts}'
-					]
+					exclude: ['src/**/*.svelte.{test,spec}.{js,ts}', 'src/**/*.ssr.{test,spec}.{js,ts}']
 				}
 			}
-		]
+		],
 	}
 });
