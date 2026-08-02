@@ -8,7 +8,6 @@ import * as Command from '@/components/ui/command';
 import * as Popover from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/utils.js';
-import { type GeoPoint, type SearchResult, searchStops } from '$lib/stops-search';
 import { Spinner } from '$lib/components/ui/spinner/index.js';
 import { translations } from '$lib/i18n';
 import {
@@ -18,6 +17,8 @@ import {
 	getCurrentLocation,
 	fetchDefaultStops
 } from './search-bar';
+import { searchStops } from '@/stops-search';
+import type { GeoPoint, SearchResult } from '@/stops-search/types';
 
 let { selectedId = $bindable(), selectedValue = $bindable() } = $props();
 

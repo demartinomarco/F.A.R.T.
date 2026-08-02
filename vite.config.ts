@@ -1,69 +1,56 @@
 import tailwindcss from '@tailwindcss/vite';
 import { sveltekit } from '@sveltejs/kit/vite';
 import { playwright } from '@vitest/browser-playwright';
-import { defineConfig } from 'vite';
+import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
 	plugins: [tailwindcss(), sveltekit()],
+
 	optimizeDeps: {
 		exclude: ['bits-ui', '@lucide/svelte']
 	},
+
 	ssr: {
 		noExternal: ['bits-ui', '@lucide/svelte']
 	},
+
 	test: {
 		projects: [
 			{
-				// Client-side tests (Svelte components)
-				extends: true,
+				name: 'client',
 				test: {
-					name: 'client',
-					// Timeout for browser tests - prevent hanging on element lookups
 					testTimeout: 2000,
 					browser: {
 						enabled: true,
 						provider: playwright(),
-						// Multiple browser instances for better performance
-						// Uses single Vite server with shared caching
-						instances: [
-							{ browser: 'chromium' }
-							// { browser: 'firefox' },
-							// { browser: 'webkit' },
-						]
+						headless: true,
+						instances: [{ browser: 'chromium' }]
 					},
 					include: ['src/**/*.svelte.{test,spec}.{js,ts}'],
-					exclude: ['src/lib/server/**', 'src/**/*.ssr.{test,spec}.{js,ts}'],
+					exclude: ['**/*.bench.ts'],
 					setupFiles: ['./src/vitest-setup-client.ts']
 				}
 			},
 			{
-				// SSR tests (Server-side rendering)
-				extends: true,
+				name: 'ssr',
 				test: {
-					name: 'ssr',
 					environment: 'node',
-					include: ['src/**/*.ssr.{test,spec}.{js,ts}']
+					include: ['src/**/*.ssr.{test,spec}.{js,ts}'],
+					exclude: ['**/*.bench.ts']
 				}
 			},
 			{
-				// Server-side tests (Node.js utilities)
-				extends: true,
+				name: 'server',
 				test: {
-					name: 'server',
 					environment: 'node',
 					include: ['src/**/*.{test,spec}.{js,ts}'],
-					exclude: ['src/**/*.svelte.{test,spec}.{js,ts}', 'src/**/*.ssr.{test,spec}.{js,ts}']
+					exclude: [
+						'**/*.bench.ts',
+						'src/**/*.svelte.{test,spec}.{js,ts}',
+						'src/**/*.ssr.{test,spec}.{js,ts}'
+					]
 				}
 			}
-		],
-		coverage: {
-			enabled: false,
-			include: ['src'],
-			provider: 'v8', // or 'istanbul'
-			exclude: ['src/app.html', 'src/error.html', 'node_modules/**', '**/*.spec.ts']
-
-			// Improved performance: Vitest only checks files in src/
-			// instead of scanning the entire project
-		}
+		]
 	}
 });
