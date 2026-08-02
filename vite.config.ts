@@ -57,9 +57,10 @@ export default defineConfig({
 			}
 		],
 		coverage: {
-			enabled: true,
+			enabled: false,
 			include: ['src'],
-			provider: 'v8' // or 'istanbul'
+			provider: 'v8', // or 'istanbul'
+			exclude: ['src/app.html', 'src/error.html', 'node_modules/**', '**/*.spec.ts']
 
 			// Improved performance: Vitest only checks files in src/
 			// instead of scanning the entire project
