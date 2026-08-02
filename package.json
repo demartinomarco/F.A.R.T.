@@ -13,13 +13,16 @@
 		"format": "prettier --write .",
 		"lint": "prettier --check . && eslint .",
 		"test:unit": "vitest",
-		"test": "pnpm run test:unit -- --run"
+		"test": "pnpm run test:unit -- --run",
+		"test:a11y": "playwright test"
 	},
 	"devDependencies": {
+		"@axe-core/playwright": "^4.12.1",
 		"@eslint/compat": "^2.1.0",
 		"@eslint/js": "^10.0.1",
 		"@internationalized/date": "^3.12.2",
 		"@lucide/svelte": "^1.28.0",
+		"@playwright/test": "^1.62.0",
 		"@sveltejs/adapter-auto": "^7.0.1",
 		"@sveltejs/adapter-node": "^5.5.7",
 		"@sveltejs/kit": "^2.70.2",
@@ -38,7 +41,6 @@
 		"fuse.js": "^7.5.0",
 		"globals": "^17.8.0",
 		"luxon": "^3.7.2",
-		"playwright": "^1.62.0",
 		"prettier": "^3.9.6",
 		"prettier-plugin-svelte": "^3.5.2",
 		"prettier-plugin-tailwindcss": "^0.7.4",
@@ -53,10 +55,5 @@
 		"vite": "^7.3.6",
 		"vitest": "^4.1.10",
 		"vitest-browser-svelte": "^2.2.1"
-	},
-	"pnpm": {
-		"onlyBuiltDependencies": [
-			"esbuild"
-		]
 	}
 }

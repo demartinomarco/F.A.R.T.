@@ -2,6 +2,10 @@
 import { translations } from '$lib/i18n';
 </script>
 
+<svelte:head>
+	<title>{$translations.about.pageTitle}</title>
+</svelte:head>
+
 <article class="space-y-6 p-4">
 	<header class="space-y-3">
 		<p>{$translations.about.intro}</p>
