@@ -1,4 +1,5 @@
-import { type GeoPoint, type SearchResult, searchStops } from '$lib/stops-search';
+import { searchStops } from '@/stops-search';
+import type { GeoPoint, SearchResult } from '@/stops-search/types';
 
 export function getSelectedStopItem(
 	selectedId: string,

@@ -1,5 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { countdownText, delayMinutes, plannedTimeLabel, colorClass } from './departure-info';
+import { countdownText, delayMinutes, colorClass } from './departure-info';
+import { translations } from '$lib/i18n';
+import { get } from 'svelte/store';
 
 // Mock formatTime so tests are deterministic and not locale dependent
 vi.mock('@/utils', () => ({
@@ -58,10 +60,12 @@ describe('departure-info', () => {
 	});
 
 	describe('countdownText', () => {
+		const strings = get(translations);
+
 		it('returns "keine Angabe" when both times null', () => {
 			const d = { plannedTime: null, realTime: null } as any;
 			const now = new Date('2024-06-01T12:05:00Z');
-			expect(countdownText(d, now)).toBe('keine Angabe');
+			expect(countdownText(d, now, strings)).toBe('keine Angabe');
 		});
 
 		it('uses realTime when present', () => {
@@ -70,7 +74,7 @@ describe('departure-info', () => {
 				realTime: new Date('2024-06-01T12:12:00Z')
 			} as any;
 			const now = new Date('2024-06-01T12:05:00Z');
-			expect(countdownText(d, now)).toBe('7 Min'); // real - now = 7
+			expect(countdownText(d, now, strings)).toBe('7 Min'); // real - now = 7
 		});
 
 		it('returns "Sofort" when tram should be arriving now', () => {
@@ -79,7 +83,7 @@ describe('departure-info', () => {
 				realTime: new Date('2024-06-01T12:06:00Z')
 			} as any;
 			const now = new Date('2024-06-01T12:06:00Z');
-			expect(countdownText(d, now)).toBe('Sofort');
+			expect(countdownText(d, now, strings)).toBe('Sofort');
 		});
 
 		it('returns "hh:mm" when no real-time data is present and tram should be arriving now', () => {
@@ -88,7 +92,7 @@ describe('departure-info', () => {
 				realTime: null
 			} as any;
 			const now = new Date('2024-06-01T12:05:00Z');
-			expect(countdownText(d, now)).toBe('12:05');
+			expect(countdownText(d, now, strings)).toBe('12:05');
 		});
 
 		it('returns "hh:mm" when no real-time data is present and tram is scheduled in the future', () => {
@@ -97,7 +101,7 @@ describe('departure-info', () => {
 				realTime: null
 			} as any;
 			const now = new Date('2024-06-01T12:05:00Z');
-			expect(countdownText(d, now)).toBe('12:15');
+			expect(countdownText(d, now, strings)).toBe('12:15');
 		});
 
 		it('returns formatted time when diff > 10 and no real-time data is present', () => {
@@ -106,7 +110,7 @@ describe('departure-info', () => {
 				realTime: null
 			} as any;
 			const now = new Date('2024-06-01T12:05:00Z');
-			expect(countdownText(d, now)).toBe('12:22');
+			expect(countdownText(d, now, strings)).toBe('12:22');
 		});
 
 		it('returns formatted time when diff > 10', () => {
@@ -115,7 +119,7 @@ describe('departure-info', () => {
 				realTime: new Date('2024-06-01T12:22:00Z')
 			} as any;
 			const now = new Date('2024-06-01T12:05:00Z');
-			expect(countdownText(d, now)).toBe('12:22');
+			expect(countdownText(d, now, strings)).toBe('12:22');
 		});
 
 		it('rounds diff before branching (10.5 -> 11 => formatted)', () => {
@@ -124,7 +128,7 @@ describe('departure-info', () => {
 				realTime: null
 			} as any;
 			const now = new Date('2024-06-01T12:05:00Z');
-			expect(countdownText(d, now)).toBe('12:15');
+			expect(countdownText(d, now, strings)).toBe('12:15');
 		});
 
 		it('rounds realTime to nearest minute when diff > 10 so planned and real can differ by seconds', () => {
@@ -137,60 +141,14 @@ describe('departure-info', () => {
 			// real(12:38:42) - now(12:20:00) = 18.7 min -> rounds to 19 (>10)
 			const now = new Date('2024-06-01T12:20:00Z');
 
-			expect(plannedTimeLabel(d, now)).toBe('(12:38)');
-			expect(countdownText(d, now)).toBe('12:39');
-		});
-	});
-
-	describe('plannedTimeLabel', () => {
-		it('returns null when times null (delayMinutes NaN)', () => {
-			const d = { realTime: null, plannedTime: null } as any;
-			const now = new Date('2024-06-01T12:05:00Z');
-			expect(plannedTimeLabel(d, now)).toBe(null);
-		});
-
-		it('returns null when no delay', () => {
-			const d = {
-				realTime: new Date('2024-06-01T12:00:00Z'),
-				plannedTime: new Date('2024-06-01T12:00:00Z')
-			} as any;
-			const now = new Date('2024-06-01T11:59:00Z');
-			expect(plannedTimeLabel(d, now)).toBe(null);
-		});
-
-		it('returns planned countdown when plannedCountdown is 1..9 (even if delay is negative)', () => {
-			const d = {
-				// Early vehicle: real earlier than planned
-				realTime: new Date('2024-06-01T12:07:00Z'),
-				plannedTime: new Date('2024-06-01T12:10:00Z') // plannedCountdown will be 5
-			} as any;
-			const now = new Date('2024-06-01T12:05:00Z');
-			expect(plannedTimeLabel(d, now)).toBe('(5 Min)');
-		});
-
-		it('returns formatted planned time when plannedCountdown <= 0 (planned time is now/past)', () => {
-			const d = {
-				realTime: new Date('2024-06-01T12:12:00Z'),
-				plannedTime: new Date('2024-06-01T12:03:00Z')
-			} as any;
-			const now = new Date('2024-06-01T12:05:00Z');
-			expect(plannedTimeLabel(d, now)).toBe('(12:03)');
-		});
-
-		it('returns formatted planned time when plannedCountdown >= 10', () => {
-			const d = {
-				realTime: new Date('2024-06-01T12:12:00Z'), // early vs planned
-				plannedTime: new Date('2024-06-01T12:25:00Z') // 20 min away => formatted branch
-			} as any;
-			const now = new Date('2024-06-01T12:05:00Z');
-			expect(plannedTimeLabel(d, now)).toBe('(12:25)');
+			expect(countdownText(d, now, strings)).toBe('12:39');
 		});
 	});
 
 	describe('colorClass', () => {
 		it('returns "" when delay is NaN', () => {
 			const d = { plannedTime: null, realTime: null } as any;
-			expect(colorClass(d)).toBe('text-yellow-500');
+			expect(colorClass(d)).toBe('text-orange-700');
 		});
 
 		it('returns "" when delay is 0', () => {
@@ -206,7 +164,7 @@ describe('departure-info', () => {
 				plannedTime: new Date('2024-06-01T12:10:00Z'),
 				realTime: new Date('2024-06-01T12:05:00Z')
 			} as any;
-			expect(colorClass(d)).toBe('text-green-600');
+			expect(colorClass(d)).toBe('text-emerald-700');
 		});
 
 		it('returns red when delay positive (late)', () => {
@@ -214,7 +172,7 @@ describe('departure-info', () => {
 				plannedTime: new Date('2024-06-01T12:05:00Z'),
 				realTime: new Date('2024-06-01T12:10:00Z')
 			} as any;
-			expect(colorClass(d)).toBe('text-[#c30a37]');
+			expect(colorClass(d)).toBe('text-[#a8082e]');
 		});
 	});
 });

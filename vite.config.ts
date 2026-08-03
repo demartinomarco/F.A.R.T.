@@ -1,16 +1,19 @@
 import tailwindcss from '@tailwindcss/vite';
 import { sveltekit } from '@sveltejs/kit/vite';
 import { playwright } from '@vitest/browser-playwright';
-import { defineConfig } from 'vite';
+import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
 	plugins: [tailwindcss(), sveltekit()],
+
 	optimizeDeps: {
 		exclude: ['bits-ui', '@lucide/svelte']
 	},
+
 	ssr: {
 		noExternal: ['bits-ui', '@lucide/svelte']
 	},
+
 	test: {
 		projects: [
 			{
@@ -23,13 +26,8 @@ export default defineConfig({
 					browser: {
 						enabled: true,
 						provider: playwright(),
-						// Multiple browser instances for better performance
-						// Uses single Vite server with shared caching
-						instances: [
-							{ browser: 'chromium' }
-							// { browser: 'firefox' },
-							// { browser: 'webkit' },
-						]
+						headless: true,
+						instances: [{ browser: 'chromium' }]
 					},
 					include: ['src/**/*.svelte.{test,spec}.{js,ts}'],
 					exclude: ['src/lib/server/**', 'src/**/*.ssr.{test,spec}.{js,ts}'],
@@ -56,13 +54,5 @@ export default defineConfig({
 				}
 			}
 		],
-		coverage: {
-			enabled: true,
-			include: ['src'],
-			provider: 'v8' // or 'istanbul'
-
-			// Improved performance: Vitest only checks files in src/
-			// instead of scanning the entire project
-		}
 	}
 });
