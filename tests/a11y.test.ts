@@ -13,26 +13,43 @@ const WCAG_AAA_TAGS = [
 	'wcag22aaa'
 ];
 
-test.describe('Accessibility (WCAG AAA)', () => {
-	test('main page meets WCAG AAA standard (excluding official line icons)', async ({ page }) => {
-		await page.goto('/');
-		await page.waitForLoadState('networkidle');
+const themes = ['light', 'dark'] as const;
 
-		const results = await new AxeBuilder({ page })
-			.withTags(WCAG_AAA_TAGS)
-			.exclude('.line-badge')
-			.disableRules(['color-contrast-enhanced'])
-			.analyze();
+for (const theme of themes) {
+	test.describe(`Accessibility (WCAG AAA - ${theme.toUpperCase()} mode)`, () => {
+		test.beforeEach(async ({ context, page }) => {
+			await context.addCookies([
+				{
+					name: 'theme',
+					value: theme,
+					domain: 'localhost',
+					path: '/'
+				}
+			]);
 
-		expect(results.violations).toEqual([]);
+			await page.emulateMedia({ colorScheme: theme });
+		});
+
+		test(`main page meets WCAG AAA standard (${theme})`, async ({ page }) => {
+			await page.goto('/');
+			await page.waitForLoadState('networkidle');
+
+			const results = await new AxeBuilder({ page })
+				.withTags(WCAG_AAA_TAGS)
+				// Excludes official line icons from axe analysis
+				.exclude('.line-badge')
+				.analyze();
+
+			expect(results.violations).toEqual([]);
+		});
+
+		test(`about page meets WCAG AAA standard (${theme})`, async ({ page }) => {
+			await page.goto('/about');
+			await page.waitForLoadState('networkidle');
+
+			const results = await new AxeBuilder({ page }).withTags(WCAG_AAA_TAGS).analyze();
+
+			expect(results.violations).toEqual([]);
+		});
 	});
-
-	test('about page meets WCAG AAA standard', async ({ page }) => {
-		await page.goto('/about');
-		await page.waitForLoadState('networkidle');
-
-		const results = await new AxeBuilder({ page }).withTags(WCAG_AAA_TAGS).analyze();
-
-		expect(results.violations).toEqual([]);
-	});
-});
+}

@@ -8,10 +8,30 @@ import Github from '$lib/components/icons/github.svelte';
 import { resolve } from '$app/paths';
 import { translations } from '$lib/i18n';
 import { cn } from '@/utils.js';
+import { onMount } from 'svelte';
 
 let { platformNames = [], selectedPlatforms = $bindable(), eventType = $bindable() } = $props();
 
 let hasPlatforms = $derived(platformNames && platformNames.length > 0);
+
+let currentTheme = $state<'light' | 'dark'>('light');
+
+// Sync currentTheme state with actual HTML class on client mount
+onMount(() => {
+	currentTheme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+});
+
+function setTheme(theme: 'light' | 'dark') {
+	currentTheme = theme;
+
+	// Set cookie for SSR (expires in 1 year)
+	document.cookie = `theme=${theme}; path=/; max-age=31536000; SameSite=Lax`;
+	if (theme === 'dark') {
+		document.documentElement.classList.add('dark');
+	} else {
+		document.documentElement.classList.remove('dark');
+	}
+}
 </script>
 
 <Sidebar.Root>
@@ -72,6 +92,25 @@ let hasPlatforms = $derived(platformNames && platformNames.length > 0);
 					<Sidebar.MenuItem class="flex flex-col gap-2">
 						<span class="text-sm font-medium">{$translations.sidebar.language}</span>
 						<LanguageSelector />
+					</Sidebar.MenuItem>
+
+					<!-- Theme Selector -->
+					<Sidebar.MenuItem class="flex flex-col gap-2">
+						<span class="text-sm font-medium">Theme</span>
+						<RadioGroup.Root
+							value={currentTheme}
+							onValueChange={(val) => setTheme(val as 'light' | 'dark')}
+							class="gap-2"
+						>
+							<div class="flex items-center space-x-2">
+								<RadioGroup.Item value="light" id="theme-light" />
+								<Label class="cursor-pointer text-sm font-normal" for="theme-light">Light</Label>
+							</div>
+							<div class="flex items-center space-x-2">
+								<RadioGroup.Item value="dark" id="theme-dark" />
+								<Label class="cursor-pointer text-sm font-normal" for="theme-dark">Dark</Label>
+							</div>
+						</RadioGroup.Root>
 					</Sidebar.MenuItem>
 				</Sidebar.Menu>
 			</Sidebar.GroupContent>

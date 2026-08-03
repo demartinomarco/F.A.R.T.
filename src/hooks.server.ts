@@ -1,6 +1,4 @@
 import type { Handle } from '@sveltejs/kit';
-import type { HandleFetch } from '@sveltejs/kit';
-import { env } from '$env/dynamic/private';
 
 export const handle: Handle = async ({ event, resolve }) => {
 	const cookieLocale = event.cookies.get('locale');
@@ -15,9 +13,15 @@ export const handle: Handle = async ({ event, resolve }) => {
 				? 'en'
 				: 'de';
 
+	// If explicit cookie is set, pass class 'dark', otherwise pass empty string (default)
+	const cookieTheme = event.cookies.get('theme');
+	const themeClass = cookieTheme === 'dark' ? 'dark' : '';
+
 	event.locals.locale = validLocale;
+	event.locals.theme = cookieTheme === 'dark' ? 'dark' : 'light';
 
 	return resolve(event, {
-		transformPageChunk: ({ html }) => html.replace('%lang%', validLocale)
+		transformPageChunk: ({ html }) =>
+			html.replace('%lang%', validLocale).replace('%theme%', themeClass)
 	});
 };
