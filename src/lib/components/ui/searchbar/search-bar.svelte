@@ -95,7 +95,7 @@ $effect(() => {
 				aria-expanded={open}
 				aria-label={selectedValue || $translations.search.placeholder}
 			>
-				<span class="truncate">{selectedValue || $translations.search.placeholder}</span>
+				<span class="truncate dark:text-[#FCFCFC]">{selectedValue || $translations.search.placeholder}</span>
 				<div class="flex items-center gap-1">
 					<ChevronsUpDownIcon class="opacity-50" />
 				</div>
