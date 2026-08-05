@@ -121,7 +121,9 @@ function platformName(platformInfo: Platform): string {
 		bind:selectedPlatforms={selectedPlatforms}
 		bind:eventType={eventType}
 	/>
-	<main class="min-h-screen w-full bg-slate-50">
+	<main
+		class="min-h-screen w-full bg-slate-50 text-slate-900 transition-colors dark:bg-slate-950 dark:text-slate-100"
+	>
 		<!-- Top Bar Header -->
 		<div
 			class="sticky top-0 z-10 flex items-center justify-between gap-3 bg-[#a8082e] px-4 py-3 shadow-sm"
@@ -139,19 +141,21 @@ function platformName(platformInfo: Platform): string {
 		<!-- Departure Display Area -->
 		<div class="w-full p-4 sm:p-6">
 			{#if error}
-				<div class="rounded-md bg-red-50 p-3 text-center text-sm text-red-700">
+				<div
+					class="rounded-md bg-red-50 p-3 text-center text-sm text-red-700 dark:bg-red-950/50 dark:text-red-300"
+				>
 					<p>{errorMessage(error)}</p>
 				</div>
 			{:else if !departures}
-				<div class="p-6 text-center text-sm text-slate-500">
+				<div class="p-6 text-center text-sm text-slate-500 dark:text-slate-400">
 					<p>{$translations.page.loading}</p>
 				</div>
 			{:else if departures.stationName === ''}
-				<div class="p-6 text-center text-sm text-slate-500">
+				<div class="p-6 text-center text-sm text-slate-500 dark:text-slate-400">
 					<p>{interpolate($translations.error.unknownStation, { stationId })}</p>
 				</div>
 			{:else if departuresToShow.length === 0}
-				<div class="p-6 text-center text-sm text-slate-500">
+				<div class="p-6 text-center text-sm text-slate-500 dark:text-slate-400">
 					<p>{$translations.page.noDepartures}</p>
 				</div>
 			{:else}
@@ -163,15 +167,17 @@ function platformName(platformInfo: Platform): string {
 							<div class="flex flex-col">
 								<!-- Platform Header with Thicker/Darker Horizontal Divider -->
 								<div
-									class="flex items-baseline justify-between border-b-2 border-slate-700 px-1 pb-1.5"
+									class="flex items-baseline justify-between border-b-2 border-slate-700 px-1 pb-1.5 dark:border-slate-400"
 								>
-									<h2 class="text-xs font-bold tracking-wider text-slate-800 uppercase">
+									<h2
+										class="text-xs font-bold tracking-wider text-slate-800 uppercase dark:text-slate-200"
+									>
 										{platformName(platformDep.platform)}
 									</h2>
 								</div>
 
 								<!-- Frameless Departures List with Thin/Light Horizontal Dividers -->
-								<div class="divide-y divide-slate-200/70">
+								<div class="divide-y divide-slate-200/70 dark:divide-slate-800">
 									{#each platformDep.departures as departure (_getDepartureKey(departure))}
 										<DepartureInfo departure={departure} />
 									{/each}

@@ -148,7 +148,7 @@ describe('departure-info', () => {
 	describe('colorClass', () => {
 		it('returns "" when delay is NaN', () => {
 			const d = { plannedTime: null, realTime: null } as any;
-			expect(colorClass(d)).toBe('text-orange-700');
+			expect(colorClass(d)).toBe('text-[#A12A00] dark:text-orange-400');
 		});
 
 		it('returns "" when delay is 0', () => {
@@ -164,7 +164,7 @@ describe('departure-info', () => {
 				plannedTime: new Date('2024-06-01T12:10:00Z'),
 				realTime: new Date('2024-06-01T12:05:00Z')
 			} as any;
-			expect(colorClass(d)).toBe('text-emerald-700');
+			expect(colorClass(d)).toBe('text-emerald-900 dark:text-emerald-500');
 		});
 
 		it('returns red when delay positive (late)', () => {
@@ -172,7 +172,7 @@ describe('departure-info', () => {
 				plannedTime: new Date('2024-06-01T12:05:00Z'),
 				realTime: new Date('2024-06-01T12:10:00Z')
 			} as any;
-			expect(colorClass(d)).toBe('text-[#a8082e]');
+			expect(colorClass(d)).toBe('text-[#AD0E0E] dark:text-[#FF6659]');
 		});
 	});
 });

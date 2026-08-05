@@ -2,6 +2,7 @@ import type { LayoutServerLoad } from './$types';
 
 export const load: LayoutServerLoad = async ({ locals }) => {
 	return {
-		locale: locals.locale
+		locale: locals.locale,
+		theme: locals.theme
 	};
 };
