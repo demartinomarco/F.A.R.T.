@@ -30,6 +30,8 @@ function makeDeparture(overrides: Partial<Departure> = {}): Departure {
 		realTime: null,
 		wagonCount: 1,
 		cancelled: false,
+		situations: [],
+		notServiced: false,
 		...overrides
 	};
 }

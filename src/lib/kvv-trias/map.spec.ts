@@ -32,7 +32,9 @@ function makeDeparture(opts: {
 			realTime: opts.realTime ? new Date(opts.realTime) : null,
 			vehicleType: 'rail',
 			wagonCount: opts.wagonCount ?? 1,
-			cancelled: opts.cancelled ?? false
+			cancelled: opts.cancelled ?? false,
+			situations: [],
+			notServiced: false
 		}
 	};
 }
