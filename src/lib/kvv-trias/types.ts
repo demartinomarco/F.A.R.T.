@@ -18,6 +18,30 @@ export type Departure = {
 	vehicleType: string;
 	realTime: Date | null;
 	wagonCount: number;
+	situations: Disruption[];
+	notServiced: boolean;
+};
+
+/**
+ * A TRIAS/SIRI "PtSituation": a warning or info message from the operator
+ * (track closures, diversions, line suspensions, ...).
+ */
+export type Disruption = {
+	situationNumber: string;
+	summary: string;
+	description: string | null;
+	detail: string | null; // raw HTML as supplied by the operator
+	priority: number | null;
+	scopeType: string | null;
+	validFrom: Date | null;
+	validUntil: Date | null;
+	affectedStopIds: string[];
+};
+
+/** Machine-readable message from TRIAS, e.g. "stop not served" (code -4030). */
+export type StationMessage = {
+	code: string;
+	text: string;
 };
 
 export type PlatformDepartures = {
@@ -29,6 +53,8 @@ export type StationDepartures = {
 	stationName: string;
 	cityName: string;
 	platforms: PlatformDepartures[];
+	errorMessages: StationMessage[];
+	stationSituations: Disruption[];
 };
 
 export type ApiOk<T> = { ok: true; data: T };

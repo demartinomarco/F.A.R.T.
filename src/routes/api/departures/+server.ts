@@ -1,5 +1,6 @@
 import type { RequestHandler } from '@sveltejs/kit';
 import { getDepartures } from '@/kvv-trias';
+import { toWireDepartures } from '@/kvv-trias/wire';
 import type { EventType } from '@/kvv-trias/types';
 import { isKvvTriasError } from '@/kvv-trias/errors';
 
@@ -58,7 +59,7 @@ export const GET: RequestHandler = async ({ url }) => {
 	try {
 		const departures = await getDepartures(stationId, eventType, limit);
 
-		return json({ ok: true, data: departures }, 200);
+		return json({ ok: true, data: toWireDepartures(departures) }, 200);
 	} catch (e) {
 		if (isKvvTriasError(e)) {
 			// Let client know it can retry (your client retries in 15s)

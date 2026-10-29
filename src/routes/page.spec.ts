@@ -9,7 +9,9 @@ function makeDeparture(): Departure {
 		plannedTime: new Date('2026-10-30T14:20:00.000Z'),
 		vehicleType: 'rail',
 		realTime: null,
-		wagonCount: 1
+		wagonCount: 1,
+		situations: [],
+		notServiced: false
 	};
 }
 

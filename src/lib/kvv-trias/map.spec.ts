@@ -26,7 +26,9 @@ function makeDeparture(opts: {
 			plannedTime: new Date(opts.time ?? '2026-10-30T14:20:00.000Z'),
 			realTime: opts.realTime ? new Date(opts.realTime) : null,
 			vehicleType: 'rail',
-			wagonCount: opts.wagonCount ?? 1
+			wagonCount: opts.wagonCount ?? 1,
+			situations: [],
+			notServiced: false
 		}
 	};
 }
