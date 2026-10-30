@@ -44,7 +44,7 @@ const status = $derived(accompanyingStatusText(departure, $translations));
 
 		<!-- Destination Name + Status Text -->
 		<div class="flex min-w-0 flex-1 flex-col">
-			{#each departure.direction as direction (direction)}
+			{#each departure.direction as direction, index (index)}
 				<p class="truncate text-sm leading-tight font-semibold text-slate-800">{direction}</p>
 			{/each}
 

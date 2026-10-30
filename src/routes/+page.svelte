@@ -159,7 +159,7 @@ function platformName(platformInfo: Platform): string {
 					<div
 						class="grid w-full grid-cols-1 gap-x-10 gap-y-8 sm:grid-cols-[repeat(auto-fit,minmax(340px,1fr))]"
 					>
-						{#each departuresToShow as platformDep (_getPlatformKey(platformDep))}
+						{#each departuresToShow as platformDep, platformIndex (_getPlatformKey(platformDep, platformIndex))}
 							<div class="flex flex-col">
 								<!-- Platform Header with Thicker/Darker Horizontal Divider -->
 								<div
@@ -172,7 +172,7 @@ function platformName(platformInfo: Platform): string {
 
 								<!-- Frameless Departures List with Thin/Light Horizontal Dividers -->
 								<div class="divide-y divide-slate-200/70">
-									{#each platformDep.departures as departure (_getDepartureKey(departure))}
+									{#each platformDep.departures as departure, index (_getDepartureKey(departure, platformDep.platform, index))}
 										<DepartureInfo departure={departure} />
 									{/each}
 								</div>

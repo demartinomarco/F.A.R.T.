@@ -130,12 +130,20 @@ function sortPlatforms(platforms: PlatformDepartures[]): PlatformDepartures[] {
 	});
 }
 
-export function _getPlatformKey(platformDep: PlatformDepartures): string {
-	return `${platformDep.platform.type}-${platformDep.platform.name}`;
+export function _getPlatformKey(platformDep: PlatformDepartures, index: number): string {
+	return `${platformDep.platform.type}-${platformDep.platform.name}-${index}`;
 }
 
-export function _getDepartureKey(departure: Departure): string {
+export function _getDepartureKey(
+	departure: Departure,
+	platform: PlatformDepartures['platform'],
+	index: number
+): string {
 	const time = departure.plannedTime.getTime();
 
-	return `${departure.lineName}-${time}-${departure.direction.join('-')}`;
+	// Upstream TRIAS sometimes returns several entries with the same line, time
+	// and direction (e.g. duplicated StopEvents), so the index is needed to keep
+	// keyed each blocks unique. Platform is included because the same vehicle
+	// can appear on more than one platform.
+	return `${platform.type}-${platform.name}-${departure.lineName}-${time}-${departure.direction.join('-')}-${index}`;
 }
