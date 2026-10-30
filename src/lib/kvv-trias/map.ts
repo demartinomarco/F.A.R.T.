@@ -1,6 +1,7 @@
-import type { Departure, Platform } from './types';
+import type { Departure, Disruption, Platform, StationMessage } from './types';
 import { PlatformType } from './types';
 import { utcIsoToBerlinDate } from './time';
+import { collectNodes } from './parse';
 
 export type MappedDeparture = {
 	platform: Platform;
@@ -11,7 +12,10 @@ type InternalDeparture = MappedDeparture & {
 	lineRef: string;
 };
 
-export function mapStopEventResultToDeparture(r: any): InternalDeparture | null {
+export function mapStopEventResultToDeparture(
+	r: any,
+	situationsByNumber: Map<string, Disruption> = new Map()
+): InternalDeparture | null {
 	const stopEvent = r?.StopEvent;
 	const callAtStop = stopEvent?.ThisCall?.CallAtStop;
 
@@ -38,9 +42,46 @@ export function mapStopEventResultToDeparture(r: any): InternalDeparture | null 
 			vehicleType: extractVehicleType(service),
 			plannedTime,
 			realTime,
-			wagonCount: 1
+			wagonCount: 1,
+			situations: resolveSituationRefs(
+				[callAtStop?.SituationFullRef, service?.SituationFullRef],
+				situationsByNumber
+			),
+			notServiced: isFlagTrue(callAtStop?.NotServicedStop)
 		}
 	};
+}
+
+/**
+ * Resolves SituationFullRef nodes ({ParticipantRef, SituationNumber}) against the
+ * delivered situation map. Refs may come from CallAtStop, Service or both, singly
+ * or repeated; unknown/unresolvable refs are skipped silently.
+ */
+function resolveSituationRefs(
+	refNodes: unknown,
+	situationsByNumber: Map<string, Disruption>
+): Disruption[] {
+	const resolved = new Map<string, Disruption>();
+
+	for (const group of collectNodes(refNodes)) {
+		for (const ref of collectNodes(group)) {
+			const number = readText((ref as any)?.SituationNumber);
+			if (!number) continue;
+
+			const situation = situationsByNumber.get(number);
+			// Dedupe: the same situation is usually referenced by both wagons of
+			// a multiple-unit and by Service *and* CallAtStop.
+			if (situation && !resolved.has(number)) {
+				resolved.set(number, situation);
+			}
+		}
+	}
+
+	return [...resolved.values()];
+}
+
+function isFlagTrue(v: unknown): boolean {
+	return v === true || v === 'true' || v === 1 || v === '1';
 }
 
 function extractVehicleType(service: any): string {
@@ -79,6 +120,8 @@ export function consolidateWagons(departures: InternalDeparture[]): MappedDepart
 		);
 		existing.departure.wagonCount = Math.max(...group.wagonsByLineRef.values());
 
+		mergeSituationState(existing.departure, current.departure);
+
 		// Prefer non-null realTime
 		if (!existing.departure.realTime && current.departure.realTime) {
 			existing.departure.realTime = current.departure.realTime;
@@ -113,7 +156,8 @@ function cloneDeparture(departure: InternalDeparture): InternalDeparture {
 		platform: { ...departure.platform },
 		departure: {
 			...departure.departure,
-			direction: [...departure.departure.direction]
+			direction: [...departure.departure.direction],
+			situations: [...(departure.departure.situations ?? [])]
 		}
 	};
 }
@@ -242,4 +286,169 @@ function extractLineName(service: any): string {
 	}
 
 	return '';
+}
+
+// ---------------------------------------------------------------------------
+// Situations (warnings / info messages) and ErrorMessages
+// ---------------------------------------------------------------------------
+
+export function mapSituationNode(node: any): Disruption | null {
+	if (!node || typeof node !== 'object') return null;
+
+	const situationNumber = readText(node.SituationNumber);
+	if (!situationNumber) return null; // unusable without an identity
+
+	const validityPeriod = collectNodes(node.ValidityPeriod)[0] as
+		{ StartTime?: unknown; EndTime?: unknown } | undefined;
+
+	return {
+		situationNumber,
+		summary: htmlToPlainText(readText(node.Summary)) ?? '',
+		description: htmlToPlainText(readText(node.Description)),
+		detail: htmlToPlainText(readText(node.Detail)),
+		priority: parseIntStrict(node.Priority),
+		scopeType: readText(node.ScopeType),
+		validFrom: parseTriasDate(validityPeriod?.StartTime),
+		validUntil: parseTriasDate(validityPeriod?.EndTime),
+		affectedStopIds: extractAffectedStopRefs(node.Affects)
+	};
+}
+
+export function mapErrorMessageNode(node: any): StationMessage | null {
+	if (!node || typeof node !== 'object') return null;
+
+	const text = readText(node.Text);
+	if (!text) return null;
+
+	return {
+		code: readText(node.Code) ?? '',
+		text
+	};
+}
+
+function extractAffectedStopRefs(affects: unknown): string[] {
+	const ids: string[] = [];
+
+	for (const affect of collectNodes(affects)) {
+		for (const stopPoints of collectNodes((affect as any)?.StopPoints)) {
+			for (const affected of collectNodes((stopPoints as any)?.AffectedStopPoint)) {
+				const ref = readText((affected as any)?.StopPointRef);
+				if (ref && !ids.includes(ref)) ids.push(ref);
+			}
+		}
+	}
+
+	return ids;
+}
+
+/** TRIAS dates can be ISO strings or epoch values; both are tolerated. */
+function parseTriasDate(v: unknown): Date | null {
+	if (typeof v === 'number') {
+		const d = new Date(v);
+		return Number.isNaN(d.getTime()) ? null : d;
+	}
+
+	if (typeof v !== 'string' || v === '') return null;
+
+	return utcIsoToBerlinDate(v);
+}
+
+function parseIntStrict(v: unknown): number | null {
+	const n = typeof v === 'number' ? v : Number.parseInt(String(v), 10);
+	return Number.isFinite(n) ? n : null;
+}
+
+// ---------------------------------------------------------------------------
+// Operator HTML -> safe plain text
+// ---------------------------------------------------------------------------
+
+// Entities the KVV likes to use that fast-xml-parser does not decode.
+const NAMED_ENTITIES: Record<string, string> = {
+	nbsp: ' ',
+	ndash: '–',
+	mdash: '—',
+	hellip: '…',
+	amp: '&',
+	lt: '<',
+	gt: '>',
+	quot: '"',
+	apos: "'",
+	auml: 'ä',
+	ouml: 'ö',
+	uuml: 'ü',
+	Auml: 'Ä',
+	Ouml: 'Ö',
+	Uuml: 'Ü',
+	szlig: 'ß',
+	laquo: '«',
+	raquo: '»',
+	deg: '°',
+	micro: 'µ',
+	bull: '•',
+	plusmn: '±',
+	sect: '§',
+	agrave: 'à',
+	aacute: 'á',
+	acirc: 'â',
+	ccedil: 'ç',
+	egrave: 'è',
+	eacute: 'é',
+	ecirc: 'ê',
+	ograve: 'ò',
+	oacute: 'ó',
+	ugrave: 'ù'
+};
+
+/**
+ * Converts the operator's HTML fragments (with HTML entities) into plain text,
+ * so the frontend never has to render markup from a third party. Unknown
+ * entities are left as-is; malformed input degrades to the raw string.
+ */
+export function htmlToPlainText(s: string | null): string | null {
+	if (s == null) return null;
+	if (typeof s !== 'string') return null;
+
+	let text = s
+		// Block-ish structure first
+		.replace(/&nbsp;/g, ' ')
+		.replace(/<br\s*\/?>/gi, '\n')
+		.replace(/<\/(?:p|div|h[1-6]|tr|li|ul|ol|table)>/gi, '\n')
+		.replace(/<li[^>]*>/gi, '• ')
+		// Everything else that looks like a tag goes away
+		.replace(/<[^>]*>/g, '');
+
+	text = text
+		.replace(/&#x([0-9a-fA-F]+);/g, (_, hex) => safeCodePoint(parseInt(hex, 16)))
+		.replace(/&#(\d+);/g, (_, dec) => safeCodePoint(parseInt(dec, 10)))
+		.replace(/&([a-zA-Z][a-zA-Z0-9]*);/g, (whole, name) => NAMED_ENTITIES[name] ?? whole);
+
+	return (
+		text
+			.split('\n')
+			.map((line) => line.replace(/[ \t]+/g, ' ').trim())
+			.join('\n')
+			.replace(/\n{3,}/g, '\n\n')
+			.trim() || null
+	);
+}
+
+function safeCodePoint(code: number): string {
+	return Number.isFinite(code) && code >= 0 && code <= 0x10ffff ? String.fromCodePoint(code) : '';
+}
+
+/**
+ * Merges situation/flag state when consolidating duplicate wagon entries of the
+ * same journey: situations are combined without duplicates, "not serviced" wins
+ * if any of the merged entries carries the flag.
+ */
+export function mergeSituationState(target: Departure, source: Departure): void {
+	target.notServiced = target.notServiced || source.notServiced;
+
+	const seen = new Set(target.situations.map((s) => s.situationNumber));
+	for (const situation of source.situations ?? []) {
+		if (!seen.has(situation.situationNumber)) {
+			seen.add(situation.situationNumber);
+			target.situations.push(situation);
+		}
+	}
 }

@@ -3,6 +3,7 @@ import SearchBar from '@/components/ui/searchbar/search-bar.svelte';
 import { onDestroy } from 'svelte';
 import type { PageProps } from './$types';
 import DepartureInfo from '@/components/ui/departure-info/departure-info.svelte';
+import DisruptionBanner from '@/components/ui/disruption-banner/disruption-banner.svelte';
 import {
 	_extractPlatformNames,
 	_fetchDepartures,
@@ -16,6 +17,7 @@ import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 import AppSidebar from '@/components/ui/app-sidebar/app-sidebar.svelte';
 import { translations, interpolate } from '$lib/i18n';
 import { PlatformType, type Platform, type StationDepartures } from '@/kvv-trias/types';
+import { getStationBanner } from '@/kvv-trias/disruptions';
 
 const { data }: PageProps = $props();
 
@@ -40,6 +42,7 @@ let stationName = $derived(departures?.stationName ?? '');
 let selectedPlatforms: string[] = $state([]);
 let departuresToShow = $derived(_filterByPlatformName(departures, selectedPlatforms));
 const platformNames = $derived(_extractPlatformNames(departures));
+const banner = $derived(getStationBanner(departures));
 
 async function fetchAndSetDepartures(stId: string, ev: 'dep' | 'arr') {
 	if (oldStationId !== stId) {
@@ -138,6 +141,9 @@ function platformName(platformInfo: Platform): string {
 
 		<!-- Departure Display Area -->
 		<div class="w-full p-4 sm:p-6">
+			<!-- Station-level disruptions (closed stop, construction work, ...) -->
+			<DisruptionBanner banner={banner} />
+
 			{#if error}
 				<div class="rounded-md bg-red-50 p-3 text-center text-sm text-red-700">
 					<p>{errorMessage(error)}</p>
@@ -155,7 +161,9 @@ function platformName(platformInfo: Platform): string {
 					<p>{$translations.page.noDepartures}</p>
 				</div>
 			{:else}
-				{#key departuresToShow}
+				<!-- Only remount on station/eventType change, NOT on data refresh:
+				     otherwise open dialogs and row states get reset every 15 s. -->
+				{#key `${stationId}-${eventType}`}
 					<div
 						class="grid w-full grid-cols-1 gap-x-10 gap-y-8 sm:grid-cols-[repeat(auto-fit,minmax(340px,1fr))]"
 					>

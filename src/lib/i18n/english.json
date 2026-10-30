@@ -58,6 +58,15 @@
 		"minuteEarly": "{delay} minute early",
 		"minutesEarly": "{delay} minutes early"
 	},
+	"disruption": {
+		"stopClosed": "This stop is currently not being served (e.g. due to construction work).",
+		"otherMessage": "KVV notice: {text}",
+		"notServiced": "Does not stop here",
+		"warningAriaLabel": "Notice for this service",
+		"detailsShow": "Show details",
+		"detailsHide": "Hide details",
+		"dialogFallback": "No further information available."
+	},
 	"about": {
 		"pageTitle": "About this project",
 		"intro": "F.A.R.T. (Finally A Reliable Timetable) is a fast, reliable, and user-friendly display for real-time departures and real-time arrivals of buses and trams in the Karlsruhe area (KVV network).",

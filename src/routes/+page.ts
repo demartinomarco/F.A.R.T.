@@ -3,6 +3,7 @@ import { get } from 'svelte/store';
 import { translations } from '$lib/i18n';
 import { PlatformType, isApiEnvelope } from '@/kvv-trias/types';
 import type { StationDepartures, PlatformDepartures, Departure } from '@/kvv-trias/types';
+import { wireToStationDepartures, type WireStationDepartures } from '@/kvv-trias/wire';
 
 const DEFAULT_STATION = 'de:08212:89';
 
@@ -51,9 +52,9 @@ export async function _fetchDepartures(
 			return errorModel(stationId, eventType, 'BAD_RESPONSE', strings.error.invalidServerResponse);
 		}
 
-		if (isApiEnvelope<StationDepartures>(json)) {
+		if (isApiEnvelope<WireStationDepartures>(json)) {
 			if (json.ok) {
-				return { stationId, eventType, item: reviveDates(json.data), error: null };
+				return { stationId, eventType, item: wireToStationDepartures(json.data), error: null };
 			}
 			return { stationId, eventType, item: null, error: json.error };
 		}
@@ -67,17 +68,6 @@ export async function _fetchDepartures(
 	} catch {
 		return errorModel(stationId, eventType, 'NETWORK', get(translations).error.noConnectionShort);
 	}
-}
-
-function reviveDates(data: StationDepartures): StationDepartures {
-	for (const platform of data.platforms) {
-		for (const departure of platform.departures) {
-			departure.plannedTime = new Date(departure.plannedTime);
-			departure.realTime = departure.realTime ? new Date(departure.realTime) : null;
-		}
-	}
-
-	return data;
 }
 
 export function _extractPlatformNames(departures: StationDepartures | null): string[] {
