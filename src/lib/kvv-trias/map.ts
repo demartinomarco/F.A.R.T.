@@ -52,44 +52,110 @@ function extractVehicleType(service: any): string {
 }
 
 export function consolidateWagons(departures: InternalDeparture[]): MappedDeparture[] {
-	const uniqueDepartures: InternalDeparture[] = [];
+	const groups: DepartureGroup[] = [];
 
 	for (const current of departures) {
-		const match = uniqueDepartures.find(
-			(existing) =>
-				existing.lineRef === current.lineRef &&
-				existing.departure.plannedTime.getTime() === current.departure.plannedTime.getTime() &&
-				existing.platform.type === current.platform.type &&
-				existing.platform.name === current.platform.name
-		);
+		const group = groups.find((existing) => isSameDeparture(existing, current));
 
-		if (match) {
-			match.departure.wagonCount += current.departure.wagonCount;
-
-			// Prefer non-null realTime
-			if (!match.departure.realTime && current.departure.realTime) {
-				match.departure.realTime = current.departure.realTime;
-			}
-
-			// Combine directions without duplicates
-			for (const dir of current.departure.direction) {
-				if (!match.departure.direction.includes(dir)) {
-					match.departure.direction.push(dir);
-				}
-			}
-		} else {
-			uniqueDepartures.push({
-				...current,
-				departure: {
-					...current.departure,
-					direction: [...current.departure.direction]
-				}
+		if (!group) {
+			groups.push({
+				departure: cloneDeparture(current),
+				lineRefs: new Set([current.lineRef]),
+				wagonsByLineRef: new Map([[current.lineRef, current.departure.wagonCount]])
 			});
+			continue;
+		}
+
+		const existing = group.departure;
+		group.lineRefs.add(current.lineRef);
+
+		// Count wagons per line ref first. Entries sharing a line ref belong to the
+		// same feed/journey family, so their wagons add up (coupled units). The
+		// same vehicle is then reported once per feed, so the final count is the
+		// highest total reported by any single feed, not the sum across feeds.
+		group.wagonsByLineRef.set(
+			current.lineRef,
+			(group.wagonsByLineRef.get(current.lineRef) ?? 0) + current.departure.wagonCount
+		);
+		existing.departure.wagonCount = Math.max(...group.wagonsByLineRef.values());
+
+		// Prefer non-null realTime
+		if (!existing.departure.realTime && current.departure.realTime) {
+			existing.departure.realTime = current.departure.realTime;
+		}
+
+		// Combine directions without duplicates
+		for (const dir of current.departure.direction) {
+			const normalized = normalizeDirection(dir);
+			const alreadyKnown = existing.departure.direction.some(
+				(existingDirection) => normalizeDirection(existingDirection) === normalized
+			);
+
+			if (!alreadyKnown) {
+				existing.departure.direction.push(dir);
+			}
 		}
 	}
 
 	// Strip the internal lineRef before returning.
-	return uniqueDepartures.map(({ lineRef, ...mappedDeparture }) => mappedDeparture);
+	return groups.map(({ departure: { lineRef, ...mappedDeparture } }) => mappedDeparture);
+}
+
+type DepartureGroup = {
+	departure: InternalDeparture;
+	lineRefs: Set<string>;
+	wagonsByLineRef: Map<string, number>;
+};
+
+function cloneDeparture(departure: InternalDeparture): InternalDeparture {
+	return {
+		...departure,
+		platform: { ...departure.platform },
+		departure: {
+			...departure.departure,
+			direction: [...departure.departure.direction]
+		}
+	};
+}
+
+/**
+ * Decides whether a TRIAS stop event belongs to an existing departure group.
+ *
+ * The same vehicle can be reported multiple times:
+ * - once per wagon, sharing a `LineRef` with another entry in the group
+ *   (coupled trams), possibly with different destinations;
+ * - once per data source, usually with different `LineRef` namespaces
+ *   (e.g. `kvv:22305:E:R` and `ddb:920S5:D:H`).
+ *
+ * Checking every line ref seen in the group (not only the first one) keeps the
+ * result independent of the order in which the feeds are interleaved. The
+ * cross-feed case needs the line name and a shared destination so that two
+ * opposite-direction trains leaving the same platform at the same time are not
+ * merged.
+ */
+function isSameDeparture(group: DepartureGroup, b: InternalDeparture): boolean {
+	const a = group.departure;
+
+	if (a.departure.plannedTime.getTime() !== b.departure.plannedTime.getTime()) return false;
+	if (a.platform.type !== b.platform.type || a.platform.name !== b.platform.name) return false;
+
+	if (group.lineRefs.has(b.lineRef)) return true;
+
+	if (!a.departure.lineName || a.departure.lineName !== b.departure.lineName) return false;
+
+	return sharesDirection(a.departure.direction, b.departure.direction);
+}
+
+function sharesDirection(a: string[], b: string[]): boolean {
+	// A missing destination cannot be compared, so keep the merge permissive.
+	if (a.length === 0 || b.length === 0) return true;
+
+	const directions = new Set(a.map(normalizeDirection));
+	return b.some((direction) => directions.has(normalizeDirection(direction)));
+}
+
+function normalizeDirection(direction: string): string {
+	return direction.trim().toLowerCase();
 }
 
 /**
