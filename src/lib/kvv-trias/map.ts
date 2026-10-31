@@ -9,6 +9,7 @@ export type MappedDeparture = {
 
 type InternalDeparture = MappedDeparture & {
 	lineRef: string;
+	origin?: string | null;
 };
 
 export function mapStopEventResultToDeparture(r: any): InternalDeparture | null {
@@ -31,6 +32,7 @@ export function mapStopEventResultToDeparture(r: any): InternalDeparture | null 
 
 	return {
 		lineRef: service?.LineRef ?? '',
+		origin: readText(service?.OriginText),
 		platform: extractPlatform(readText(callAtStop?.PlannedBay)),
 		departure: {
 			lineName: extractLineName(service),
@@ -54,7 +56,7 @@ function extractVehicleType(service: any): string {
 export function consolidateWagons(departures: InternalDeparture[]): MappedDeparture[] {
 	const groups: DepartureGroup[] = [];
 
-	for (const current of departures) {
+	for (const current of removeDuplicateDbDepartures(departures)) {
 		const group = groups.find((existing) => isSameDeparture(existing, current));
 
 		if (!group) {
@@ -158,6 +160,93 @@ function normalizeDirection(direction: string): string {
 	return direction.trim().toLowerCase();
 }
 
+const DUPLICATE_TIME_TOLERANCE_MS = 90_000;
+
+/**
+ * DDB mirrors many KVV-operated services. Those entries often omit the platform
+ * or use a different label for a short turn, so the normal cross-feed merge
+ * cannot recognize them. Drop a DDB entry when a KVV entry for the same line
+ * departs within the same time window and shares its origin or destination.
+ * Unique DDB departures (e.g. long-distance trains at a real station) have no
+ * KVV counterpart and are kept.
+ */
+function removeDuplicateDbDepartures(departures: InternalDeparture[]): InternalDeparture[] {
+	const kvvDepartures = departures.filter((departure) => departure.lineRef.startsWith('kvv:'));
+
+	if (kvvDepartures.length === 0) return departures;
+
+	return departures.filter((departure) => {
+		if (!departure.lineRef.startsWith('ddb:')) return true;
+
+		const counterpart = kvvDepartures.find((kvv) => isDuplicateDbDeparture(departure, kvv));
+		if (!counterpart) return true;
+
+		// KVV is authoritative for these services, but keep useful data that
+		// only the DDB feed supplied.
+		if (!counterpart.departure.realTime && departure.departure.realTime) {
+			counterpart.departure.realTime = departure.departure.realTime;
+		}
+		if (
+			counterpart.platform.type === PlatformType.Unknown &&
+			departure.platform.type !== PlatformType.Unknown
+		) {
+			counterpart.platform = { ...departure.platform };
+		}
+
+		return false;
+	});
+}
+
+function isDuplicateDbDeparture(ddb: InternalDeparture, kvv: InternalDeparture): boolean {
+	if (!ddb.departure.lineName || !kvv.departure.lineName) return false;
+	if (normalizeLineName(ddb.departure.lineName) !== normalizeLineName(kvv.departure.lineName)) {
+		return false;
+	}
+
+	const timeDelta = Math.abs(
+		ddb.departure.plannedTime.getTime() - kvv.departure.plannedTime.getTime()
+	);
+	if (timeDelta > DUPLICATE_TIME_TOLERANCE_MS) return false;
+	if (!platformsAreCompatible(ddb.platform, kvv.platform)) return false;
+
+	return (
+		placesMatch(ddb.origin, kvv.origin) ||
+		sharesPlace(ddb.departure.direction, kvv.departure.direction)
+	);
+}
+
+function platformsAreCompatible(a: Platform, b: Platform): boolean {
+	// A missing platform is not evidence of a different service.
+	if (a.type === PlatformType.Unknown || b.type === PlatformType.Unknown) return true;
+	return a.type === b.type && a.name === b.name;
+}
+
+function sharesPlace(a: string[], b: string[]): boolean {
+	return a.some((left) => b.some((right) => placesMatch(left, right)));
+}
+
+function placesMatch(a: string | null | undefined, b: string | null | undefined): boolean {
+	const left = normalizePlaceName(a);
+	const right = normalizePlaceName(b);
+
+	if (!left || !right) return false;
+
+	return left === right || left.startsWith(`${right} `) || right.startsWith(`${left} `);
+}
+
+function normalizePlaceName(value: string | null | undefined): string {
+	return (value ?? '')
+		.toLowerCase()
+		.replace(/\([^)]*\)/g, ' ')
+		.replace(/[^a-z0-9äöüß]+/g, ' ')
+		.trim()
+		.replace(/\s+/g, ' ');
+}
+
+function normalizeLineName(value: string): string {
+	return value.trim().toLowerCase();
+}
+
 /**
  * Reads TRIAS "Text" nodes that can be:
  * - "3"
@@ -196,28 +285,48 @@ function readText(node: any): string | null {
 }
 
 function extractPlatform(platformName: string | null): Platform {
-	if (platformName === null || platformName === '')
+	const trimmed = platformName?.trim() ?? '';
+
+	if (trimmed === '')
 		return {
 			type: PlatformType.Unknown,
 			name: ''
 		};
 
-	if (platformName.startsWith('Gleis')) {
+	if (/^Gleis/i.test(trimmed)) {
 		return {
 			type: PlatformType.Rail,
-			name: platformName.substring(6)
+			name: normalizePlatformName(trimmed.replace(/^Gleis\.?\s*/i, ''))
 		};
-	} else if (platformName.startsWith('Bstg.')) {
+	} else if (/^Bstg\.?/i.test(trimmed)) {
 		return {
 			type: PlatformType.Bus,
-			name: platformName.substring(6)
+			name: normalizePlatformName(trimmed.replace(/^Bstg\.?\s*/i, ''))
 		};
 	}
 
 	return {
 		type: PlatformType.Rail,
-		name: platformName
+		name: normalizePlatformName(trimmed)
 	};
+}
+
+function normalizePlatformName(platformName: string): string {
+	const normalized = platformName.trim().replace(/\s+/g, ' ').replace(/\.+$/, '');
+
+	// Different TRIAS producers use different spellings for the same track:
+	// KVV sends "Gleis 1b" / "Gleis 1(U)", while DDB sends "1B" / "1U.".
+	// Normalize the spacing and suffix case; keep "(U)" for underground tracks.
+	const suffix = normalized.match(/^(\d+)\s*([A-Za-z])$/);
+	if (suffix) {
+		const letter = suffix[2].toUpperCase();
+		return letter === 'U' ? `${suffix[1]}(U)` : `${suffix[1]}${letter}`;
+	}
+
+	// Normalize whitespace and case inside suffixes such as "1 (b)".
+	return normalized.replace(/^(\d+)\s*\(\s*([A-Za-z])\s*\)$/, (_, number, suffix) => {
+		return `${number}(${suffix.toUpperCase()})`;
+	});
 }
 
 function extractLineName(service: any): string {
