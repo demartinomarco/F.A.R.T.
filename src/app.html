@@ -1,8 +1,16 @@
 <!doctype html>
-<html lang="en">
+<html lang="%lang%" class="%theme%">
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<script>
+			// SSR already applies an explicit choice; otherwise follow the OS preference
+			// before the first paint so there is no flash of the wrong theme.
+			const hasThemeCookie = /(^|;\s*)theme=/.test(document.cookie);
+			if (!hasThemeCookie && matchMedia('(prefers-color-scheme: dark)').matches) {
+				document.documentElement.classList.add('dark');
+			}
+		</script>
 		%sveltekit.head%
 	</head>
 	<body data-sveltekit-preload-data="hover">

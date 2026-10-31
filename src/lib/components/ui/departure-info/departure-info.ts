@@ -62,9 +62,9 @@ export const accompanyingStatusText = (d: Departure, strings: Translations): Acc
 
 export const colorClass = (d: Departure): string => {
 	const delay = delayMinutes(d);
-	if (isNaN(delay)) return 'text-orange-700';
-	if (delay < 0) return 'text-emerald-700';
-	if (delay > 0) return 'text-[#a8082e]';
+	if (isNaN(delay)) return 'text-[#A12A00] dark:text-orange-400';
+	if (delay < 0) return 'text-emerald-900 dark:text-emerald-500';
+	if (delay > 0) return 'text-[#AD0E0E] dark:text-[#FF6659]';
 	return '';
 };
 

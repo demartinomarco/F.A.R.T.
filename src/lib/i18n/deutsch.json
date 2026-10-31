@@ -33,7 +33,10 @@
 		"arrival": "Ankunft",
 		"aboutPage": "Über diese Seite",
 		"settingsGroups": "Einstellungen",
-		"language": "Sprache"
+		"language": "Sprache",
+		"theme": "Design",
+		"themeLight": "Hell",
+		"themeDark": "Dunkel"
 	},
 	"search": {
 		"placeholder": "Haltestelle suchen...",

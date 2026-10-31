@@ -1,6 +1,4 @@
 import type { Handle } from '@sveltejs/kit';
-import type { HandleFetch } from '@sveltejs/kit';
-import { env } from '$env/dynamic/private';
 
 export const handle: Handle = async ({ event, resolve }) => {
 	const cookieLocale = event.cookies.get('locale');
@@ -15,9 +13,16 @@ export const handle: Handle = async ({ event, resolve }) => {
 				? 'en'
 				: 'de';
 
+	// Theme is only rendered server-side when the user made an explicit choice.
+	// Without a cookie the inline script in app.html follows prefers-color-scheme.
+	const cookieTheme = event.cookies.get('theme');
+	const theme = cookieTheme === 'dark' || cookieTheme === 'light' ? cookieTheme : null;
+
 	event.locals.locale = validLocale;
+	event.locals.theme = theme;
 
 	return resolve(event, {
-		transformPageChunk: ({ html }) => html.replace('%lang%', validLocale)
+		transformPageChunk: ({ html }) =>
+			html.replace('%lang%', validLocale).replace('%theme%', theme === 'dark' ? 'dark' : '')
 	});
 };
