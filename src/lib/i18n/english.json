@@ -33,7 +33,10 @@
 		"arrival": "Arrival",
 		"aboutPage": "About this page",
 		"settingsGroups": "Settings",
-		"language": "Language"
+		"language": "Language",
+		"theme": "Theme",
+		"themeLight": "Light",
+		"themeDark": "Dark"
 	},
 	"search": {
 		"placeholder": "Search for a stop...",
