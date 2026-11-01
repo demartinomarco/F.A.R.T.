@@ -14,10 +14,12 @@ function makeDeparture(opts: {
 	origin?: string;
 	realTime?: string | null;
 	wagonCount?: number;
+	journeyRef?: string;
 }): RawDeparture {
 	return {
 		lineRef: opts.lineRef,
 		origin: opts.origin,
+		journeyRef: opts.journeyRef,
 		platform: {
 			type: opts.platformType ?? PlatformType.Rail,
 			name: opts.platform ?? '4'
@@ -88,7 +90,7 @@ describe('consolidateWagons', () => {
 		expect(result[0].departure.direction).toEqual(['Heide', 'Durlach']);
 	});
 
-	it('counts coupled wagons once when both feeds report them', () => {
+	it('does not count repeated StopEvents as extra wagons', () => {
 		const sameTrain = [
 			makeDeparture({ lineRef: 'kvv:22305:E:R' }),
 			makeDeparture({ lineRef: 'kvv:22305:E:R' }),
@@ -100,8 +102,60 @@ describe('consolidateWagons', () => {
 			const result = consolidateWagons(departures);
 
 			expect(result).toHaveLength(1);
-			expect(result[0].departure.wagonCount).toBe(2);
+			expect(result[0].departure.wagonCount).toBe(1);
 		}
+	});
+
+	it('keeps real-time data from a repeated StopEvent without adding a wagon', () => {
+		const result = consolidateWagons([
+			makeDeparture({ lineRef: 'kvv:22305:E:R' }),
+			makeDeparture({ lineRef: 'kvv:22305:E:R', realTime: '2026-10-30T14:21:00.000Z' })
+		]);
+
+		expect(result).toHaveLength(1);
+		expect(result[0].departure.wagonCount).toBe(1);
+		expect(result[0].departure.realTime?.toISOString()).toBe('2026-10-30T14:21:00.000Z');
+	});
+
+	it('counts distinct journeys with the same destination as separate wagons', () => {
+		const result = consolidateWagons([
+			makeDeparture({ lineRef: 'kvv:22305:E:R', journeyRef: 'kvv:22305:E:R:s26:1' }),
+			makeDeparture({ lineRef: 'kvv:22305:E:R', journeyRef: 'kvv:22305:E:R:s26:2' })
+		]);
+
+		expect(result).toHaveLength(1);
+		expect(result[0].departure.wagonCount).toBe(2);
+	});
+
+	it('counts two real S5 units from different origins as separate wagons', () => {
+		// Mirrors trias-captures/2x_S5_same_direction.json at 13:22: two KVV S5
+		// entries share time, platform and destination but have different
+		// origins and JourneyRefs.
+		const result = consolidateWagons([
+			makeDeparture({
+				lineRef: 'kvv:22305:E:R',
+				origin: 'Wörth, Badepark',
+				journeyRef: 'kvv:22305:E:R:s26:2044'
+			}),
+			makeDeparture({
+				lineRef: 'kvv:22305:E:R',
+				origin: 'Knielingen Rheinbergstraße',
+				journeyRef: 'kvv:22305:E:R:s26:2045'
+			})
+		]);
+
+		expect(result).toHaveLength(1);
+		expect(result[0].departure.wagonCount).toBe(2);
+	});
+
+	it('counts wagons per provider instead of summing both feeds', () => {
+		const result = consolidateWagons([
+			makeDeparture({ lineRef: 'kvv:22305:E:R', wagonCount: 2 }),
+			makeDeparture({ lineRef: 'ddb:920S5:D:H', wagonCount: 2 })
+		]);
+
+		expect(result).toHaveLength(1);
+		expect(result[0].departure.wagonCount).toBe(2);
 	});
 
 	it('merges coupled wagons with different destinations when the feeds are interleaved', () => {
@@ -163,7 +217,7 @@ describe('consolidateWagons', () => {
 		expect(result).toHaveLength(2);
 	});
 
-	it('drops a DDB short-turn entry when a KVV departure shares the origin', () => {
+	it('keeps a DDB short-turn entry when only the origin matches', () => {
 		const result = consolidateWagons([
 			makeDeparture({
 				lineRef: 'kvv:21012:E:H',
@@ -185,10 +239,104 @@ describe('consolidateWagons', () => {
 			})
 		]);
 
+		expect(result).toHaveLength(2);
+
+		const kvv = result.find((d) => d.departure.direction.includes('Rheinstrandsiedlung'));
+		expect(kvv?.platform).toEqual({ type: PlatformType.Rail, name: '3' });
+		expect(kvv?.departure.realTime?.toISOString()).toBe('2026-10-31T12:44:36.000Z');
+	});
+
+	it('drops a DDB mirror only when origin and destination both match', () => {
+		const result = consolidateWagons([
+			makeDeparture({
+				lineRef: 'kvv:22305:E:H',
+				lineName: 'S5',
+				platform: '1B',
+				direction: ['Wörth, Badepark'],
+				origin: 'Pforzheim Hauptbahnhof',
+				time: '2026-10-31T12:31:00.000Z'
+			}),
+			makeDeparture({
+				lineRef: 'ddb:920S5:D:H',
+				lineName: 'S5',
+				platform: '',
+				platformType: PlatformType.Unknown,
+				direction: ['Wörth, Badepark'],
+				origin: 'Pforzheim Hauptbahnhof',
+				time: '2026-10-31T12:31:20.000Z',
+				realTime: '2026-10-31T12:32:12.000Z'
+			})
+		]);
+
 		expect(result).toHaveLength(1);
-		expect(result[0].platform).toEqual({ type: PlatformType.Rail, name: '3' });
-		expect(result[0].departure.direction).toEqual(['Rheinstrandsiedlung']);
-		expect(result[0].departure.realTime?.toISOString()).toBe('2026-10-31T12:44:36.000Z');
+		expect(result[0].departure.realTime?.toISOString()).toBe('2026-10-31T12:32:12.000Z');
+	});
+
+	it('picks the closest KVV departure when several match the time window', () => {
+		const result = consolidateWagons([
+			makeDeparture({
+				lineRef: 'kvv:22305:E:H',
+				lineName: 'S5',
+				platform: '1B',
+				direction: ['Wörth, Badepark'],
+				origin: 'Pforzheim Hauptbahnhof',
+				time: '2026-10-31T12:31:00.000Z'
+			}),
+			makeDeparture({
+				lineRef: 'kvv:22305:E:H',
+				lineName: 'S5',
+				platform: '1B',
+				direction: ['Wörth, Badepark'],
+				origin: 'Pforzheim Hauptbahnhof',
+				time: '2026-10-31T12:32:20.000Z'
+			}),
+			makeDeparture({
+				lineRef: 'ddb:920S5:D:H',
+				lineName: 'S5',
+				platform: '',
+				platformType: PlatformType.Unknown,
+				direction: ['Wörth, Badepark'],
+				origin: 'Pforzheim Hauptbahnhof',
+				time: '2026-10-31T12:32:10.000Z',
+				realTime: '2026-10-31T12:32:40.000Z'
+			})
+		]);
+
+		expect(result).toHaveLength(2);
+
+		const patched = result.find(
+			(d) => d.departure.plannedTime.toISOString() === '2026-10-31T12:32:20.000Z'
+		);
+		const untouched = result.find(
+			(d) => d.departure.plannedTime.toISOString() === '2026-10-31T12:31:00.000Z'
+		);
+
+		expect(patched?.departure.realTime?.toISOString()).toBe('2026-10-31T12:32:40.000Z');
+		expect(untouched?.departure.realTime).toBeNull();
+	});
+
+	it('keeps an opposite-direction DDB departure at the same minute', () => {
+		const result = consolidateWagons([
+			makeDeparture({
+				lineRef: 'kvv:21012:E:H',
+				lineName: 'S2',
+				platform: '3',
+				direction: ['Rheinstetten'],
+				origin: 'Spöck Richard-Hecht-Schule',
+				time: '2026-10-31T12:34:00.000Z'
+			}),
+			makeDeparture({
+				lineRef: 'ddb:920S2::R',
+				lineName: 'S2',
+				platform: '',
+				platformType: PlatformType.Unknown,
+				direction: ['Spöck Richard-Hecht-Schule'],
+				origin: 'Mörsch Bach-West',
+				time: '2026-10-31T12:34:00.000Z'
+			})
+		]);
+
+		expect(result).toHaveLength(2);
 	});
 
 	it('keeps DDB entries that only share the line and time', () => {
@@ -209,6 +357,29 @@ describe('consolidateWagons', () => {
 				direction: ['Somewhere Else'],
 				origin: 'Different Origin',
 				time: '2026-10-31T12:44:18.000Z'
+			})
+		]);
+
+		expect(result).toHaveLength(2);
+	});
+
+	it('keeps DDB long-distance services that share a time with a KVV tram', () => {
+		const result = consolidateWagons([
+			makeDeparture({
+				lineRef: 'kvv:22305:E:H',
+				lineName: 'S5',
+				platform: '1B',
+				direction: ['Wörth, Badepark'],
+				origin: 'Pforzheim Hauptbahnhof',
+				time: '2026-10-31T12:31:00.000Z'
+			}),
+			makeDeparture({
+				lineRef: 'ddb:98X20:P:H',
+				lineName: 'ICE 100 InterCityExpress',
+				platform: '1B',
+				direction: ['Hamburg Hbf'],
+				origin: 'Basel SBB',
+				time: '2026-10-31T12:31:00.000Z'
 			})
 		]);
 

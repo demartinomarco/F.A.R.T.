@@ -10,6 +10,7 @@ export type MappedDeparture = {
 type InternalDeparture = MappedDeparture & {
 	lineRef: string;
 	origin?: string | null;
+	journeyRef?: string | null;
 };
 
 export function mapStopEventResultToDeparture(r: any): InternalDeparture | null {
@@ -33,6 +34,7 @@ export function mapStopEventResultToDeparture(r: any): InternalDeparture | null 
 	return {
 		lineRef: service?.LineRef ?? '',
 		origin: readText(service?.OriginText),
+		journeyRef: readText(service?.JourneyRef),
 		platform: extractPlatform(readText(callAtStop?.PlannedBay)),
 		departure: {
 			lineName: extractLineName(service),
@@ -56,14 +58,17 @@ function extractVehicleType(service: any): string {
 export function consolidateWagons(departures: InternalDeparture[]): MappedDeparture[] {
 	const groups: DepartureGroup[] = [];
 
-	for (const current of removeDuplicateDbDepartures(departures)) {
+	// TRIAS sometimes repeats the exact same StopEvent (most notably once with
+	// an EstimatedTime and once without). Those repetitions describe one
+	// vehicle, not an extra wagon, so collapse them before counting.
+	for (const current of removeDuplicateDbDepartures(dedupeIdenticalStopEvents(departures))) {
 		const group = groups.find((existing) => isSameDeparture(existing, current));
 
 		if (!group) {
 			groups.push({
 				departure: cloneDeparture(current),
 				lineRefs: new Set([current.lineRef]),
-				wagonsByLineRef: new Map([[current.lineRef, current.departure.wagonCount]])
+				wagonsByProvider: new Map([[providerOf(current.lineRef), current.departure.wagonCount]])
 			});
 			continue;
 		}
@@ -71,15 +76,17 @@ export function consolidateWagons(departures: InternalDeparture[]): MappedDepart
 		const existing = group.departure;
 		group.lineRefs.add(current.lineRef);
 
-		// Count wagons per line ref first. Entries sharing a line ref belong to the
-		// same feed/journey family, so their wagons add up (coupled units). The
-		// same vehicle is then reported once per feed, so the final count is the
-		// highest total reported by any single feed, not the sum across feeds.
-		group.wagonsByLineRef.set(
-			current.lineRef,
-			(group.wagonsByLineRef.get(current.lineRef) ?? 0) + current.departure.wagonCount
+		// Count wagons per provider first. Two entries from the same provider
+		// are separate vehicles (for example coupled units), while the same
+		// vehicle is reported once by each feed. The final count is therefore
+		// the highest total reported by any single feed, not the sum across
+		// feeds.
+		const provider = providerOf(current.lineRef);
+		group.wagonsByProvider.set(
+			provider,
+			(group.wagonsByProvider.get(provider) ?? 0) + current.departure.wagonCount
 		);
-		existing.departure.wagonCount = Math.max(...group.wagonsByLineRef.values());
+		existing.departure.wagonCount = Math.max(...group.wagonsByProvider.values());
 
 		// Prefer non-null realTime
 		if (!existing.departure.realTime && current.departure.realTime) {
@@ -99,15 +106,88 @@ export function consolidateWagons(departures: InternalDeparture[]): MappedDepart
 		}
 	}
 
-	// Strip the internal lineRef before returning.
-	return groups.map(({ departure: { lineRef, ...mappedDeparture } }) => mappedDeparture);
+	// Strip the internal fields before returning.
+	return groups.map(({ departure }) => ({
+		platform: departure.platform,
+		departure: departure.departure
+	}));
 }
 
 type DepartureGroup = {
 	departure: InternalDeparture;
 	lineRefs: Set<string>;
-	wagonsByLineRef: Map<string, number>;
+	wagonsByProvider: Map<string, number>;
 };
+
+/**
+ * Collapses repeated StopEvents for the same physical vehicle.
+ *
+ * The upstream feed can return the same departure more than once (typically
+ * once with real-time data and once without). A repeated entry has the same
+ * provider, line, planned time, platform, origin, destination and journey;
+ * only its ResultId/EstimatedTime differ, so those fields must not be part of
+ * the key. Entries that differ in journey or destination are kept separate so
+ * that genuinely coupled units still count as more than one vehicle.
+ */
+function dedupeIdenticalStopEvents(departures: InternalDeparture[]): InternalDeparture[] {
+	const unique: InternalDeparture[] = [];
+	const bySignature = new Map<string, InternalDeparture[]>();
+
+	for (const current of departures) {
+		const signature = stopEventSignature(current);
+		const candidates = bySignature.get(signature) ?? [];
+		const existing = candidates.find((candidate) => isSameJourney(candidate, current));
+
+		if (!existing) {
+			const copy = cloneDeparture(current);
+			candidates.push(copy);
+			bySignature.set(signature, candidates);
+			unique.push(copy);
+			continue;
+		}
+
+		if (!existing.departure.realTime && current.departure.realTime) {
+			existing.departure.realTime = current.departure.realTime;
+		}
+
+		existing.departure.wagonCount = Math.max(
+			existing.departure.wagonCount,
+			current.departure.wagonCount
+		);
+	}
+
+	return unique;
+}
+
+/**
+ * A repeated StopEvent carries the same JourneyRef. If both entries name a
+ * journey and the names differ, they are two distinct vehicles and must not be
+ * collapsed even when line, time, platform and destination happen to match.
+ */
+function isSameJourney(a: InternalDeparture, b: InternalDeparture): boolean {
+	if (!a.journeyRef || !b.journeyRef) return true;
+	return a.journeyRef === b.journeyRef;
+}
+
+function stopEventSignature(departure: InternalDeparture): string {
+	const line = normalizeLineName(departure.departure.lineName) || departure.lineRef;
+	const directions = [...departure.departure.direction].map(normalizeDirection).sort().join('|');
+
+	return [
+		providerOf(departure.lineRef),
+		line,
+		departure.departure.plannedTime.toISOString(),
+		departure.platform.type,
+		departure.platform.name,
+		normalizePlaceName(departure.origin),
+		directions
+	].join('\u0000');
+}
+
+function providerOf(lineRef: string): string {
+	const separator = lineRef.indexOf(':');
+	return separator === -1 ? lineRef : lineRef.slice(0, separator);
+}
 
 function cloneDeparture(departure: InternalDeparture): InternalDeparture {
 	return {
@@ -166,23 +246,26 @@ const DUPLICATE_TIME_TOLERANCE_MS = 90_000;
  * DDB mirrors many KVV-operated services. Those entries often omit the platform
  * or use a different label for a short turn, so the normal cross-feed merge
  * cannot recognize them. Drop a DDB entry when a KVV entry for the same line
- * departs within the same time window and shares its origin or destination.
- * Unique DDB departures (e.g. long-distance trains at a real station) have no
- * KVV counterpart and are kept.
+ * departs within the same time window AND travels in the same direction.
+ *
+ * Both the origin and the destination must match. A short turn only shares its
+ * origin with the KVV departure, so treating it as a duplicate would silently
+ * discard the more specific DDB destination. Unique DDB services (for example
+ * long-distance trains at a real station) have no KVV counterpart and are kept.
  */
 function removeDuplicateDbDepartures(departures: InternalDeparture[]): InternalDeparture[] {
-	const kvvDepartures = departures.filter((departure) => departure.lineRef.startsWith('kvv:'));
+	const kvvDepartures = departures.filter((departure) => providerOf(departure.lineRef) === 'kvv');
 
 	if (kvvDepartures.length === 0) return departures;
 
 	return departures.filter((departure) => {
-		if (!departure.lineRef.startsWith('ddb:')) return true;
+		if (providerOf(departure.lineRef) !== 'ddb') return true;
 
-		const counterpart = kvvDepartures.find((kvv) => isDuplicateDbDeparture(departure, kvv));
+		const counterpart = findClosestKvvCounterpart(departure, kvvDepartures);
 		if (!counterpart) return true;
 
 		// KVV is authoritative for these services, but keep useful data that
-		// only the DDB feed supplied.
+		// only the DDB feed supplied. This only happens for a confident match.
 		if (!counterpart.departure.realTime && departure.departure.realTime) {
 			counterpart.departure.realTime = departure.departure.realTime;
 		}
@@ -197,6 +280,28 @@ function removeDuplicateDbDepartures(departures: InternalDeparture[]): InternalD
 	});
 }
 
+function findClosestKvvCounterpart(
+	ddb: InternalDeparture,
+	kvvDepartures: InternalDeparture[]
+): InternalDeparture | null {
+	let closest: InternalDeparture | null = null;
+	let closestDelta = Number.POSITIVE_INFINITY;
+
+	for (const kvv of kvvDepartures) {
+		if (!isDuplicateDbDeparture(ddb, kvv)) continue;
+
+		const delta = Math.abs(
+			ddb.departure.plannedTime.getTime() - kvv.departure.plannedTime.getTime()
+		);
+		if (delta < closestDelta) {
+			closest = kvv;
+			closestDelta = delta;
+		}
+	}
+
+	return closest;
+}
+
 function isDuplicateDbDeparture(ddb: InternalDeparture, kvv: InternalDeparture): boolean {
 	if (!ddb.departure.lineName || !kvv.departure.lineName) return false;
 	if (normalizeLineName(ddb.departure.lineName) !== normalizeLineName(kvv.departure.lineName)) {
@@ -209,8 +314,11 @@ function isDuplicateDbDeparture(ddb: InternalDeparture, kvv: InternalDeparture):
 	if (timeDelta > DUPLICATE_TIME_TOLERANCE_MS) return false;
 	if (!platformsAreCompatible(ddb.platform, kvv.platform)) return false;
 
+	// Both endpoints have to agree. Matching only one of them merges real
+	// opposite-direction services (same origin/destination swapped) and
+	// short turns (different destination) into the wrong KVV departure.
 	return (
-		placesMatch(ddb.origin, kvv.origin) ||
+		placesMatch(ddb.origin, kvv.origin) &&
 		sharesPlace(ddb.departure.direction, kvv.departure.direction)
 	);
 }

@@ -8,6 +8,7 @@ import { parseTriasXml, extractStopEventResults } from './parse';
 import { mapStopEventResultToDeparture, consolidateWagons, type MappedDeparture } from './map';
 import { KvvTriasError } from './errors';
 import { stopsIdNameMap } from '@/server/stops';
+import { getUpstreamDepartureResultCount } from '@/departure-limit';
 
 function isValidStationId(id: string): boolean {
 	// Keep it permissive; TRIAS IDs look like "de:08212:89"
@@ -53,7 +54,9 @@ export async function getDepartures(
 		stopPlaceRef: stationId,
 		depArrTime: nowBerlinIso(),
 		stopEventType: eventType === 'dep' ? 'departure' : 'arrival',
-		numberOfResults: limit
+		// Over-fetch because merging below can drop entries. The final response
+		// is sliced back to the requested limit.
+		numberOfResults: getUpstreamDepartureResultCount(limit)
 	});
 
 	const xmlResponse = await postXml(apiUrl, xmlRequest);
@@ -64,12 +67,17 @@ export async function getDepartures(
 		.map(mapStopEventResultToDeparture)
 		.filter((x): x is NonNullable<typeof x> => x != null);
 
-	// Merge duplicate wagon entries, then sort by effective departure time.
-	const deduplicatedDepartures = consolidateWagons(mappedDepartures).sort((a, b) => {
-		const at = (a.departure.realTime ?? a.departure.plannedTime).getTime();
-		const bt = (b.departure.realTime ?? b.departure.plannedTime).getTime();
-		return at - bt;
-	});
+	// Merge duplicate wagon entries, then sort by effective departure time and
+	// only keep the requested number of departures. Slicing happens before the
+	// platform grouping so that the total (not just each platform) respects the
+	// limit.
+	const deduplicatedDepartures = consolidateWagons(mappedDepartures)
+		.sort((a, b) => {
+			const at = (a.departure.realTime ?? a.departure.plannedTime).getTime();
+			const bt = (b.departure.realTime ?? b.departure.plannedTime).getTime();
+			return at - bt;
+		})
+		.slice(0, limit);
 
 	return {
 		stationName,
