@@ -36,7 +36,8 @@
 		"language": "Sprache",
 		"theme": "Design",
 		"themeLight": "Hell",
-		"themeDark": "Dunkel"
+		"themeDark": "Dunkel",
+		"themeSystem": "System"
 	},
 	"search": {
 		"placeholder": "Haltestelle suchen...",

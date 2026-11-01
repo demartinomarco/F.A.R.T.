@@ -14,22 +14,38 @@ let { platformNames = [], selectedPlatforms = $bindable(), eventType = $bindable
 
 let hasPlatforms = $derived(platformNames && platformNames.length > 0);
 
-let currentTheme = $state<'light' | 'dark'>('light');
+let currentTheme = $state<'light' | 'dark' | 'system'>('system');
 
 // Sync currentTheme state with actual HTML class on client mount
 onMount(() => {
-	currentTheme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+	const themeCookie = document.cookie.split('; ').find((row) => row.startsWith('theme='))?.split('=')[1];
+	if (themeCookie === 'light' || themeCookie === 'dark') {
+		currentTheme = themeCookie;
+	} else {
+		currentTheme = 'system';
+	}
 });
 
-function setTheme(theme: 'light' | 'dark') {
+function setTheme(theme: 'light' | 'dark' | 'system') {
 	currentTheme = theme;
 
-	// Set cookie for SSR (expires in 1 year)
-	document.cookie = `theme=${theme}; path=/; max-age=31536000; SameSite=Lax`;
-	if (theme === 'dark') {
-		document.documentElement.classList.add('dark');
+	if (theme === 'system') {
+		// Clear cookie
+		document.cookie = 'theme=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+		// Apply system preference
+		if (matchMedia('(prefers-color-scheme: dark)').matches) {
+			document.documentElement.classList.add('dark');
+		} else {
+			document.documentElement.classList.remove('dark');
+		}
 	} else {
-		document.documentElement.classList.remove('dark');
+		// Set cookie for SSR (expires in 1 year)
+		document.cookie = `theme=${theme}; path=/; max-age=31536000; SameSite=Lax`;
+		if (theme === 'dark') {
+			document.documentElement.classList.add('dark');
+		} else {
+			document.documentElement.classList.remove('dark');
+		}
 	}
 }
 </script>
@@ -96,19 +112,30 @@ function setTheme(theme: 'light' | 'dark') {
 
 					<!-- Theme Selector -->
 					<Sidebar.MenuItem class="flex flex-col gap-2">
-						<span class="text-sm font-medium">Theme</span>
+						<span class="text-sm font-medium" id="theme-selector-label">{$translations.sidebar.theme}</span>
 						<RadioGroup.Root
 							value={currentTheme}
 							onValueChange={(val) => setTheme(val as 'light' | 'dark')}
 							class="gap-2"
+							aria-labelledby="theme-selector-label"
 						>
 							<div class="flex items-center space-x-2">
 								<RadioGroup.Item value="light" id="theme-light" />
-								<Label class="cursor-pointer text-sm font-normal" for="theme-light">Light</Label>
+								<Label class="cursor-pointer text-sm font-normal" for="theme-light">
+									{$translations.sidebar.themeLight}
+								</Label>
 							</div>
 							<div class="flex items-center space-x-2">
 								<RadioGroup.Item value="dark" id="theme-dark" />
-								<Label class="cursor-pointer text-sm font-normal" for="theme-dark">Dark</Label>
+								<Label class="cursor-pointer text-sm font-normal" for="theme-dark">
+									{$translations.sidebar.themeDark}
+								</Label>
+							</div>
+							<div class="flex items-center space-x-2">
+								<RadioGroup.Item value="system" id="theme-system" />
+								<Label class="cursor-pointer text-sm font-normal" for="theme-system">
+									{$translations.sidebar.themeSystem}
+								</Label>
 							</div>
 						</RadioGroup.Root>
 					</Sidebar.MenuItem>

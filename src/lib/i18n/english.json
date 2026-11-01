@@ -36,7 +36,8 @@
 		"language": "Language",
 		"theme": "Theme",
 		"themeLight": "Light",
-		"themeDark": "Dark"
+		"themeDark": "Dark",
+		"themeSystem": "System"
 	},
 	"search": {
 		"placeholder": "Search for a stop...",
