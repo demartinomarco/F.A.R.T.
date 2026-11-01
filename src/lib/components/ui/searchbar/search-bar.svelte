@@ -3,7 +3,6 @@ import CheckIcon from '@lucide/svelte/icons/check';
 import ChevronsUpDownIcon from '@lucide/svelte/icons/chevrons-up-down';
 import MapPinIcon from '@lucide/svelte/icons/map-pin';
 import { tick } from 'svelte';
-import { goto } from '$app/navigation';
 import * as Command from '@/components/ui/command';
 import * as Popover from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
@@ -135,10 +134,10 @@ $effect(() => {
 							<Command.Item
 								value={stop.value}
 								onSelect={() => {
-                                    selectedId = stop.value;
-                                    closeAndFocusTrigger();
-                                    goto(`/?stationId=${stop.value}`);
-                                }}
+									selectedId = stop.value;
+									selectedValue = stop.label;
+									closeAndFocusTrigger();
+								}}
 							>
 								<CheckIcon
 									class={cn('mr-2 h-4 w-4 shrink-0', selectedId !== stop.value && 'opacity-0')}

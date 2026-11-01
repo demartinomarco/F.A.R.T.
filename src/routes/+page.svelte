@@ -1,6 +1,8 @@
 <script lang="ts">
 import SearchBar from '@/components/ui/searchbar/search-bar.svelte';
-import { onDestroy } from 'svelte';
+import { onDestroy, untrack } from 'svelte';
+import { goto } from '$app/navigation';
+import { resolve } from '$app/paths';
 import type { PageProps } from './$types';
 import DepartureInfo from '@/components/ui/departure-info/departure-info.svelte';
 import {
@@ -22,40 +24,60 @@ const { data }: PageProps = $props();
 let now = $state(new Date());
 let time = $derived(formatTime(now));
 
-let stationId = $state('');
-let eventType = $state<'dep' | 'arr'>('dep');
-let departures = $state<StationDepartures | null>(null);
-let error = $state<UiModel['error']>(null);
+// `data` is replaced on navigation. Capture the initial (SSR/hydration) model
+// once; later updates are handled by the effect below.
+const initial = untrack(() => data.model);
 
-let oldStationId = $state('');
+let stationId = $state(initial.stationId);
+let eventType = $state(initial.eventType);
+let departures = $state<StationDepartures | null>(initial.item);
+let error = $state<UiModel['error']>(initial.error);
+let selectedPlatforms: string[] = $state([]);
+
+// The route's `load` already fetched this station/eventType combination (during
+// SSR or a client-side navigation). Remember which one so we never refetch it
+// from an effect on mount.
+let appliedModel = initial;
+let loadedKey = `${initial.stationId}|${initial.eventType}`;
 
 $effect(() => {
-	stationId = data.model.stationId;
-	eventType = data.model.eventType;
-	departures = data.model.item;
-	error = data.model.error;
+	const model = data.model;
+	if (model === appliedModel) return;
+
+	// A new station starts with an unfiltered platform list. Doing this here
+	// (outside the fetch path) keeps the effect from invalidating itself.
+	if (model.stationId !== appliedModel.stationId) {
+		selectedPlatforms = [];
+	}
+
+	appliedModel = model;
+	loadedKey = `${model.stationId}|${model.eventType}`;
+	stationId = model.stationId;
+	eventType = model.eventType;
+	departures = model.item;
+	error = model.error;
+});
+
+// Selecting a stop or switching departure/arrival is a navigation, not a
+// second fetch: `load` fetches once and feeds the result back through
+// `data.model`.
+$effect(() => {
+	const key = `${stationId}|${eventType}`;
+	if (key === loadedKey) return;
+
+	void goto(resolve(`/?${new URLSearchParams({ stationId, eventType })}`), { noScroll: true });
 });
 
 let stationName = $derived(departures?.stationName ?? '');
-let selectedPlatforms: string[] = $state([]);
 let departuresToShow = $derived(_filterByPlatformName(departures, selectedPlatforms));
 const platformNames = $derived(_extractPlatformNames(departures));
 
 async function fetchAndSetDepartures(stId: string, ev: 'dep' | 'arr') {
-	if (oldStationId !== stId) {
-		selectedPlatforms = [];
-		oldStationId = stId;
-	}
-
 	const model: UiModel = await _fetchDepartures(fetch, stId, ev);
 
 	departures = model.item;
 	error = model.error;
 }
-
-$effect(() => {
-	fetchAndSetDepartures(stationId, eventType);
-});
 
 const depTimer = setInterval(async () => {
 	fetchAndSetDepartures(stationId, eventType);
