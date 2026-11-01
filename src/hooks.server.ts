@@ -16,13 +16,13 @@ export const handle: Handle = async ({ event, resolve }) => {
 	// Theme is only rendered server-side when the user made an explicit choice.
 	// Without a cookie the inline script in app.html follows prefers-color-scheme.
 	const cookieTheme = event.cookies.get('theme');
-	const theme = cookieTheme === 'dark' || cookieTheme === 'light' ? cookieTheme : null;
+	const theme = cookieTheme === 'dark' || cookieTheme === 'light' ? cookieTheme : 'system';
 
 	event.locals.locale = validLocale;
 	event.locals.theme = theme;
 
 	return resolve(event, {
 		transformPageChunk: ({ html }) =>
-			html.replace('%lang%', validLocale).replace('%theme%', theme === 'dark' ? 'dark' : '')
+			html.replace('%lang%', validLocale).replace('%theme%', theme === 'system' ? '' : theme)
 	});
 };

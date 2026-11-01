@@ -120,6 +120,7 @@ function platformName(platformInfo: Platform): string {
 		platformNames={platformNames}
 		bind:selectedPlatforms={selectedPlatforms}
 		bind:eventType={eventType}
+		theme={data.theme}
 	/>
 	<main
 		class="min-h-screen w-full bg-slate-50 text-slate-900 transition-colors dark:bg-slate-950 dark:text-slate-100"

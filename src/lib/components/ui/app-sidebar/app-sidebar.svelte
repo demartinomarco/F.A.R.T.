@@ -10,17 +10,20 @@ import { translations } from '$lib/i18n';
 import { cn } from '@/utils.js';
 import { onMount } from 'svelte';
 
-let { platformNames = [], selectedPlatforms = $bindable(), eventType = $bindable() } = $props();
+let { platformNames = [], selectedPlatforms = $bindable(), eventType = $bindable(), theme = 'system' } = $props();
 
 let hasPlatforms = $derived(platformNames && platformNames.length > 0);
 
 let currentTheme = $state<'light' | 'dark' | 'system'>('system');
 
-// Sync currentTheme state with actual HTML class on client mount
+// Sync currentTheme state with theme prop (from SSR) or cookie
 onMount(() => {
 	const themeCookie = document.cookie.split('; ').find((row) => row.startsWith('theme='))?.split('=')[1];
+	
 	if (themeCookie === 'light' || themeCookie === 'dark') {
 		currentTheme = themeCookie;
+	} else if (theme === 'light' || theme === 'dark') {
+		currentTheme = theme;
 	} else {
 		currentTheme = 'system';
 	}
@@ -115,7 +118,7 @@ function setTheme(theme: 'light' | 'dark' | 'system') {
 						<span class="text-sm font-medium" id="theme-selector-label">{$translations.sidebar.theme}</span>
 						<RadioGroup.Root
 							value={currentTheme}
-							onValueChange={(val) => setTheme(val as 'light' | 'dark')}
+							onValueChange={(val) => setTheme(val as 'light' | 'dark' | 'system')}
 							class="gap-2"
 							aria-labelledby="theme-selector-label"
 						>
@@ -148,7 +151,7 @@ function setTheme(theme: 'light' | 'dark' | 'system') {
 		class="flex flex-row justify-around gap-3 border-t border-border p-4 text-sm text-muted-foreground"
 	>
 		<a
-			href={resolve("/about/")}
+			href={resolve("/about")}
 			rel="nofollow"
 			class="underline transition-colors hover:text-foreground"
 		>

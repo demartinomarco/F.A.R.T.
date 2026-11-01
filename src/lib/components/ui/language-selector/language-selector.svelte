@@ -12,7 +12,6 @@ let current = $derived(locales.find((l) => l.code === $locale) ?? locales[0]);
 	onValueChange={(val) => {
     if (val) setLocale(val as Locale);
   }}
-	class="bg-white"
 >
 	<Select.Trigger class="w-[150px]">{current.label}</Select.Trigger>
 
