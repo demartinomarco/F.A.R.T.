@@ -8,10 +8,49 @@ import Github from '$lib/components/icons/github.svelte';
 import { resolve } from '$app/paths';
 import { translations } from '$lib/i18n';
 import { cn } from '@/utils.js';
+import { onMount } from 'svelte';
 
-let { platformNames = [], selectedPlatforms = $bindable(), eventType = $bindable() } = $props();
+let { platformNames = [], selectedPlatforms = $bindable(), eventType = $bindable(), theme = 'system' } = $props();
 
 let hasPlatforms = $derived(platformNames && platformNames.length > 0);
+
+let currentTheme = $state<'light' | 'dark' | 'system'>('system');
+
+// Sync currentTheme state with theme prop (from SSR) or cookie
+onMount(() => {
+	const themeCookie = document.cookie.split('; ').find((row) => row.startsWith('theme='))?.split('=')[1];
+	
+	if (themeCookie === 'light' || themeCookie === 'dark') {
+		currentTheme = themeCookie;
+	} else if (theme === 'light' || theme === 'dark') {
+		currentTheme = theme;
+	} else {
+		currentTheme = 'system';
+	}
+});
+
+function setTheme(theme: 'light' | 'dark' | 'system') {
+	currentTheme = theme;
+
+	if (theme === 'system') {
+		// Clear cookie
+		document.cookie = 'theme=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+		// Apply system preference
+		if (matchMedia('(prefers-color-scheme: dark)').matches) {
+			document.documentElement.classList.add('dark');
+		} else {
+			document.documentElement.classList.remove('dark');
+		}
+	} else {
+		// Set cookie for SSR (expires in 1 year)
+		document.cookie = `theme=${theme}; path=/; max-age=31536000; SameSite=Lax`;
+		if (theme === 'dark') {
+			document.documentElement.classList.add('dark');
+		} else {
+			document.documentElement.classList.remove('dark');
+		}
+	}
+}
 </script>
 
 <Sidebar.Root>
@@ -73,6 +112,36 @@ let hasPlatforms = $derived(platformNames && platformNames.length > 0);
 						<span class="text-sm font-medium">{$translations.sidebar.language}</span>
 						<LanguageSelector />
 					</Sidebar.MenuItem>
+
+					<!-- Theme Selector -->
+					<Sidebar.MenuItem class="flex flex-col gap-2">
+						<span class="text-sm font-medium" id="theme-selector-label">{$translations.sidebar.theme}</span>
+						<RadioGroup.Root
+							value={currentTheme}
+							onValueChange={(val) => setTheme(val as 'light' | 'dark' | 'system')}
+							class="gap-2"
+							aria-labelledby="theme-selector-label"
+						>
+							<div class="flex items-center space-x-2">
+								<RadioGroup.Item value="light" id="theme-light" />
+								<Label class="cursor-pointer text-sm font-normal" for="theme-light">
+									{$translations.sidebar.themeLight}
+								</Label>
+							</div>
+							<div class="flex items-center space-x-2">
+								<RadioGroup.Item value="dark" id="theme-dark" />
+								<Label class="cursor-pointer text-sm font-normal" for="theme-dark">
+									{$translations.sidebar.themeDark}
+								</Label>
+							</div>
+							<div class="flex items-center space-x-2">
+								<RadioGroup.Item value="system" id="theme-system" />
+								<Label class="cursor-pointer text-sm font-normal" for="theme-system">
+									{$translations.sidebar.themeSystem}
+								</Label>
+							</div>
+						</RadioGroup.Root>
+					</Sidebar.MenuItem>
 				</Sidebar.Menu>
 			</Sidebar.GroupContent>
 		</Sidebar.Group>
@@ -82,7 +151,7 @@ let hasPlatforms = $derived(platformNames && platformNames.length > 0);
 		class="flex flex-row justify-around gap-3 border-t border-border p-4 text-sm text-muted-foreground"
 	>
 		<a
-			href={resolve("/about/")}
+			href={resolve("/about")}
 			rel="nofollow"
 			class="underline transition-colors hover:text-foreground"
 		>

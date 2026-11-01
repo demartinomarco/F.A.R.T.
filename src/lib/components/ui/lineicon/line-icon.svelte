@@ -9,7 +9,7 @@ const lineName = $derived(departure.lineName.trim().split(/\s+/).slice(0, 2).joi
 </script>
 
 <div
-	class="flex h-8 w-fit min-w-8 items-center justify-center rounded p-1 text-sm font-bold"
+	class="line-badge flex h-8 w-fit min-w-8 items-center justify-center rounded p-1 text-sm font-bold"
 	style="background-color: {style.background}; color: {style.text};"
 >
 	{lineName}
