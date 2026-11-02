@@ -2,7 +2,8 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 const mocks = vi.hoisted(() => ({
 	postXml: vi.fn(),
-	extractStopEventResults: vi.fn()
+	extractStopEventResults: vi.fn(),
+	logTriasFailure: vi.fn()
 }));
 
 vi.mock('./http', () => ({
@@ -21,7 +22,22 @@ vi.mock('./env', () => ({
 	})
 }));
 
+vi.mock('@/server/logger', () => ({
+	logTriasFailure: mocks.logTriasFailure
+}));
+
 import { getDepartures } from './index';
+import { KvvTriasError } from './errors';
+import { dependencyHealth, type DependencyHealthConfig } from '@/server/dependency-health';
+
+const healthConfig: DependencyHealthConfig = {
+	staleAfterMs: 60_000,
+	failureThreshold: 3
+};
+
+function healthSnapshot() {
+	return dependencyHealth.getSnapshot({ config: healthConfig });
+}
 
 type RawEventOptions = {
 	lineRef?: string;
@@ -65,6 +81,8 @@ describe('getDepartures', () => {
 		mocks.postXml.mockReset();
 		mocks.extractStopEventResults.mockReset();
 		mocks.postXml.mockResolvedValue('<Trias />');
+		mocks.logTriasFailure.mockReset();
+		dependencyHealth.reset();
 	});
 
 	it('over-fetches, merges duplicate StopEvents and slices after sorting', async () => {
@@ -127,5 +145,110 @@ describe('getDepartures', () => {
 
 		expect(departuresOf(result)).toHaveLength(2);
 		expect(result.platforms).toHaveLength(2);
+	});
+
+	it('updates dependency health after a successful request', async () => {
+		mocks.extractStopEventResults.mockReturnValue([
+			rawEvent({ time: '2026-10-31T12:00:00Z', bay: '1' })
+		]);
+
+		await getDepartures('de:08212:89', 'dep', 5);
+
+		const health = healthSnapshot();
+
+		expect(health.status).toBe('ok');
+		expect(health.trias.status).toBe('ok');
+		expect(health.trias.lastAttempt).not.toBeNull();
+		expect(health.trias.lastSuccess).not.toBeNull();
+		expect(health.trias.consecutiveFailures).toBe(0);
+		expect(health.departureData.status).toBe('ok');
+		expect(health.departureData.lastValidation).not.toBeNull();
+	});
+
+	it('records TRIAS request failures', async () => {
+		mocks.postXml.mockRejectedValue(
+			new KvvTriasError({
+				code: 'UPSTREAM_TIMEOUT',
+				status: 503,
+				message: 'KVV TRIAS timed out'
+			})
+		);
+
+		await expect(getDepartures('de:08212:89', 'dep', 5)).rejects.toMatchObject({
+			code: 'UPSTREAM_TIMEOUT'
+		});
+
+		const health = healthSnapshot();
+
+		expect(health.trias.status).toBe('degraded');
+		expect(health.trias.reachable).toBe(false);
+		expect(health.trias.lastErrorCategory).toBe('timeout');
+		expect(health.trias.lastErrorMessage).toBe('KVV TRIAS timed out');
+		expect(health.trias.consecutiveFailures).toBe(1);
+		expect(health.trias.lastSuccess).toBeNull();
+		expect(health.departureData.status).toBe('unknown');
+		expect(mocks.logTriasFailure).toHaveBeenCalledWith(
+			expect.objectContaining({
+				stationId: 'de:08212:89',
+				eventType: 'dep',
+				limit: 5,
+				category: 'timeout'
+			})
+		);
+	});
+
+	it('reports TRIAS as unreachable when the network request fails', async () => {
+		mocks.postXml.mockRejectedValue(new TypeError('fetch failed'));
+
+		await expect(getDepartures('de:08212:89', 'dep', 5)).rejects.toThrow('fetch failed');
+
+		const health = healthSnapshot();
+
+		expect(health.trias.status).toBe('degraded');
+		expect(health.trias.reachable).toBe(false);
+		expect(health.trias.lastErrorCategory).toBe('network');
+		expect(health.trias.lastErrorMessage).toBe('fetch failed');
+		expect(mocks.logTriasFailure).toHaveBeenCalledWith(
+			expect.objectContaining({
+				category: 'network',
+				error: expect.any(TypeError)
+			})
+		);
+	});
+
+	it('records invalid upstream responses separately from request failures', async () => {
+		mocks.extractStopEventResults.mockImplementation(() => {
+			throw new KvvTriasError({
+				code: 'UPSTREAM_INVALID_SHAPE',
+				status: 503,
+				message: 'KVV TRIAS response shape unexpected'
+			});
+		});
+
+		await expect(getDepartures('de:08212:89', 'dep', 5)).rejects.toMatchObject({
+			code: 'UPSTREAM_INVALID_SHAPE'
+		});
+
+		const health = healthSnapshot();
+
+		expect(health.trias.status).toBe('degraded');
+		expect(health.trias.lastErrorCategory).toBe('invalid_shape');
+		expect(health.trias.consecutiveFailures).toBe(1);
+		expect(health.departureData.status).toBe('degraded');
+		expect(health.departureData.invalidResponses).toBe(1);
+		expect(mocks.logTriasFailure).toHaveBeenCalledWith(
+			expect.objectContaining({
+				category: 'invalid_shape',
+				rawResponse: '<Trias />'
+			})
+		);
+	});
+
+	it('does not record local parameter validation as TRIAS health', async () => {
+		await expect(getDepartures('bad', 'dep', 5)).rejects.toMatchObject({
+			code: 'BAD_PARAMS'
+		});
+
+		expect(healthSnapshot().status).toBe('unknown');
 	});
 });

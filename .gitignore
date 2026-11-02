@@ -4,6 +4,7 @@ coverage
 .vscode
 
 # Output
+/logs/
 .output
 .vercel
 .netlify

@@ -2,6 +2,7 @@ import type { RequestHandler } from '@sveltejs/kit';
 import { getDepartures } from '@/kvv-trias';
 import type { EventType } from '@/kvv-trias/types';
 import { isKvvTriasError } from '@/kvv-trias/errors';
+import { logAbnormal } from '@/server/logger';
 
 function parseEventType(v: string | null): EventType {
 	return v === 'arr' ? 'arr' : 'dep';
@@ -81,7 +82,15 @@ export const GET: RequestHandler = async ({ url }) => {
 		}
 
 		// Unknown error
-		console.error('[departures route] Unhandled error:', e);
+		await logAbnormal({
+			level: 'error',
+			event: 'departures.unhandled',
+			message: 'Unhandled error in departures endpoint',
+			context: { stationId, eventType, limit },
+			error: e,
+			includeStack: true
+		});
+
 		return json(
 			{
 				ok: false,
