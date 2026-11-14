@@ -60,7 +60,8 @@
 		"minuteLate": "{delay} Minute verspätet",
 		"minutesLate": "{delay} Minuten verspätet",
 		"minuteEarly": "{delay} Minute zu früh",
-		"minutesEarly": "{delay} Minuten zu früh"
+		"minutesEarly": "{delay} Minuten zu früh",
+		"cancelled": "Entfällt"
 	},
 	"about": {
 		"pageTitle": "Über dieses Projekt",

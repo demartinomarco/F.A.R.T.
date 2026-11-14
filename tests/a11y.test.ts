@@ -19,6 +19,12 @@ const WCAG_AAA_TAGS = [
 // so line badges are checked against WCAG AA contrast instead (see below)
 const MIN_AA_CONTRAST = 4.5;
 
+// Semantic departure tones (green/yellow/red) only guarantee AA contrast.
+// Everything else on the page still has to pass AAA.
+const TONE_COLOR_SELECTOR = '[data-tone-color]';
+
+const WCAG_AA_TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];
+
 const themes = ['light', 'dark'] as const;
 
 function hasDarkClass(htmlClass: string | null | undefined): boolean {
@@ -70,6 +76,20 @@ async function expectLineBadgesMeetAA(page: Page) {
 	}
 }
 
+// Departure status labels and countdowns use the semantic tone colours, which
+// are only required to meet AA. The rest of the page is still scanned at AAA.
+async function expectToneColorsMeetAA(page: Page) {
+	const toneCount = await page.locator(TONE_COLOR_SELECTOR).count();
+	expect(toneCount).toBeGreaterThan(0);
+
+	const results = await new AxeBuilder({ page })
+		.withTags(WCAG_AA_TAGS)
+		.include(TONE_COLOR_SELECTOR)
+		.analyze();
+
+	expect(results.violations).toEqual([]);
+}
+
 for (const theme of themes) {
 	test.describe(`Accessibility (WCAG AAA - ${theme.toUpperCase()} mode)`, () => {
 		test.beforeEach(async ({ context, page }) => {
@@ -110,10 +130,13 @@ for (const theme of themes) {
 				.withTags(WCAG_AAA_TAGS)
 				// Official line icons are checked at AA below, not AAA
 				.exclude('.line-badge')
+				// Status/countdown tones are checked at AA below, not AAA
+				.exclude(TONE_COLOR_SELECTOR)
 				.analyze();
 
 			expect(results.violations).toEqual([]);
 
+			await expectToneColorsMeetAA(page);
 			await expectLineBadgesMeetAA(page);
 		});
 

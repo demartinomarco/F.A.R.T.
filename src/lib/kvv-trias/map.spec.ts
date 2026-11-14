@@ -15,6 +15,7 @@ function makeDeparture(opts: {
 	realTime?: string | null;
 	wagonCount?: number;
 	journeyRef?: string;
+	cancelled?: boolean;
 }): RawDeparture {
 	return {
 		lineRef: opts.lineRef,
@@ -30,7 +31,8 @@ function makeDeparture(opts: {
 			plannedTime: new Date(opts.time ?? '2026-10-30T14:20:00.000Z'),
 			realTime: opts.realTime ? new Date(opts.realTime) : null,
 			vehicleType: 'rail',
-			wagonCount: opts.wagonCount ?? 1
+			wagonCount: opts.wagonCount ?? 1,
+			cancelled: opts.cancelled ?? false
 		}
 	};
 }
@@ -42,6 +44,7 @@ function rawStopEvent(opts: {
 	destination?: string;
 	time?: string;
 	realTime?: string;
+	cancelled?: boolean;
 }) {
 	return {
 		StopEvent: {
@@ -58,7 +61,8 @@ function rawStopEvent(opts: {
 				LineRef: opts.lineRef ?? 'kvv:22305:E:H',
 				PublishedLineName: { Text: opts.lineName ?? 'S5' },
 				DestinationText: { Text: opts.destination ?? 'Wörth, Badepark' },
-				Mode: { PtMode: 'rail' }
+				Mode: { PtMode: 'rail' },
+				...(opts.cancelled ? { Cancelled: true } : {})
 			}
 		}
 	};
@@ -104,6 +108,40 @@ describe('consolidateWagons', () => {
 			expect(result).toHaveLength(1);
 			expect(result[0].departure.wagonCount).toBe(1);
 		}
+	});
+
+	it('keeps a cancellation reported by one of the duplicated StopEvents', () => {
+		const result = consolidateWagons([
+			makeDeparture({ lineRef: 'kvv:22305:E:R' }),
+			makeDeparture({ lineRef: 'kvv:22305:E:R', cancelled: true })
+		]);
+
+		expect(result).toHaveLength(1);
+		expect(result[0].departure.cancelled).toBe(true);
+	});
+
+	it('propagates a cancellation from a DDB mirror to the KVV departure', () => {
+		const result = consolidateWagons([
+			makeDeparture({
+				lineRef: 'kvv:22305:E:H',
+				lineName: 'S5',
+				platform: '1B',
+				direction: ['Wörth, Badepark'],
+				origin: 'Pforzheim Hauptbahnhof'
+			}),
+			makeDeparture({
+				lineRef: 'ddb:920S5:D:H',
+				lineName: 'S5',
+				platform: '',
+				platformType: PlatformType.Unknown,
+				direction: ['Wörth, Badepark'],
+				origin: 'Pforzheim Hauptbahnhof',
+				cancelled: true
+			})
+		]);
+
+		expect(result).toHaveLength(1);
+		expect(result[0].departure.cancelled).toBe(true);
 	});
 
 	it('keeps real-time data from a repeated StopEvent without adding a wagon', () => {
@@ -426,6 +464,16 @@ describe('mapStopEventResultToDeparture', () => {
 		const mapped = mapStopEventResultToDeparture(rawStopEvent({ plannedBay }));
 
 		expect(mapped?.platform).toEqual({ type, name });
+	});
+
+	it('reads the TRIAS Cancelled flag from the Service', () => {
+		const cancelled = mapStopEventResultToDeparture(
+			rawStopEvent({ plannedBay: 'Gleis 1', cancelled: true })
+		);
+		const running = mapStopEventResultToDeparture(rawStopEvent({ plannedBay: 'Gleis 1' }));
+
+		expect(cancelled?.departure.cancelled).toBe(true);
+		expect(running?.departure.cancelled).toBe(false);
 	});
 
 	it('merges the same train from two feeds when only the platform spelling differs', () => {

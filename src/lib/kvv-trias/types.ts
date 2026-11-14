@@ -18,6 +18,7 @@ export type Departure = {
 	vehicleType: string;
 	realTime: Date | null;
 	wagonCount: number;
+	cancelled: boolean;
 };
 
 export type PlatformDepartures = {

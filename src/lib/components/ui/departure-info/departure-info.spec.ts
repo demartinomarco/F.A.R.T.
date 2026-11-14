@@ -1,5 +1,15 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { countdownText, delayMinutes, colorClass } from './departure-info';
+import {
+	countdownText,
+	delayMinutes,
+	statusColorClass,
+	countdownColorClass,
+	cancelledTimeClass,
+	cancelledStrikeClass,
+	plannedTimeStrikeClass,
+	accompanyingStatusText,
+	departureTone
+} from './departure-info';
 import { translations } from '$lib/i18n';
 import { get } from 'svelte/store';
 
@@ -145,34 +155,127 @@ describe('departure-info', () => {
 		});
 	});
 
-	describe('colorClass', () => {
-		it('returns "" when delay is NaN', () => {
-			const d = { plannedTime: null, realTime: null } as any;
-			expect(colorClass(d)).toBe('text-[#A12A00] dark:text-orange-400');
+	describe('cancelled departures', () => {
+		const strings = get(translations);
+
+		it('shows the planned time instead of a countdown', () => {
+			const d = {
+				plannedTime: new Date('2024-06-01T12:20:00Z'),
+				realTime: new Date('2024-06-01T12:22:00Z'),
+				cancelled: true
+			} as any;
+
+			expect(countdownText(d, new Date('2024-06-01T12:05:00Z'), strings)).toBe('12:20');
 		});
 
-		it('returns "" when delay is 0', () => {
+		it('labels the accompanying status as cancelled', () => {
+			const d = {
+				plannedTime: new Date('2024-06-01T12:20:00Z'),
+				realTime: null,
+				cancelled: true
+			} as any;
+
+			expect(accompanyingStatusText(d, strings)).toEqual({
+				text: strings.departureInfo.cancelled
+			});
+		});
+
+		it('uses the red tone for the label and the countdown', () => {
 			const d = {
 				plannedTime: new Date('2024-06-01T12:00:00Z'),
-				realTime: new Date('2024-06-01T12:00:00Z')
+				realTime: new Date('2024-06-01T12:00:00Z'),
+				cancelled: true
 			} as any;
-			expect(colorClass(d)).toBe('');
+
+			expect(departureTone(d)).toBe('cancelled');
+			expect(statusColorClass(d)).toBe('text-red-800 dark:text-red-400');
+			expect(countdownColorClass(d)).toBe('text-red-800 dark:text-red-400');
 		});
 
-		it('returns green when delay negative (early)', () => {
-			const d = {
-				plannedTime: new Date('2024-06-01T12:10:00Z'),
-				realTime: new Date('2024-06-01T12:05:00Z')
-			} as any;
-			expect(colorClass(d)).toBe('text-emerald-900 dark:text-emerald-500');
+		it('uses a centered bar for the cancellation strike-through', () => {
+			expect(cancelledTimeClass).toContain('relative');
+			expect(cancelledTimeClass).toContain('inline-block');
+			expect(cancelledStrikeClass).toContain('top-1/2');
+			expect(cancelledStrikeClass).toContain('-translate-y-1/2');
+			expect(cancelledStrikeClass).toContain('h-[2px]');
+			expect(cancelledStrikeClass).toContain('bg-current');
 		});
 
-		it('returns red when delay positive (late)', () => {
-			const d = {
-				plannedTime: new Date('2024-06-01T12:05:00Z'),
-				realTime: new Date('2024-06-01T12:10:00Z')
-			} as any;
-			expect(colorClass(d)).toBe('text-[#AD0E0E] dark:text-[#FF6659]');
+		it('centers the strike-through on the delayed planned time as well', () => {
+			expect(plannedTimeStrikeClass).toContain('top-1/2');
+			expect(plannedTimeStrikeClass).toContain('-translate-y-1/2');
+			expect(plannedTimeStrikeClass).toContain('h-px');
+			expect(plannedTimeStrikeClass).toContain('bg-current');
+		});
+	});
+
+	describe('departureTone', () => {
+		const plannedTime = new Date('2024-06-01T12:00:00Z');
+
+		it('classifies a missing realtime estimate as noRealtime', () => {
+			expect(departureTone({ plannedTime, realTime: null } as any)).toBe('noRealtime');
+		});
+
+		it('classifies zero delay and early arrivals as onTime', () => {
+			expect(
+				departureTone({ plannedTime, realTime: new Date('2024-06-01T12:00:00Z') } as any)
+			).toBe('onTime');
+			expect(
+				departureTone({ plannedTime, realTime: new Date('2024-06-01T11:58:00Z') } as any)
+			).toBe('onTime');
+		});
+
+		it('classifies delays below five minutes as minorDelay', () => {
+			expect(
+				departureTone({ plannedTime, realTime: new Date('2024-06-01T12:04:00Z') } as any)
+			).toBe('minorDelay');
+		});
+
+		it('classifies delays of five minutes or more as majorDelay', () => {
+			expect(
+				departureTone({ plannedTime, realTime: new Date('2024-06-01T12:05:00Z') } as any)
+			).toBe('majorDelay');
+		});
+	});
+
+	describe('statusColorClass', () => {
+		const plannedTime = new Date('2024-06-01T12:00:00Z');
+
+		it('uses green for on-time departures', () => {
+			const d = { plannedTime, realTime: new Date('2024-06-01T12:00:00Z') } as any;
+			expect(statusColorClass(d)).toBe('text-emerald-700 dark:text-emerald-300');
+		});
+
+		it('uses orange for delays below five minutes', () => {
+			const d = { plannedTime, realTime: new Date('2024-06-01T12:03:00Z') } as any;
+			expect(statusColorClass(d)).toBe('text-orange-700 dark:text-yellow-400');
+		});
+
+		it('uses red for delays of five minutes or more', () => {
+			const d = { plannedTime, realTime: new Date('2024-06-01T12:10:00Z') } as any;
+			expect(statusColorClass(d)).toBe('text-red-800 dark:text-red-400');
+		});
+
+		it('uses gray when no realtime estimate is available', () => {
+			const d = { plannedTime, realTime: null } as any;
+			expect(statusColorClass(d)).toBe('text-slate-700 dark:text-slate-300');
+		});
+	});
+
+	describe('countdownColorClass', () => {
+		const plannedTime = new Date('2024-06-01T12:00:00Z');
+
+		it('keeps an on-time countdown neutral instead of coloring it green', () => {
+			const d = { plannedTime, realTime: new Date('2024-06-01T12:00:00Z') } as any;
+			expect(countdownColorClass(d)).toBe('text-slate-900 dark:text-white');
+		});
+
+		it('matches the status color for delayed departures', () => {
+			const minor = { plannedTime, realTime: new Date('2024-06-01T12:03:00Z') } as any;
+			const major = { plannedTime, realTime: new Date('2024-06-01T12:10:00Z') } as any;
+
+			expect(countdownColorClass(minor)).toBe('text-orange-700 dark:text-yellow-400');
+			expect(countdownColorClass(major)).toBe('text-red-800 dark:text-red-400');
 		});
 	});
 });

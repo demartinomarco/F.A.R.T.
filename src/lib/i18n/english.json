@@ -55,12 +55,13 @@
 		"minutes": "{diff} min",
 		"plannedCountdown": "({plannedCountdown} min)",
 		"plannedTime": "({time})",
-		"planned": "Planned",
+		"planned": "Scheduled",
 		"onTime": "On time",
 		"minuteLate": "{delay} minute late",
 		"minutesLate": "{delay} minutes late",
 		"minuteEarly": "{delay} minute early",
-		"minutesEarly": "{delay} minutes early"
+		"minutesEarly": "{delay} minutes early",
+		"cancelled": "Cancelled"
 	},
 	"about": {
 		"pageTitle": "About this project",
