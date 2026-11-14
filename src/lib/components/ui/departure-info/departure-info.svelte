@@ -1,7 +1,15 @@
 <script lang="ts">
 import { translations } from '$lib/i18n';
 import LineIcon from '@/components/ui/lineicon/line-icon.svelte';
-import { colorClass, countdownText, accompanyingStatusText } from './departure-info';
+import {
+	statusColorClass,
+	countdownColorClass,
+	cancelledTimeClass,
+	cancelledStrikeClass,
+	plannedTimeStrikeClass,
+	countdownText,
+	accompanyingStatusText
+} from './departure-info';
 import Bus from '@lucide/svelte/icons/bus';
 import TramFront from '@lucide/svelte/icons/tram-front';
 
@@ -51,12 +59,11 @@ const status = $derived(accompanyingStatusText(departure, $translations));
 			{/each}
 
 			{#if status.text}
-				<div class="mt-1 flex items-center gap-1.5 text-[11px] leading-none font-medium">
-					<span class={colorClass(departure) || 'text-slate-600 dark:text-slate-400'}
-						>{status.text}</span
-					>
+				<div class="mt-1 flex items-center gap-1.5 text-[12px] leading-none font-medium">
+					<span class={statusColorClass(departure)} data-tone-color="true">{status.text}</span>
 					{#if status.plannedTime}
-						<span class="font-normal text-slate-600 line-through dark:text-slate-400">
+						<span class="relative inline-block font-normal text-slate-600 dark:text-slate-400">
+							<span class={plannedTimeStrikeClass} aria-hidden="true"></span>
 							{status.plannedTime}
 						</span>
 					{/if}
@@ -67,7 +74,16 @@ const status = $derived(accompanyingStatusText(departure, $translations));
 
 	<!-- Right Section: Departure Countdown / Time -->
 	<div class="flex shrink-0 items-center justify-end self-center pt-0.5">
-		<p class="text-sm font-bold whitespace-nowrap {colorClass(departure)}">
+		<p
+			class="text-sm font-bold whitespace-nowrap {countdownColorClass(
+				departure
+			)} {departure.cancelled ? cancelledTimeClass : ''}"
+			data-tone-color="true"
+			title={departure.cancelled ? $translations.departureInfo.cancelled : undefined}
+		>
+			{#if departure.cancelled}
+				<span class={cancelledStrikeClass} aria-hidden="true"></span>
+			{/if}
 			{countdownText(departure, now, $translations)}
 		</p>
 	</div>
