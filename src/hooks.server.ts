@@ -1,4 +1,9 @@
-import type { Handle } from '@sveltejs/kit';
+import type { Handle, ServerInit } from '@sveltejs/kit';
+import { ensureLogFile } from '@/server/logger';
+
+export const init: ServerInit = async () => {
+	await ensureLogFile();
+};
 
 export const handle: Handle = async ({ event, resolve }) => {
 	const cookieLocale = event.cookies.get('locale');
