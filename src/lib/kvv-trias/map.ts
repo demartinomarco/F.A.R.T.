@@ -42,7 +42,8 @@ export function mapStopEventResultToDeparture(r: any): InternalDeparture | null 
 			vehicleType: extractVehicleType(service),
 			plannedTime,
 			realTime,
-			wagonCount: 1
+			wagonCount: 1,
+			cancelled: readBoolean(service?.Cancelled)
 		}
 	};
 }
@@ -92,6 +93,10 @@ export function consolidateWagons(departures: InternalDeparture[]): MappedDepart
 		if (!existing.departure.realTime && current.departure.realTime) {
 			existing.departure.realTime = current.departure.realTime;
 		}
+
+		// A cancellation reported by any duplicate entry applies to the
+		// departure as a whole.
+		existing.departure.cancelled = existing.departure.cancelled || current.departure.cancelled;
 
 		// Combine directions without duplicates
 		for (const dir of current.departure.direction) {
@@ -149,6 +154,8 @@ function dedupeIdenticalStopEvents(departures: InternalDeparture[]): InternalDep
 		if (!existing.departure.realTime && current.departure.realTime) {
 			existing.departure.realTime = current.departure.realTime;
 		}
+
+		existing.departure.cancelled = existing.departure.cancelled || current.departure.cancelled;
 
 		existing.departure.wagonCount = Math.max(
 			existing.departure.wagonCount,
@@ -269,6 +276,8 @@ function removeDuplicateDbDepartures(departures: InternalDeparture[]): InternalD
 		if (!counterpart.departure.realTime && departure.departure.realTime) {
 			counterpart.departure.realTime = departure.departure.realTime;
 		}
+		counterpart.departure.cancelled =
+			counterpart.departure.cancelled || departure.departure.cancelled;
 		if (
 			counterpart.platform.type === PlatformType.Unknown &&
 			departure.platform.type !== PlatformType.Unknown
@@ -353,6 +362,22 @@ function normalizePlaceName(value: string | null | undefined): string {
 
 function normalizeLineName(value: string): string {
 	return value.trim().toLowerCase();
+}
+
+/**
+ * Reads TRIAS boolean fields such as `Cancelled`. The XML parser normally
+ * converts `true`/`false` already, but some producers wrap the value in a
+ * string, so accept both forms.
+ */
+function readBoolean(node: any): boolean {
+	if (node === true || node === 1) return true;
+	if (node === false || node === 0 || node == null) return false;
+
+	if (typeof node === 'string') {
+		return node.trim().toLowerCase() === 'true' || node.trim() === '1';
+	}
+
+	return false;
 }
 
 /**

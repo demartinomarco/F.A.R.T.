@@ -6,6 +6,28 @@
 				"platform": { "name": "1", "type": "rail" },
 				"departures": [
 					{
+						"lineName": "S11",
+						"vehicleType": "rail",
+						"direction": ["Hochstetten"],
+						"plannedTime": "2026-08-01T12:45:00.000Z",
+						"realTime": "2026-08-01T12:45:00.000Z"
+					},
+					{
+						"lineName": "S41",
+						"vehicleType": "rail",
+						"direction": ["Spöck Richard-Hecht-Schule"],
+						"plannedTime": "2026-08-01T12:50:00.000Z",
+						"realTime": "2026-08-01T12:58:00.000Z"
+					},
+					{
+						"lineName": "S52",
+						"vehicleType": "rail",
+						"direction": ["Wörth, Badepark"],
+						"plannedTime": "2026-08-01T12:55:00.000Z",
+						"realTime": null,
+						"cancelled": true
+					},
+					{
 						"lineName": "1",
 						"vehicleType": "tram",
 						"direction": ["Durlach Turmberg"],
