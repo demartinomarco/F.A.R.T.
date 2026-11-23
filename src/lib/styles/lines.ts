@@ -76,5 +76,10 @@ export function getLineStyle(line: Departure): LineStyle {
 		return { background: '#882287', text: '#fff' };
 	}
 
-	return LINE_STYLES[lineName] ?? { background: SLATE_DARK, text: '#fff' };
+	// Own-property lookup only: a plain `LINE_STYLES[name] ?? fallback` would
+	// hit the prototype chain for hostile names like `__proto__` (truthy, so
+	// the fallback never fires) and render `background-color: undefined`.
+	return Object.hasOwn(LINE_STYLES, lineName)
+		? LINE_STYLES[lineName]
+		: { background: SLATE_DARK, text: '#fff' };
 }

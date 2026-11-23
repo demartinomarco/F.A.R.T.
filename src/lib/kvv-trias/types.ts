@@ -26,6 +26,13 @@ export type PlatformDepartures = {
 	departures: Departure[];
 };
 
+// Representative data per unique line name, enough for LineIcon to pick the
+// right badge colors (which depend on lineName and vehicleType).
+export type LineOption = {
+	name: string;
+	vehicleType: string;
+};
+
 export type StationDepartures = {
 	stationName: string;
 	cityName: string;

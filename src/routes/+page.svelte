@@ -1,14 +1,21 @@
 <script lang="ts">
 import SearchBar from '@/components/ui/searchbar/search-bar.svelte';
 import { onDestroy, untrack } from 'svelte';
-import { goto } from '$app/navigation';
+import { goto, replaceState } from '$app/navigation';
+import { page } from '$app/state';
 import { resolve } from '$app/paths';
 import type { PageProps } from './$types';
 import DepartureInfo from '@/components/ui/departure-info/departure-info.svelte';
 import {
 	_extractPlatformNames,
+	_extractLineOptions,
+	_lineFilterOptions,
 	_fetchDepartures,
-	_filterByPlatformName,
+	_filterDepartures,
+	_parseLinesParam,
+	_serializeLines,
+	_serializeQuery,
+	_LINES_PARAM,
 	type UiModel,
 	_getPlatformKey,
 	_getDepartureKey
@@ -27,12 +34,14 @@ let time = $derived(formatTime(now));
 // `data` is replaced on navigation. Capture the initial (SSR/hydration) model
 // once; later updates are handled by the effect below.
 const initial = untrack(() => data.model);
+const initialLines = untrack(() => data.lines);
 
 let stationId = $state(initial.stationId);
 let eventType = $state(initial.eventType);
 let departures = $state<StationDepartures | null>(initial.item);
 let error = $state<UiModel['error']>(initial.error);
 let selectedPlatforms: string[] = $state([]);
+let selectedLines: string[] = $state(initialLines);
 
 // The route's `load` already fetched this station/eventType combination (during
 // SSR or a client-side navigation). Remember which one so we never refetch it
@@ -42,12 +51,18 @@ let loadedKey = `${initial.stationId}|${initial.eventType}`;
 
 $effect(() => {
 	const model = data.model;
+	const lines = data.lines;
 	if (model === appliedModel) return;
 
-	// A new station starts with an unfiltered platform list. Doing this here
-	// (outside the fetch path) keeps the effect from invalidating itself.
+	// A new station starts with unfiltered platform and line lists. A
+	// navigation within the same station (departure/arrival switch, browser
+	// back/forward) restores the line filter from the URL instead. Doing this
+	// here (outside the fetch path) keeps the effect from invalidating itself.
 	if (model.stationId !== appliedModel.stationId) {
 		selectedPlatforms = [];
+		selectedLines = [];
+	} else {
+		selectedLines = lines;
 	}
 
 	appliedModel = model;
@@ -65,12 +80,53 @@ $effect(() => {
 	const key = `${stationId}|${eventType}`;
 	if (key === loadedKey) return;
 
-	void goto(resolve(`/?${new URLSearchParams({ stationId, eventType })}`), { noScroll: true });
+	const params: Record<string, string> = { stationId, eventType };
+
+	// A station change drops the line filter (the new station has its own
+	// lines); a departure/arrival switch keeps it in the URL.
+	const [loadedStationId] = loadedKey.split('|');
+	if (stationId === loadedStationId) {
+		const serialized = _serializeLines(selectedLines);
+		if (serialized) params[_LINES_PARAM] = serialized;
+	}
+
+	void goto(resolve(`/?${_serializeQuery(Object.entries(params))}`), { noScroll: true });
+});
+
+// Shallow-route the line filter into the URL so it can be bookmarked:
+// `replaceState` updates the address bar without re-running `load`, so
+// toggling a line never refetches, and an empty selection removes the
+// parameter entirely. `page.url` only updates on real navigations — never
+// from `replaceState` — so what the URL currently holds is tracked in a
+// plain variable instead of being read back out of the (stale) URL.
+// Declared after the model effect so a station change (which clears the
+// filter) settles first.
+let urlSerializedLines = untrack(() =>
+	_serializeLines(_parseLinesParam(new URLSearchParams(page.url.search)))
+);
+
+$effect(() => {
+	const serialized = _serializeLines(selectedLines);
+	if (serialized === urlSerializedLines) return;
+	urlSerializedLines = serialized;
+
+	// Rebuild from the address bar itself: it is the only source that
+	// reflects previous `replaceState` calls.
+	const others = [...new URLSearchParams(window.location.search)].filter(
+		([key]) => key !== _LINES_PARAM
+	);
+	const params = serialized ? [...others, [_LINES_PARAM, serialized]] : others;
+
+	const query = _serializeQuery(params);
+	if (query !== window.location.search.slice(1)) {
+		replaceState(resolve(query ? `/?${query}` : '/'), {});
+	}
 });
 
 let stationName = $derived(departures?.stationName ?? '');
-let departuresToShow = $derived(_filterByPlatformName(departures, selectedPlatforms));
+let departuresToShow = $derived(_filterDepartures(departures, selectedLines, selectedPlatforms));
 const platformNames = $derived(_extractPlatformNames(departures));
+const lineOptions = $derived(_lineFilterOptions(_extractLineOptions(departures), selectedLines));
 
 async function fetchAndSetDepartures(stId: string, ev: 'dep' | 'arr') {
 	const model: UiModel = await _fetchDepartures(fetch, stId, ev);
@@ -141,6 +197,8 @@ function platformName(platformInfo: Platform): string {
 	<AppSidebar
 		platformNames={platformNames}
 		bind:selectedPlatforms={selectedPlatforms}
+		lineOptions={lineOptions}
+		bind:selectedLines={selectedLines}
 		bind:eventType={eventType}
 		theme={data.theme}
 	/>
@@ -179,7 +237,11 @@ function platformName(platformInfo: Platform): string {
 				</div>
 			{:else if departuresToShow.length === 0}
 				<div class="p-6 text-center text-sm text-slate-500 dark:text-slate-400">
-					<p>{$translations.page.noDepartures}</p>
+					<p>
+						{selectedLines.length > 0 || selectedPlatforms.length > 0
+						? $translations.page.noDeparturesForFilter
+						: $translations.page.noDepartures}
+					</p>
 				</div>
 			{:else}
 				{#key departuresToShow}

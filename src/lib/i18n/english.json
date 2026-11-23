@@ -17,7 +17,8 @@
 		"metaDescriptionWithStation": "Live departures and timetable info for {stationName}.",
 		"metaDescriptionWithoutStation": "Live departures and timetable info.",
 		"loading": "Loading data...",
-		"noDepartures": "No departures found for the selected stop."
+		"noDepartures": "No departures found for the selected stop.",
+		"noDeparturesForFilter": "No departures match this filter."
 	},
 	"platform": {
 		"unknown": "Unknown platform",
@@ -28,6 +29,7 @@
 		"opened": "Sidebar opened",
 		"filterGroup": "Filter",
 		"platforms": "Platforms",
+		"lines": "Lines",
 		"displayType": "Display type",
 		"departure": "Departure",
 		"arrival": "Arrival",
@@ -48,6 +50,10 @@
 	},
 	"multiSelect": {
 		"placeholder": "Select a platform..."
+	},
+	"lineFilter": {
+		"clearAll": "Clear all",
+		"empty": "No lines available"
 	},
 	"departureInfo": {
 		"noData": "No data",

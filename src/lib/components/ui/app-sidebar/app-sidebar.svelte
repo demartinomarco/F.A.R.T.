@@ -1,6 +1,7 @@
 <script lang="ts">
 import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 import MultiSelect from '@/components/ui/multi-select/multi-select.svelte';
+import LineFilter from '@/components/ui/line-filter/line-filter.svelte';
 import { Label } from '$lib/components/ui/label/index.js';
 import * as RadioGroup from '$lib/components/ui/radio-group/index.js';
 import LanguageSelector from '@/components/ui/language-selector/language-selector.svelte';
@@ -10,16 +11,27 @@ import { translations } from '$lib/i18n';
 import { cn } from '@/utils.js';
 import { onMount } from 'svelte';
 
-let { platformNames = [], selectedPlatforms = $bindable(), eventType = $bindable(), theme = 'system' } = $props();
+let {
+	platformNames = [],
+	selectedPlatforms = $bindable(),
+	lineOptions = [],
+	selectedLines = $bindable(),
+	eventType = $bindable(),
+	theme = 'system'
+} = $props();
 
 let hasPlatforms = $derived(platformNames && platformNames.length > 0);
+let hasLines = $derived(lineOptions && lineOptions.length > 0);
 
 let currentTheme = $state<'light' | 'dark' | 'system'>('system');
 
 // Sync currentTheme state with theme prop (from SSR) or cookie
 onMount(() => {
-	const themeCookie = document.cookie.split('; ').find((row) => row.startsWith('theme='))?.split('=')[1];
-	
+	const themeCookie = document.cookie
+		.split('; ')
+		.find((row) => row.startsWith('theme='))
+		?.split('=')[1];
+
 	if (themeCookie === 'light' || themeCookie === 'dark') {
 		currentTheme = themeCookie;
 	} else if (theme === 'light' || theme === 'dark') {
@@ -79,6 +91,15 @@ function setTheme(theme: 'light' | 'dark' | 'system') {
 					</Sidebar.MenuItem>
 
 					<Sidebar.MenuItem class="flex flex-col gap-2">
+						<!-- Caption only: the filter is a group of buttons, so there is
+						     nothing to associate a label `for`. Dims when no lines exist. -->
+						<span class={cn('text-sm font-medium transition-opacity', !hasLines && 'opacity-50')}>
+							{$translations.sidebar.lines}
+						</span>
+						<LineFilter options={lineOptions} bind:selectedLines={selectedLines} />
+					</Sidebar.MenuItem>
+
+					<Sidebar.MenuItem class="flex flex-col gap-2">
 						<span class="text-sm font-medium">{$translations.sidebar.displayType}</span>
 						<RadioGroup.Root bind:value={eventType} class="gap-2">
 							<div class="flex items-center space-x-2">
@@ -115,7 +136,9 @@ function setTheme(theme: 'light' | 'dark' | 'system') {
 
 					<!-- Theme Selector -->
 					<Sidebar.MenuItem class="flex flex-col gap-2">
-						<span class="text-sm font-medium" id="theme-selector-label">{$translations.sidebar.theme}</span>
+						<span class="text-sm font-medium" id="theme-selector-label"
+							>{$translations.sidebar.theme}</span
+						>
 						<RadioGroup.Root
 							value={currentTheme}
 							onValueChange={(val) => setTheme(val as 'light' | 'dark' | 'system')}
