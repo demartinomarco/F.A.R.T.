@@ -47,7 +47,20 @@ export const LINE_STYLES: Record<string, LineStyle> = {
 	'6': { background: '#80c342', text: SLATE_DARK },
 	'7': { background: '#58595b', text: '#fff' },
 	'8': { background: '#f7931d', text: SLATE_DARK },
-	'10': { background: '#a4d7bb', text: SLATE_DARK }
+	'10': { background: '#a4d7bb', text: SLATE_DARK },
+
+	// Official KVV GTFS colors (projekte.kvv-efa.de), darkened where needed to
+	// reach WCAG AA (4.5:1) — the same treatment as the entries above. 17 and
+	// 18 pass unmodified; 19 keeps its official gray with dark text (white text
+	// on the official gray fails AA); E reuses the S1 darkening of the same
+	// official green; NL1/NL2 reuse the darkened colors of trams 1/2, which
+	// share their official colors.
+	'17': { background: '#691103', text: '#fff' },
+	'18': { background: '#156e41', text: '#fff' },
+	'19': { background: '#b3b3b3', text: SLATE_DARK },
+	E: { background: '#008256', text: '#fff' },
+	NL1: { background: '#d61a20', text: '#fff' },
+	NL2: { background: '#0072bc', text: '#fff' }
 };
 
 export function getLineStyle(line: Departure): LineStyle {
