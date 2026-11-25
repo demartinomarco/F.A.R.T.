@@ -7,6 +7,26 @@ export interface LineStyle {
 
 const SLATE_DARK = '#0f172a';
 
+// Every bus gets the same badge, rail replacements included.
+const BUS_STYLE: LineStyle = { background: '#882287', text: '#fff' };
+
+// Rail replacement (Schienenersatzverkehr): KVV publishes it as `SEV <line>`
+// ("SEV S4", "SEV RB74", "SEV 721"), and neither the feed nor the static
+// dataset calls it a bus — TRIAS keeps the mode of the replaced line, so the
+// published name is the only thing that reveals which vehicle actually runs.
+// Matched as a word of its own, in either position, so `SEVA`-style names are
+// not swept in.
+const REPLACEMENT_BUS = /(^|\s)SEV(?=$|[\s/\-0-9])/i;
+
+// Badge for a line the palette does not know: a new tram, a train nobody
+// expected. Blue, so it never reads as a real line colour, and light enough to
+// survive both themes — the old near-black default was #0f172a, which is
+// exactly the dark card and sidebar colour, so an unknown line rendered as a
+// black hole. This shade keeps at least 3:1 (WCAG AA non-text contrast) against
+// every surface a badge sits on in either theme (asserted in lines.spec.ts) and
+// its white text still reaches 4.5:1.
+const UNKNOWN_LINE_STYLE: LineStyle = { background: '#2f6fd6', text: '#fff' };
+
 export const LINE_STYLES: Record<string, LineStyle> = {
 	S1: { background: '#008256', text: '#fff' },
 	S11: { background: '#008256', text: '#fff' },
@@ -65,6 +85,11 @@ export const LINE_STYLES: Record<string, LineStyle> = {
 
 export function getLineStyle(line: Departure): LineStyle {
 	const lineName = line.lineName;
+
+	if (REPLACEMENT_BUS.test(lineName)) {
+		return BUS_STYLE;
+	}
+
 	if (/^(ICE|IC|EC|ECE)/i.test(lineName)) {
 		return { background: '#d61a20', text: '#fff' };
 	}
@@ -86,13 +111,11 @@ export function getLineStyle(line: Departure): LineStyle {
 		line.vehicleType === 'Regionalbus' ||
 		line.vehicleType === 'Stadtbus'
 	) {
-		return { background: '#882287', text: '#fff' };
+		return BUS_STYLE;
 	}
 
 	// Own-property lookup only: a plain `LINE_STYLES[name] ?? fallback` would
 	// hit the prototype chain for hostile names like `__proto__` (truthy, so
 	// the fallback never fires) and render `background-color: undefined`.
-	return Object.hasOwn(LINE_STYLES, lineName)
-		? LINE_STYLES[lineName]
-		: { background: SLATE_DARK, text: '#fff' };
+	return Object.hasOwn(LINE_STYLES, lineName) ? LINE_STYLES[lineName] : UNKNOWN_LINE_STYLE;
 }

@@ -76,7 +76,8 @@ describe('getLineStyle fallbacks', () => {
 			['RB 51', 'rail'],
 			['47', 'bus'],
 			['222', 'bus'],
-			['X99', 'rail'] // no match: slate fallback
+			['SEV S4', 'rail'],
+			['X99', 'rail'] // no match: default badge
 		];
 
 		for (const [lineName, vehicleType] of samples) {
@@ -87,5 +88,83 @@ describe('getLineStyle fallbacks', () => {
 	it('looks up new tram entries by name', () => {
 		expect(getLineStyle(departure('17')).background).toBe('#691103');
 		expect(getLineStyle(departure('NL2')).background).toBe('#0072bc');
+	});
+});
+
+describe('rail replacement (SEV)', () => {
+	// TRIAS reports the mode of the *replaced* line, so a replacement for an
+	// S-Bahn arrives as `vehicleType: 'rail'` and the bus branch below would
+	// never colour it. The name is what identifies the bus.
+	const names = ['SEV', 'SEV S4', 'SEV S41/S42', 'SEV S7/S8', 'SEV RB74', 'SEV RE10', 'SEV 721'];
+
+	it('badges every replacement as a bus, whatever mode the feed reports', () => {
+		for (const name of names) {
+			for (const vehicleType of ['rail', 'bus', 'tram', '']) {
+				expect(
+					getLineStyle(departure(name, vehicleType)).background,
+					`${name} (${vehicleType || 'no mode'})`
+				).toBe('#882287');
+			}
+		}
+	});
+
+	it('is matched by name alone', () => {
+		expect(getLineStyle(departure('S4 SEV')).background).toBe('#882287');
+	});
+
+	it('does not swallow lines that merely start with the same letters', () => {
+		// Not a replacement: the default badge, not the bus purple.
+		expect(getLineStyle(departure('SEVAS'))).toEqual(getLineStyle(departure('X99')));
+	});
+
+	it('does not touch the replaced line itself', () => {
+		expect(getLineStyle(departure('S4')).background).toBe('#9f184c');
+		expect(getLineStyle(departure('RB 51')).background).toBe('#ffd600');
+	});
+});
+
+describe('default badge for unknown lines', () => {
+	// Surfaces a badge can be drawn on, taken from the oklch theme values in
+	// src/routes/layout.css and converted to sRGB.
+	const surfaces = {
+		light: [
+			'#ffffff' /* background, card, popover */,
+			'#f8fafc' /* sidebar */,
+			'#f1f5f9' /* muted, accent, hover */,
+			'#e2e8f0' /* border */
+		],
+		dark: [
+			'#020618' /* background */,
+			'#0f172b' /* card, popover, sidebar */,
+			'#1d293d' /* muted, accent, hover */
+		]
+	};
+
+	const unknown = getLineStyle(departure('X99'));
+
+	it('is a blue instead of the old near-black', () => {
+		expect(unknown.background).toBe('#2f6fd6');
+		expect(unknown.text).toBe('#fff');
+	});
+
+	// The old default was #0f172a — literally the dark card and sidebar colour,
+	// so an unknown line vanished in the dark theme.
+	it('stays visible against every surface in both themes', () => {
+		for (const [theme, colors] of Object.entries(surfaces)) {
+			for (const surface of colors) {
+				expect(
+					contrastRatio(unknown.background, surface),
+					`${unknown.background} on ${surface} (${theme})`
+				).toBeGreaterThanOrEqual(3);
+			}
+		}
+	});
+
+	it('applies to unknown trams, trains and prototype-chain names alike', () => {
+		for (const lineName of ['X99', '999', '__proto__', 'constructor', 'toString']) {
+			for (const vehicleType of ['tram', 'rail', '']) {
+				expect(getLineStyle(departure(lineName, vehicleType))).toEqual(unknown);
+			}
+		}
 	});
 });
