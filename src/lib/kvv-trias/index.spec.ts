@@ -9,6 +9,20 @@ vi.mock('./http', () => ({
 	postXml: mocks.postXml
 }));
 
+// Hermetic stand-in for the static line-ref dataset: everything except the
+// name "unknown" resolves to a deterministic ref pair (both directions).
+vi.mock('@/server/stop-lines', () => ({
+	resolveLineRefs: (names: string[]) => {
+		if (names.length === 0) return null;
+		const refs: string[] = [];
+		for (const name of names) {
+			if (name === 'unknown') return null;
+			refs.push(`kvv:90${name}:E:H`, `kvv:90${name}:E:R`);
+		}
+		return refs;
+	}
+}));
+
 vi.mock('./parse', () => ({
 	parseTriasXml: vi.fn((xml: string) => xml),
 	extractStopEventResults: mocks.extractStopEventResults
@@ -127,5 +141,50 @@ describe('getDepartures', () => {
 
 		expect(departuresOf(result)).toHaveLength(2);
 		expect(result.platforms).toHaveLength(2);
+	});
+
+	describe('line selection (TRIAS LineFilter)', () => {
+		it('resolves the selected names to LineRefs in the request', async () => {
+			mocks.extractStopEventResults.mockReturnValue([]);
+
+			await getDepartures('de:08212:89', 'dep', 20, ['3', 'S1']);
+
+			const requestXml = mocks.postXml.mock.calls[0]?.[1] as string;
+			expect(requestXml).toContain('<LineFilter>');
+			expect(requestXml).toContain('<Line><LineRef>kvv:903:E:H</LineRef></Line>');
+			expect(requestXml).toContain('<Line><LineRef>kvv:903:E:R</LineRef></Line>');
+			expect(requestXml).toContain('<Line><LineRef>kvv:90S1:E:H</LineRef></Line>');
+			expect(requestXml).toContain('<Line><LineRef>kvv:90S1:E:R</LineRef></Line>');
+			expect(requestXml).toContain('<Exclude>false</Exclude>');
+		});
+
+		it('keeps the over-fetch independent of the line selection', async () => {
+			mocks.extractStopEventResults.mockReturnValue([]);
+
+			await getDepartures('de:08212:89', 'dep', 3, ['3']);
+
+			const requestXml = mocks.postXml.mock.calls[0]?.[1] as string;
+			expect(requestXml).toContain('<NumberOfResults>6</NumberOfResults>');
+			expect(requestXml).toContain('<LineFilter>');
+		});
+
+		it('fails open (no LineFilter) when a selected name is unknown', async () => {
+			mocks.extractStopEventResults.mockReturnValue([]);
+
+			await getDepartures('de:08212:89', 'dep', 20, ['3', 'unknown']);
+
+			const requestXml = mocks.postXml.mock.calls[0]?.[1] as string;
+			// The unfiltered request still goes out so the page keeps working.
+			expect(requestXml).not.toContain('LineFilter');
+		});
+
+		it('sends no LineFilter when nothing is selected', async () => {
+			mocks.extractStopEventResults.mockReturnValue([]);
+
+			await getDepartures('de:08212:89', 'dep', 20);
+
+			const requestXml = mocks.postXml.mock.calls[0]?.[1] as string;
+			expect(requestXml).not.toContain('LineFilter');
+		});
 	});
 });

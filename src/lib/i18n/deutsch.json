@@ -17,7 +17,8 @@
 		"metaDescriptionWithStation": "Live-Abfahrten und Fahrplan-Infos für {stationName}.",
 		"metaDescriptionWithoutStation": "Live-Abfahrten und Fahrplan-Infos.",
 		"loading": "Daten werden geladen...",
-		"noDepartures": "Für die ausgewählte Haltestelle wurden keine Abfahrten gefunden."
+		"noDepartures": "Für die ausgewählte Haltestelle wurden keine Abfahrten gefunden.",
+		"noDeparturesForFilter": "Keine Abfahrten entsprechen diesem Filter."
 	},
 	"platform": {
 		"unknown": "Unbekanntes Gleis",
@@ -28,6 +29,7 @@
 		"opened": "Sidebar opened",
 		"filterGroup": "Filter",
 		"platforms": "Gleise",
+		"lines": "Linien",
 		"displayType": "Anzeigeart",
 		"departure": "Abfahrt",
 		"arrival": "Ankunft",
@@ -48,6 +50,12 @@
 	},
 	"multiSelect": {
 		"placeholder": "Wähle ein Gleis aus..."
+	},
+	"lineFilter": {
+		"clearAll": "Alles zurücksetzen",
+		"empty": "Keine Linien verfügbar",
+		"collapse": "Linien einklappen",
+		"expand": "Linien ausklappen"
 	},
 	"departureInfo": {
 		"noData": "keine Angabe",

@@ -7,3 +7,6 @@ bun.lockb
 
 # Miscellaneous
 /static/
+
+# Generated data (pnpm fetch:stop-lines, see scripts/stop-lines/generate.mjs)
+/src/lib/assets/stop-lines.json
