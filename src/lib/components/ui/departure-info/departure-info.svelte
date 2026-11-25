@@ -1,6 +1,7 @@
 <script lang="ts">
 import { translations } from '$lib/i18n';
 import LineIcon from '@/components/ui/lineicon/line-icon.svelte';
+import { isBusLike } from '@/kvv-trias/vehicle';
 import {
 	statusColorClass,
 	countdownColorClass,
@@ -16,7 +17,10 @@ import TramFront from '@lucide/svelte/icons/tram-front';
 let { departure } = $props();
 const now = $state(new Date());
 
-const isBus = $derived(departure.vehicleType?.toLowerCase() === 'bus');
+// A rail replacement runs as a bus even though the feed reports the mode of the
+// replaced line, and `Mode/Name` arrives as `Stadtbus`/`Regionalbus` rather than
+// the bare `bus` of `Mode/PtMode` — the shared predicate knows both.
+const isBus = $derived(isBusLike(departure.lineName, departure.vehicleType));
 const count = $derived(departure.wagonCount);
 const status = $derived(accompanyingStatusText(departure, $translations));
 </script>

@@ -1,4 +1,5 @@
 import type { Departure } from '@/kvv-trias/types';
+import { isBusVehicleType, isReplacementBus } from '@/kvv-trias/vehicle';
 
 export interface LineStyle {
 	background: string;
@@ -7,16 +8,9 @@ export interface LineStyle {
 
 const SLATE_DARK = '#0f172a';
 
-// Every bus gets the same badge, rail replacements included.
+// Every bus gets the same badge, rail replacements included (see
+// src/lib/kvv-trias/vehicle.ts for what counts as a bus).
 const BUS_STYLE: LineStyle = { background: '#882287', text: '#fff' };
-
-// Rail replacement (Schienenersatzverkehr): KVV publishes it as `SEV <line>`
-// ("SEV S4", "SEV RB74", "SEV 721"), and neither the feed nor the static
-// dataset calls it a bus — TRIAS keeps the mode of the replaced line, so the
-// published name is the only thing that reveals which vehicle actually runs.
-// Matched as a word of its own, in either position, so `SEVA`-style names are
-// not swept in.
-const REPLACEMENT_BUS = /(^|\s)SEV(?=$|[\s/\-0-9])/i;
 
 // Badge for a line the palette does not know: a new tram, a train nobody
 // expected. Blue, so it never reads as a real line colour, and light enough to
@@ -86,7 +80,7 @@ export const LINE_STYLES: Record<string, LineStyle> = {
 export function getLineStyle(line: Departure): LineStyle {
 	const lineName = line.lineName;
 
-	if (REPLACEMENT_BUS.test(lineName)) {
+	if (isReplacementBus(lineName)) {
 		return BUS_STYLE;
 	}
 
@@ -106,11 +100,7 @@ export function getLineStyle(line: Departure): LineStyle {
 		return { background: '#ffd600', text: SLATE_DARK };
 	}
 
-	if (
-		line.vehicleType === 'bus' ||
-		line.vehicleType === 'Regionalbus' ||
-		line.vehicleType === 'Stadtbus'
-	) {
+	if (isBusVehicleType(line.vehicleType)) {
 		return BUS_STYLE;
 	}
 

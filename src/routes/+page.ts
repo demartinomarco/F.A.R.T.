@@ -2,6 +2,7 @@ import type { PageLoad } from './$types';
 import { get } from 'svelte/store';
 import { translations } from '$lib/i18n';
 import { normalizeLines, parseLinesParam } from '@/lines-param';
+import { isBusLike } from '@/kvv-trias/vehicle';
 import { PlatformType, isApiEnvelope } from '@/kvv-trias/types';
 import type {
 	StationDepartures,
@@ -153,12 +154,6 @@ export function _mergePlatformNames(current: string[], incoming: string[]): stri
 	return [...new Set([...current, ...incoming])];
 }
 
-const BUS_VEHICLE_TYPES = new Set(['bus', 'Regionalbus', 'Stadtbus']);
-
-function isBusLike(vehicleType: string): boolean {
-	return BUS_VEHICLE_TYPES.has(vehicleType);
-}
-
 // Serializes query parameters for the address bar. `:` and `,` are legal
 // unencoded in a query string, so they are un-escaped again to keep URLs like
 // `stationId=de:08212:89&lines=S1,S4` readable and bookmarkable.
@@ -210,10 +205,12 @@ function compareLineNames(a: string, b: string): number {
 }
 
 // Sort order for the line filter: non-bus lines (trams, S-Bahn, regional)
-// first, buses at the end. Within a group, natural name comparison
-// (1 < 2 < 17 < S1 < S11 < S2).
+// first, buses at the end — a rail replacement with them, because it runs as a
+// bus even though the feed reports the replaced line's mode. Within a group,
+// natural name comparison (1 < 2 < 17 < S1 < S11 < S2).
 function compareLineOptions(a: LineOption, b: LineOption): number {
-	const typeCmp = Number(isBusLike(a.vehicleType)) - Number(isBusLike(b.vehicleType));
+	const typeCmp =
+		Number(isBusLike(a.name, a.vehicleType)) - Number(isBusLike(b.name, b.vehicleType));
 	if (typeCmp !== 0) return typeCmp;
 
 	return compareLineNames(a.name, b.name);
@@ -233,7 +230,10 @@ export function _extractLineOptions(departures: StationDepartures | null): LineO
 			if (!name) continue;
 
 			const current = representatives.get(name);
-			if (!current || (isBusLike(current.vehicleType) && !isBusLike(departure.vehicleType))) {
+			if (
+				!current ||
+				(isBusLike(name, current.vehicleType) && !isBusLike(name, departure.vehicleType))
+			) {
 				representatives.set(name, { name, vehicleType: departure.vehicleType });
 			}
 		}
@@ -261,7 +261,10 @@ export function _mergeLineOptions(
 
 	for (const option of liveOptions) {
 		const existing = merged.get(option.name);
-		if (!existing || (isBusLike(existing.vehicleType) && !isBusLike(option.vehicleType))) {
+		if (
+			!existing ||
+			(isBusLike(option.name, existing.vehicleType) && !isBusLike(option.name, option.vehicleType))
+		) {
 			merged.set(option.name, option);
 		}
 	}
@@ -270,9 +273,10 @@ export function _mergeLineOptions(
 }
 
 // The filter keeps a badge for every selected line, even when that line has
-// no departures right now (e.g. a once-a-day service the user bookmarked).
-// Such lines render with the default badge style and can still be toggled
-// off or cleared from the URL.
+// no departures right now (e.g. a once-a-day service the user bookmarked). Such
+// a line has no known vehicle type, so its badge uses the default style unless
+// the name identifies it (a replacement bus sorts and colours with the buses).
+// It can still be toggled off or cleared from the URL.
 export function _lineFilterOptions(options: LineOption[], selectedLines: string[]): LineOption[] {
 	const known = new Set(options.map((option) => option.name));
 

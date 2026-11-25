@@ -108,6 +108,26 @@ describe('line options', () => {
 		]);
 	});
 
+	it('moves rail replacements into the bus group', () => {
+		// The feed reports `SEV S4` as the replaced line's mode (`rail`), so the
+		// name is what groups it with the buses rather than with the trains.
+		const departures = makeStation([
+			makePlatform('1', [
+				makeDeparture({ lineName: 'SEV S4', vehicleType: 'rail' }),
+				makeDeparture({ lineName: 'S4' }),
+				makeDeparture({ lineName: '27', vehicleType: 'bus' }),
+				makeDeparture({ lineName: '2' })
+			])
+		]);
+
+		expect(_extractLineOptions(departures).map((option) => option.name)).toEqual([
+			'2',
+			'S4',
+			'27',
+			'SEV S4'
+		]);
+	});
+
 	it('ignores blank line names and returns nothing without departures', () => {
 		expect(_extractLineOptions(null)).toEqual([]);
 
@@ -159,6 +179,20 @@ describe('merging static and live line options', () => {
 		);
 
 		expect(merged.map((option) => option.name)).toEqual(['10', 'S2', '7']);
+	});
+
+	it('groups a replacement bus with the buses even when both sources call it rail', () => {
+		// src/lib/assets/stop-lines.json mirrors the feed, so it lists `SEV S4`
+		// as rail too; neither side can group it, the name has to.
+		const merged = _mergeLineOptions(
+			[{ name: 'SEV S4', vehicleType: 'rail' }],
+			[
+				{ name: 'S4', vehicleType: 'rail' },
+				{ name: '47', vehicleType: 'bus' }
+			]
+		);
+
+		expect(merged.map((option) => option.name)).toEqual(['S4', '47', 'SEV S4']);
 	});
 
 	it('tolerates an empty side', () => {
@@ -233,6 +267,20 @@ describe('line filter options (selected lines without current departures)', () =
 		);
 
 		expect(merged.map((option) => option.name)).toEqual(['1', 'S1', '47']);
+	});
+
+	it('groups a ghost replacement bus with the buses', () => {
+		// A bookmarked `SEV S4` has no vehicle type at all (ghost badge), so only
+		// the name can tell it belongs with the buses.
+		const merged = _lineFilterOptions(
+			[
+				{ name: 'S4', vehicleType: 'rail' },
+				{ name: '47', vehicleType: 'bus' }
+			],
+			['SEV S4']
+		);
+
+		expect(merged.map((option) => option.name)).toEqual(['S4', '47', 'SEV S4']);
 	});
 });
 
