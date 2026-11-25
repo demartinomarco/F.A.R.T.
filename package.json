@@ -18,7 +18,8 @@
 		"test:a11y": "playwright test",
 		"test:labels": "MOCK_API=true pnpm build && SHOW_LABEL_STATES=1 playwright test tests/labels.test.ts --headed",
 		"bench": "vitest run --config vitest.config.bench.ts",
-		"bench:watch": "vitest --config vitest.config.bench.ts"
+		"bench:watch": "vitest --config vitest.config.bench.ts",
+		"fetch:stop-lines": "node scripts/stop-lines/generate.mjs"
 	},
 	"devDependencies": {
 		"@axe-core/playwright": "^4.12.1",
