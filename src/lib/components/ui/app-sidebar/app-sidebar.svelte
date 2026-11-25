@@ -21,7 +21,6 @@ let {
 } = $props();
 
 let hasPlatforms = $derived(platformNames && platformNames.length > 0);
-let hasLines = $derived(lineOptions && lineOptions.length > 0);
 
 let currentTheme = $state<'light' | 'dark' | 'system'>('system');
 
@@ -91,11 +90,8 @@ function setTheme(theme: 'light' | 'dark' | 'system') {
 					</Sidebar.MenuItem>
 
 					<Sidebar.MenuItem class="flex flex-col gap-2">
-						<!-- Caption only: the filter is a group of buttons, so there is
-						     nothing to associate a label `for`. Dims when no lines exist. -->
-						<span class={cn('text-sm font-medium transition-opacity', !hasLines && 'opacity-50')}>
-							{$translations.sidebar.lines}
-						</span>
+						<!-- The filter renders its own header (caption + collapse
+						     toggle); it dims the caption when no lines exist. -->
 						<LineFilter options={lineOptions} bind:selectedLines={selectedLines} />
 					</Sidebar.MenuItem>
 

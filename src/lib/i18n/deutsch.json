@@ -53,7 +53,9 @@
 	},
 	"lineFilter": {
 		"clearAll": "Alles zurücksetzen",
-		"empty": "Keine Linien verfügbar"
+		"empty": "Keine Linien verfügbar",
+		"collapse": "Linien einklappen",
+		"expand": "Linien ausklappen"
 	},
 	"departureInfo": {
 		"noData": "keine Angabe",

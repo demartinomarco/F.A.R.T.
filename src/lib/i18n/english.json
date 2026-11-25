@@ -53,7 +53,9 @@
 	},
 	"lineFilter": {
 		"clearAll": "Clear all",
-		"empty": "No lines available"
+		"empty": "No lines available",
+		"collapse": "Collapse lines",
+		"expand": "Expand lines"
 	},
 	"departureInfo": {
 		"noData": "No data",
