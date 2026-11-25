@@ -10,11 +10,18 @@ let {
 }: WithoutChildrenOrChild<RadioGroupPrimitive.ItemProps> = $props();
 </script>
 
+<!-- The circle carries the field fill (bg-background) instead of shadcn's
+     transparent + dark:bg-input/30 wash: the sidebar's other controls — the
+     platform selector, the language selector — are solid bg-background cards,
+     and a wash over the sidebar tint made the disc read lighter than the cards
+     next to it (and lighter still than the darker-than-sidebar card in the dark
+     theme). Same fill, same border-input edge, so a radio belongs to the same
+     family as the fields above it. -->
 <RadioGroupPrimitive.Item
 	bind:ref={ref}
 	data-slot="radio-group-item"
 	class={cn(
-		"aspect-square size-4 shrink-0 rounded-full border border-input text-primary shadow-xs transition-[color,box-shadow] outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:bg-input/30 dark:aria-invalid:ring-destructive/40",
+		"aspect-square size-4 shrink-0 rounded-full border border-input bg-background text-primary shadow-xs transition-[color,box-shadow] outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40",
 		className
 	)}
 	{...restProps}

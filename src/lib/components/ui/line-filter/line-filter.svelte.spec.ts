@@ -184,4 +184,35 @@ describe('LineFilter', () => {
 		await expect.element(page.getByText('No lines available')).toBeVisible();
 		await expect.element(page.getByTestId('line-filter-toggle')).not.toBeInTheDocument();
 	});
+
+	it('points the chevron down while collapsed and up once expanded', async () => {
+		// The disclosure has to read like every other one in the app: down means
+		// "show the badges", up means "hide them again".
+		render(LineFilter, { options });
+
+		expect(toggle().element()?.querySelector('svg')?.getAttribute('class')).not.toContain(
+			'rotate-180'
+		);
+
+		await userEvent.click(toggle());
+
+		expect(toggle().element()?.querySelector('svg')?.getAttribute('class')).toContain('rotate-180');
+	});
+
+	it('draws the app-wide focus halo (3px ring at 50%) on every control', async () => {
+		render(LineFilter, { options, selectedLines: ['S1'] });
+		await userEvent.click(toggle());
+
+		const controls = [
+			toggle().element(),
+			badge('S1').element(),
+			page.getByTestId('line-filter-clear-all').element()
+		];
+		for (const el of controls) {
+			const cls = el?.className ?? '';
+			expect(cls).toMatch(/focus-visible:ring-(\[3px\]|3)/);
+			expect(cls).toContain('focus-visible:ring-ring/50');
+			expect(cls).not.toMatch(/ring-offset/);
+		}
+	});
 });

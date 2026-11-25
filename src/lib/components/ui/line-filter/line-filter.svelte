@@ -55,7 +55,7 @@ function toggleOption(option: string) {
 				data-testid="line-filter-toggle"
 				aria-expanded={expanded}
 				aria-controls="line-filter-options"
-				class="flex items-center gap-1.5 rounded p-0.5 text-muted-foreground transition-colors outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
+				class="flex items-center gap-1.5 rounded-md p-0.5 text-muted-foreground outline-hidden transition-colors hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50"
 				onclick={() => (expanded = !expanded)}
 			>
 				<span class="sr-only">
@@ -69,8 +69,10 @@ function toggleOption(option: string) {
 						{selectedLines.length}
 					</span>
 				{/if}
+				<!-- Points down while collapsed ("show the badges") and up once they are
+				     visible, the way every other disclosure in the app reads. -->
 				<ChevronDown
-					class={`h-4 w-4 transition-transform duration-200 ${!expanded ? 'rotate-180' : ''}`}
+					class={`h-4 w-4 transition-transform duration-200 ${expanded ? 'rotate-180' : ''}`}
 				/>
 			</button>
 		{/if}
@@ -92,7 +94,7 @@ function toggleOption(option: string) {
 					type="button"
 					data-testid={`line-option-${option.name}`}
 					aria-pressed={isSelected}
-					class={`rounded transition-opacity outline-none hover:opacity-80 focus-visible:ring-2 focus-visible:ring-ring ${
+					class={`rounded outline-hidden transition-opacity hover:opacity-80 focus-visible:ring-[3px] focus-visible:ring-ring/50 ${
 						isSelected || !hasSelection ? 'opacity-100' : 'opacity-40'
 					}`}
 					onclick={() => toggleOption(option.name)}
@@ -105,7 +107,7 @@ function toggleOption(option: string) {
 			<button
 				type="button"
 				data-testid="line-filter-clear-all"
-				class="flex items-center gap-1 rounded text-sm text-muted-foreground outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
+				class="flex items-center gap-1 rounded-md text-sm text-muted-foreground outline-hidden hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50"
 				onclick={() => (selectedLines = [])}
 			>
 				<X class="h-3.5 w-3.5" />

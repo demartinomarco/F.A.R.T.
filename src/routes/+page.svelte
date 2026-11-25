@@ -292,7 +292,7 @@ function platformName(platformInfo: Platform): string {
 
 			<div class="flex shrink-0 items-center gap-2">
 				<p class="text-sm font-semibold text-white">{time}</p>
-				<Sidebar.Trigger class="text-white" />
+				<Sidebar.Trigger class="size-9 text-white" />
 			</div>
 		</div>
 

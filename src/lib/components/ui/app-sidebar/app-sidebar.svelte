@@ -71,7 +71,9 @@ function setTheme(theme: 'light' | 'dark' | 'system') {
 	     400 are indistinguishable. Groups sit further apart (space-y-8) than the
 	     fields inside a group (gap-4), so the group boundaries stay the loudest. -->
 	<Sidebar.Content class="space-y-8 p-4">
-		<button class="sr-only" type="button">{$translations.sidebar.opened}</button>
+		<!-- No open-state announcement here: the sidebar toggle in the top bar already
+		     carries aria-expanded, and a focusable sr-only <button> that does nothing
+		     (the old "Sidebar opened" one) only adds an empty stop to the tab order. -->
 
 		<!-- Filter Group -->
 		<Sidebar.Group class="p-0">
@@ -90,7 +92,10 @@ function setTheme(theme: 'light' | 'dark' | 'system') {
 						<!-- Field Label dims when disabled -->
 						<Label
 							for="platform-select-input"
-							class={cn('text-sm font-semibold transition-opacity', !hasPlatforms && 'opacity-50')}
+							class={cn(
+								'text-sm leading-none font-semibold transition-opacity',
+								!hasPlatforms && 'opacity-50'
+							)}
 						>
 							{$translations.sidebar.platforms}
 						</Label>
