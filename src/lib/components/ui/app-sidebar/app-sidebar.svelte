@@ -66,13 +66,20 @@ function setTheme(theme: 'light' | 'dark' | 'system') {
 </script>
 
 <Sidebar.Root>
-	<Sidebar.Content class="space-y-4 p-4">
+	<!-- One field label per control, at 600: the step above the option labels
+	     (400) is what makes the label read as a label on desktop, where 500 and
+	     400 are indistinguishable. Groups sit further apart (space-y-8) than the
+	     fields inside a group (gap-4), so the group boundaries stay the loudest. -->
+	<Sidebar.Content class="space-y-8 p-4">
 		<button class="sr-only" type="button">{$translations.sidebar.opened}</button>
 
 		<!-- Filter Group -->
 		<Sidebar.Group class="p-0">
-			<!-- Distinct Uppercase Section Header -->
-			<Sidebar.GroupLabel class="mb-1 px-0 text-xs font-bold tracking-wider uppercase">
+			<!-- Distinct Uppercase Section Header: the Label rail at full ink,
+			     tight to its rule, like the board's platform headers -->
+			<Sidebar.GroupLabel
+				class="mb-1 h-6 px-0 text-xs font-bold tracking-wider text-sidebar-foreground uppercase"
+			>
 				{$translations.sidebar.filterGroup}
 			</Sidebar.GroupLabel>
 			<Sidebar.Separator class="mb-4" />
@@ -83,7 +90,7 @@ function setTheme(theme: 'light' | 'dark' | 'system') {
 						<!-- Field Label dims when disabled -->
 						<Label
 							for="platform-select-input"
-							class={cn('text-sm font-medium transition-opacity', !hasPlatforms && 'opacity-50')}
+							class={cn('text-sm font-semibold transition-opacity', !hasPlatforms && 'opacity-50')}
 						>
 							{$translations.sidebar.platforms}
 						</Label>
@@ -103,8 +110,14 @@ function setTheme(theme: 'light' | 'dark' | 'system') {
 					</Sidebar.MenuItem>
 
 					<Sidebar.MenuItem class="flex flex-col gap-2">
-						<span class="text-sm font-medium">{$translations.sidebar.displayType}</span>
-						<RadioGroup.Root bind:value={eventType} class="gap-2">
+						<span class="text-sm leading-none font-semibold" id="display-type-label"
+							>{$translations.sidebar.displayType}</span
+						>
+						<RadioGroup.Root
+							bind:value={eventType}
+							class="gap-2"
+							aria-labelledby="display-type-label"
+						>
 							<div class="flex items-center space-x-2">
 								<RadioGroup.Item value="dep" id="dep" />
 								<Label class="cursor-pointer text-sm font-normal" for="dep">
@@ -125,7 +138,9 @@ function setTheme(theme: 'light' | 'dark' | 'system') {
 
 		<!-- Settings Group -->
 		<Sidebar.Group class="p-0">
-			<Sidebar.GroupLabel class="mb-1 px-0 text-xs font-bold tracking-wider uppercase">
+			<Sidebar.GroupLabel
+				class="mb-1 h-6 px-0 text-xs font-bold tracking-wider text-sidebar-foreground uppercase"
+			>
 				{$translations.sidebar.settingsGroups}
 			</Sidebar.GroupLabel>
 			<Sidebar.Separator class="mb-4" />
@@ -133,13 +148,13 @@ function setTheme(theme: 'light' | 'dark' | 'system') {
 			<Sidebar.GroupContent>
 				<Sidebar.Menu class="flex flex-col gap-4">
 					<Sidebar.MenuItem class="flex flex-col gap-2">
-						<span class="text-sm font-medium">{$translations.sidebar.language}</span>
+						<span class="text-sm leading-none font-semibold">{$translations.sidebar.language}</span>
 						<LanguageSelector />
 					</Sidebar.MenuItem>
 
 					<!-- Theme Selector -->
 					<Sidebar.MenuItem class="flex flex-col gap-2">
-						<span class="text-sm font-medium" id="theme-selector-label"
+						<span class="text-sm leading-none font-semibold" id="theme-selector-label"
 							>{$translations.sidebar.theme}</span
 						>
 						<RadioGroup.Root

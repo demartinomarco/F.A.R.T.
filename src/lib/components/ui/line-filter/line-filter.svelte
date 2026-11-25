@@ -41,7 +41,10 @@ function toggleOption(option: string) {
 <div class="flex flex-col gap-2">
 	<div class="flex items-center justify-between gap-2">
 		<span
-			class={cn('text-sm font-medium transition-opacity', options.length === 0 && 'opacity-50')}
+			class={cn(
+				'text-sm leading-none font-semibold transition-opacity',
+				options.length === 0 && 'opacity-50'
+			)}
 		>
 			{$translations.sidebar.lines}
 		</span>
@@ -61,7 +64,7 @@ function toggleOption(option: string) {
 				{#if !expanded && hasSelection}
 					<span
 						data-testid="line-filter-selected-count"
-						class="flex h-4 min-w-4 items-center justify-center rounded-full bg-muted px-1 text-[10px] font-medium text-muted-foreground"
+						class="flex h-4 min-w-4 items-center justify-center rounded-full bg-sidebar-accent px-1 text-xs font-medium text-sidebar-accent-foreground"
 					>
 						{selectedLines.length}
 					</span>
