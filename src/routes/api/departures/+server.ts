@@ -2,6 +2,7 @@ import type { RequestHandler } from '@sveltejs/kit';
 import { getDepartures } from '@/kvv-trias';
 import type { EventType } from '@/kvv-trias/types';
 import { isKvvTriasError } from '@/kvv-trias/errors';
+import { parseLinesParam } from '@/lines-param';
 
 function parseEventType(v: string | null): EventType {
 	return v === 'arr' ? 'arr' : 'dep';
@@ -28,6 +29,11 @@ export const GET: RequestHandler = async ({ url }) => {
 	const stationId = url.searchParams.get('stationId') ?? 'de:08212:89';
 	const eventType = parseEventType(url.searchParams.get('eventType'));
 	const limit = parseLimit(url.searchParams.get('limit'));
+	// Bounds and normalisation live in src/lib/lines-param.ts, shared with the
+	// page. Malformed or unknown names are dropped, never rejected: a bookmarked
+	// line KVV renamed must not 400, and a selection the static dataset cannot
+	// resolve makes the pipeline fail open (unfiltered fetch).
+	const lines = parseLinesParam(url.searchParams);
 
 	if (!stationId.match(/^(de|fr|NL):(\d{5}|S):\d{1,8}$/)) {
 		return json(
@@ -56,7 +62,7 @@ export const GET: RequestHandler = async ({ url }) => {
 	}
 
 	try {
-		const departures = await getDepartures(stationId, eventType, limit);
+		const departures = await getDepartures(stationId, eventType, limit, lines);
 
 		return json({ ok: true, data: departures }, 200);
 	} catch (e) {

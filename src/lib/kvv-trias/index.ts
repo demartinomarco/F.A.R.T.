@@ -8,6 +8,7 @@ import { parseTriasXml, extractStopEventResults } from './parse';
 import { mapStopEventResultToDeparture, consolidateWagons, type MappedDeparture } from './map';
 import { KvvTriasError } from './errors';
 import { stopsIdNameMap } from '@/server/stops';
+import { resolveLineRefs } from '@/server/stop-lines';
 import { getUpstreamDepartureResultCount } from '@/departure-limit';
 
 function isValidStationId(id: string): boolean {
@@ -18,7 +19,12 @@ function isValidStationId(id: string): boolean {
 export async function getDepartures(
 	stationId: string,
 	eventType: EventType,
-	limit = 20
+	limit = 20,
+	// Published line names to restrict the response to. TRIAS can only filter
+	// by internal LineRefs, so the names are resolved against the static
+	// line-ref dataset; unknown names disable the filter (fail-open) instead
+	// of erroring, so a renamed line never breaks the page.
+	lineNames: string[] = []
 ): Promise<StationDepartures> {
 	if (!isValidStationId(stationId)) {
 		throw new KvvTriasError({
@@ -49,6 +55,12 @@ export async function getDepartures(
 
 	const { apiUrl, requestorRef } = getKvvTriasConfig();
 
+	// Resolve the requested published names to internal LineRefs. null means
+	// "no filter": nothing was selected, or at least one name is unknown to
+	// the static dataset (fail-open — the client-side line filter still keeps
+	// the display in sync).
+	const lineFilter = lineNames.length > 0 ? resolveLineRefs(lineNames) : null;
+
 	const xmlRequest = buildStopEventRequestXml({
 		requestorRef,
 		stopPlaceRef: stationId,
@@ -56,7 +68,8 @@ export async function getDepartures(
 		stopEventType: eventType === 'dep' ? 'departure' : 'arrival',
 		// Over-fetch because merging below can drop entries. The final response
 		// is sliced back to the requested limit.
-		numberOfResults: getUpstreamDepartureResultCount(limit)
+		numberOfResults: getUpstreamDepartureResultCount(limit),
+		lineRefs: lineFilter ?? undefined
 	});
 
 	const xmlResponse = await postXml(apiUrl, xmlRequest);
