@@ -8,5 +8,11 @@ bun.lockb
 # Miscellaneous
 /static/
 
+# Test and tool output
+/.impeccable/
+/.vitest/
+/.vitest-attachments/
+/test-results/
+
 # Generated data (pnpm fetch:stop-lines, see scripts/stop-lines/generate.mjs)
 /src/lib/assets/stop-lines.json
