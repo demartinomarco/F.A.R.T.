@@ -71,9 +71,10 @@ function setTheme(theme: 'light' | 'dark' | 'system') {
 	     400 are indistinguishable. Groups sit further apart (space-y-8) than the
 	     fields inside a group (gap-4), so the group boundaries stay the loudest. -->
 	<Sidebar.Content class="space-y-8 p-4">
-		<!-- No open-state announcement here: the sidebar toggle in the top bar already
-		     carries aria-expanded, and a focusable sr-only <button> that does nothing
-		     (the old "Sidebar opened" one) only adds an empty stop to the tab order. -->
+		<!-- No open-state announcement here: the sidebar toggle in the top bar
+		     carries aria-expanded (set at its call site in +page.svelte), and a
+		     focusable sr-only <button> that does nothing (the old "Sidebar opened"
+		     one) only adds an empty stop to the tab order. -->
 
 		<!-- Filter Group -->
 		<Sidebar.Group class="p-0">

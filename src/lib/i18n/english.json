@@ -17,6 +17,7 @@
 		"metaDescriptionWithStation": "Live departures and timetable info for {stationName}.",
 		"metaDescriptionWithoutStation": "Live departures and timetable info.",
 		"loading": "Loading data...",
+		"loadingForSelection": "Loading departures for this selection...",
 		"noDepartures": "No departures found for the selected stop.",
 		"noDeparturesForFilter": "No departures match this filter."
 	},

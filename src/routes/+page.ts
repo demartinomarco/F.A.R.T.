@@ -346,6 +346,42 @@ export function _filterDepartures(
 	return sorted.filter((p) => selectedValid.includes(p.platform.name));
 }
 
+// What the board area shows. The chain's order is the whole logic of that
+// region, so it lives here instead of in the template: an empty list caused by
+// a filter change whose response is still on its way must not be announced as
+// "no departures match this filter". The display filter runs against the data
+// of the *previous* selection the moment the selection changes (switching from
+// tram 6 to tram 1 empties the intersection of "1" with a tram-6 response), so
+// without this the board flashed that sentence at every quick line switch —
+// telling the user their filter matched nothing, right before the matches
+// arrived. Only a settled response may produce an empty state.
+export type BoardView =
+	| 'error'
+	| 'loading'
+	| 'loadingSelection'
+	| 'unknownStation'
+	| 'emptyFiltered'
+	| 'emptyStop'
+	| 'board';
+
+export function _boardView(state: {
+	error: UiModel['error'];
+	departures: StationDepartures | null;
+	shownCount: number;
+	// True while the displayed departures were fetched for a different line
+	// selection than the one the sidebar currently holds.
+	awaitingSelection: boolean;
+	hasFilter: boolean;
+}): BoardView {
+	if (state.error) return 'error';
+	if (!state.departures) return 'loading';
+	if (state.departures.stationName === '') return 'unknownStation';
+	if (state.shownCount > 0) return 'board';
+
+	if (state.awaitingSelection) return 'loadingSelection';
+	return state.hasFilter ? 'emptyFiltered' : 'emptyStop';
+}
+
 function sortPlatforms(platforms: PlatformDepartures[]): PlatformDepartures[] {
 	const order = {
 		[PlatformType.Rail]: 0,

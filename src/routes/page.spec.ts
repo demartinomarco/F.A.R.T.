@@ -5,6 +5,7 @@ import {
 	_extractLineOptions,
 	_fetchDepartures,
 	_fetchStopLines,
+	_boardView,
 	_mergeLineOptions,
 	_lineFilterOptions,
 	_filterByLineName,
@@ -344,6 +345,57 @@ describe('line filter', () => {
 		// Stale selection (platform gone from the live data): show everything
 		// instead of stranding the user on a blank page.
 		expect(_filterDepartures(station, [], ['X']).map((p) => p.platform.name)).toEqual(['1/2', 'G']);
+	});
+});
+
+describe('board view', () => {
+	const station = makeStation([makePlatform('1/2', [makeDeparture({ lineName: '6' })])]);
+	const settled = { error: null, departures: station, shownCount: 0, awaitingSelection: false };
+
+	it('shows the board when departures are visible', () => {
+		expect(_boardView({ ...settled, shownCount: 3, hasFilter: false })).toBe('board');
+	});
+
+	it('keeps visible departures on screen while a new selection is on its way', () => {
+		// Adding a line to the selection keeps the old rows valid (they match
+		// both selections), so swapping them for a loading message would be a
+		// flash of its own.
+		expect(
+			_boardView({ ...settled, shownCount: 3, awaitingSelection: true, hasFilter: true })
+		).toBe('board');
+	});
+
+	it('loads without announcing an empty board while a filter change is in flight', () => {
+		// Switching from tram 6 to tram 1 empties the intersection with the
+		// tram-6 response: the gap must read as loading, not as "none match".
+		expect(_boardView({ ...settled, awaitingSelection: true, hasFilter: true })).toBe(
+			'loadingSelection'
+		);
+	});
+
+	it('announces an empty result only once the response has landed', () => {
+		expect(_boardView({ ...settled, hasFilter: true })).toBe('emptyFiltered');
+		expect(_boardView({ ...settled, hasFilter: false })).toBe('emptyStop');
+	});
+
+	it('shows loading before any data has arrived', () => {
+		expect(_boardView({ ...settled, departures: null, hasFilter: false })).toBe('loading');
+	});
+
+	it('names a station the feed does not know', () => {
+		const unknown = { ...station, stationName: '' };
+
+		expect(_boardView({ ...settled, departures: unknown, hasFilter: true })).toBe('unknownStation');
+	});
+
+	it('keeps reporting an error while a new selection is being fetched', () => {
+		// The poll keeps retrying upstream, so the banner must not flicker into
+		// a loading message on every attempt.
+		const error = { code: 'UPSTREAM_TIMEOUT', message: 'timeout' };
+
+		expect(_boardView({ ...settled, error, awaitingSelection: true, hasFilter: true })).toBe(
+			'error'
+		);
 	});
 });
 

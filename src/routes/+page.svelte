@@ -14,6 +14,7 @@ import {
 	_mergePlatformNames,
 	_fetchDepartures,
 	_filterDepartures,
+	_boardView,
 	_serializeQuery,
 	type UiModel,
 	_getPlatformKey,
@@ -70,6 +71,11 @@ let loadedKey = `${initial.stationId}|${initial.eventType}`;
 // this to the selection that model was fetched with; the refetch effect below
 // compares against it, so only genuine user changes trigger a fetch.
 let lastFetchedLines = untrack(() => serializeLines(initialLines));
+// The selection the *displayed* departures were actually fetched with, unlike
+// `lastFetchedLines` (which records what was asked for). Everything seen for
+// the displayed data counts, including a poll's response, since the poll
+// fetches with the current selection.
+let displayedLines = $state(untrack(() => serializeLines(initialLines)));
 // Monotonic fetch counter: each new fetch invalidates every in-flight one, so
 // a slow response (a toggle or poll racing a navigation) can never overwrite
 // newer data.
@@ -106,6 +112,7 @@ $effect(() => {
 	// this navigation (a toggle or the poll that started before the data
 	// arrived) — their responses must not overwrite the model's data.
 	lastFetchedLines = serializeLines(selectedLines);
+	displayedLines = lastFetchedLines;
 	fetchSeq++;
 
 	// Keep the sidebar option lists stable across line-filtered refetches.
@@ -184,6 +191,20 @@ $effect(() => {
 
 let stationName = $derived(departures?.stationName ?? '');
 let departuresToShow = $derived(_filterDepartures(departures, selectedLines, selectedPlatforms));
+// Derived rather than a flag set at toggle time, so there is no window in which
+// the template sees the new selection while `displayedLines` still holds the
+// old one: the two change in the same re-render.
+const awaitingSelection = $derived(displayedLines !== serializeLines(selectedLines));
+const hasFilter = $derived(selectedLines.length > 0 || selectedPlatforms.length > 0);
+const view = $derived(
+	_boardView({
+		error,
+		departures,
+		shownCount: departuresToShow.length,
+		awaitingSelection,
+		hasFilter
+	})
+);
 const platformNames = $derived(stationPlatforms);
 const lineOptions = $derived(
 	_lineFilterOptions(_mergeLineOptions(stationLines, liveLineOptions), selectedLines)
@@ -199,6 +220,9 @@ async function fetchAndSetDepartures(stId: string, ev: 'dep' | 'arr', lines: str
 
 	departures = model.item;
 	error = model.error;
+	// Whatever is on screen now answers exactly the selection it was fetched
+	// with, so an empty result from here on is real, not a race.
+	displayedLines = serializeLines(lines);
 
 	// A line-filtered response only contains the selected lines and their
 	// platforms; remember everything seen so the sidebar keeps offering the
@@ -292,33 +316,42 @@ function platformName(platformInfo: Platform): string {
 
 			<div class="flex shrink-0 items-center gap-2">
 				<p class="text-sm font-semibold text-white">{time}</p>
-				<Sidebar.Trigger class="size-9 text-white" />
+				<!-- The vendored trigger exposes no open state of its own, so the
+				     disclosure's aria-expanded is set here, where the state lives. -->
+				<Sidebar.Trigger class="size-9 text-white" aria-expanded={sidebarOpen} />
 			</div>
 		</div>
 
 		<!-- Departure Display Area -->
 		<div class="w-full p-4 sm:p-6">
-			{#if error}
+			{#if view === 'error'}
 				<div
 					class="rounded-md bg-red-50 p-3 text-center text-sm text-red-700 dark:bg-red-950/50 dark:text-red-300"
 				>
 					<p>{errorMessage(error)}</p>
 				</div>
-			{:else if !departures}
+			{:else if view === 'loading'}
 				<div class="p-6 text-center text-sm text-slate-500 dark:text-slate-400">
 					<p>{$translations.page.loading}</p>
 				</div>
-			{:else if departures.stationName === ''}
+			{:else if view === 'loadingSelection'}
+				<!-- The filter change is being applied: the previous response does
+				     not answer the current selection, so neither "here are the
+				     departures" nor "none match" would be true right now. -->
+				<div class="p-6 text-center text-sm text-slate-500 dark:text-slate-400">
+					<p>{$translations.page.loadingForSelection}</p>
+				</div>
+			{:else if view === 'unknownStation'}
 				<div class="p-6 text-center text-sm text-slate-500 dark:text-slate-400">
 					<p>{interpolate($translations.error.unknownStation, { stationId })}</p>
 				</div>
-			{:else if departuresToShow.length === 0}
+			{:else if view === 'emptyFiltered'}
 				<div class="p-6 text-center text-sm text-slate-500 dark:text-slate-400">
-					<p>
-						{selectedLines.length > 0 || selectedPlatforms.length > 0
-						? $translations.page.noDeparturesForFilter
-						: $translations.page.noDepartures}
-					</p>
+					<p>{$translations.page.noDeparturesForFilter}</p>
+				</div>
+			{:else if view === 'emptyStop'}
+				<div class="p-6 text-center text-sm text-slate-500 dark:text-slate-400">
+					<p>{$translations.page.noDepartures}</p>
 				</div>
 			{:else}
 				{#key departuresToShow}

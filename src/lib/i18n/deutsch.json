@@ -17,6 +17,7 @@
 		"metaDescriptionWithStation": "Live-Abfahrten und Fahrplan-Infos für {stationName}.",
 		"metaDescriptionWithoutStation": "Live-Abfahrten und Fahrplan-Infos.",
 		"loading": "Daten werden geladen...",
+		"loadingForSelection": "Abfahrten für diese Auswahl werden geladen...",
 		"noDepartures": "Für die ausgewählte Haltestelle wurden keine Abfahrten gefunden.",
 		"noDeparturesForFilter": "Keine Abfahrten entsprechen diesem Filter."
 	},
