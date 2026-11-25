@@ -8,17 +8,21 @@ import type { LineOption } from '@/kvv-trias/types';
 
 let {
 	options = [],
-	selectedLines = $bindable([])
+	selectedLines = $bindable([]),
+	expanded = $bindable(false)
 }: {
 	options?: LineOption[];
 	selectedLines?: string[];
+	expanded?: boolean;
 } = $props();
 
 // The badge list can be long at big stations, so it starts collapsed to keep
 // the sidebar compact. The selected-line count stays visible on the header
-// row, so an active filter is never invisible. State is intentionally not
-// persisted; it resets per station anyway.
-let expanded = $state(false);
+// row, so an active filter is never invisible. The state lives on the page,
+// not here: on mobile the sidebar is a Sheet, so closing it unmounts this
+// component — with the state here it would reset on every reopen. The page
+// state survives the remount and still vanishes on reload; a manual collapse
+// is, of course, respected.
 
 // The selection is global: as soon as anything is selected, every unselected
 // badge fades so the selected ones stand out. Clearing the selection brings

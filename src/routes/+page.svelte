@@ -218,6 +218,10 @@ onDestroy(() => {
 	clearInterval(clockTimer);
 });
 let sidebarOpen = $state(false);
+// The line filter's collapsed state lives here, not in the filter itself:
+// closing the mobile sidebar unmounts the sidebar (it is a Sheet), and the
+// filter should stay open across that — but not across a page reload.
+let lineFilterExpanded = $state(false);
 
 function errorMessage(err: { code: string; message: string } | null) {
 	if (!err) return '';
@@ -271,6 +275,7 @@ function platformName(platformInfo: Platform): string {
 		bind:selectedPlatforms={selectedPlatforms}
 		lineOptions={lineOptions}
 		bind:selectedLines={selectedLines}
+		bind:lineFilterExpanded={lineFilterExpanded}
 		bind:eventType={eventType}
 		theme={data.theme}
 	/>

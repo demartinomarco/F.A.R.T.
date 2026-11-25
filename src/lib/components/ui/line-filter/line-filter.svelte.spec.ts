@@ -38,6 +38,26 @@ describe('LineFilter', () => {
 		}
 	});
 
+	it('respects the expanded state the page passes in', async () => {
+		// The page owns the state so it survives the mobile sheet unmounting on
+		// sidebar close; a reopened filter therefore starts where the user left
+		// it, not where a fresh component would.
+		render(LineFilter, { options, expanded: true });
+
+		await expect.element(toggle()).toHaveAttribute('aria-expanded', 'true');
+		for (const line of ['S1', '2', '27']) {
+			await expect.element(badge(line)).toBeVisible();
+		}
+
+		// The manual collapse still works on the way down.
+		await userEvent.click(toggle());
+
+		await expect.element(toggle()).toHaveAttribute('aria-expanded', 'false');
+		for (const line of ['S1', '2', '27']) {
+			await expect.element(badge(line)).not.toBeVisible();
+		}
+	});
+
 	it('expands the badge list on the first click and collapses it on the second', async () => {
 		render(LineFilter, { options });
 

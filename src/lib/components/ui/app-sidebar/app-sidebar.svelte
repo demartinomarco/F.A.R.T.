@@ -16,6 +16,7 @@ let {
 	selectedPlatforms = $bindable(),
 	lineOptions = [],
 	selectedLines = $bindable(),
+	lineFilterExpanded = $bindable(false),
 	eventType = $bindable(),
 	theme = 'system'
 } = $props();
@@ -91,8 +92,14 @@ function setTheme(theme: 'light' | 'dark' | 'system') {
 
 					<Sidebar.MenuItem class="flex flex-col gap-2">
 						<!-- The filter renders its own header (caption + collapse
-						     toggle); it dims the caption when no lines exist. -->
-						<LineFilter options={lineOptions} bind:selectedLines={selectedLines} />
+						     toggle); it dims the caption when no lines exist. The expanded
+						     state is bound to the page, so it survives the mobile sheet
+						     unmounting on sidebar close. -->
+						<LineFilter
+							options={lineOptions}
+							bind:selectedLines={selectedLines}
+							bind:expanded={lineFilterExpanded}
+						/>
 					</Sidebar.MenuItem>
 
 					<Sidebar.MenuItem class="flex flex-col gap-2">
