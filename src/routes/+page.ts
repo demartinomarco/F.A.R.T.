@@ -1,6 +1,7 @@
 import type { PageLoad } from './$types';
 import { get } from 'svelte/store';
 import { translations } from '$lib/i18n';
+import { clampLimit, DEFAULT_LIMIT, parseLimitParam } from '@/limit-param';
 import { normalizeLines, parseLinesParam } from '@/lines-param';
 import { isBusLike } from '@/kvv-trias/vehicle';
 import { PlatformType, isApiEnvelope } from '@/kvv-trias/types';
@@ -34,13 +35,19 @@ export const load: PageLoad = async ({ url, fetch }) => {
 	// resolve a selection). Later selections are shallow-routed with
 	// `replaceState` and refetched by an effect (see +page.svelte) to keep
 	// bookmarks working.
+	//
+	// The limit is parsed through the shared module, so a malicious or stale
+	// bookmark (`limit=9999`, `limit=<script>`) can never reach the API: the
+	// page only ever works with a bounded number (the sidebar input shows
+	// that, and every URL rewrite normalises it).
 	const lines = parseLinesParam(url.searchParams);
+	const limit = parseLimitParam(url.searchParams);
 	const [model, stationLines] = await Promise.all([
-		_fetchDepartures(fetch, stationId, eventType, lines),
+		_fetchDepartures(fetch, stationId, eventType, lines, limit),
 		_fetchStopLines(fetch, stationId)
 	]);
 
-	return { model, lines, stationLines };
+	return { model, lines, limit, stationLines };
 };
 
 // Fetches the static lines serving one stop from /api/stop-lines. Never
@@ -85,7 +92,8 @@ export async function _fetchDepartures(
 	fetchFn: typeof fetch,
 	stationId: string,
 	eventType: 'dep' | 'arr',
-	lines: string[] = []
+	lines: string[] = [],
+	limit: number = DEFAULT_LIMIT
 ): Promise<UiModel> {
 	try {
 		let query = `stationId=${encodeURIComponent(stationId)}&eventType=${eventType}`;
@@ -94,6 +102,15 @@ export async function _fetchDepartures(
 		// selection omits the parameter so no filter is applied at all.
 		if (lines.length > 0) {
 			query += `&lines=${encodeURIComponent(lines.join(','))}`;
+		}
+
+		// `DEFAULT_LIMIT` is the API's default too, so the default stays out
+		// of the request. The clamp is the last line of defence: every caller
+		// hands over a bounded number (URL parsing, sidebar input), and an
+		// out-of-range one would only come back as a 400 anyway.
+		const boundedLimit = clampLimit(limit);
+		if (boundedLimit !== DEFAULT_LIMIT) {
+			query += `&limit=${boundedLimit}`;
 		}
 
 		const res = await fetchFn(`/api/departures?${query}`);

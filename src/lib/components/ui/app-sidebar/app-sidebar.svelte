@@ -2,12 +2,14 @@
 import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 import MultiSelect from '@/components/ui/multi-select/multi-select.svelte';
 import LineFilter from '@/components/ui/line-filter/line-filter.svelte';
+import LimitInput from '@/components/ui/limit-input/limit-input.svelte';
 import { Label } from '$lib/components/ui/label/index.js';
 import * as RadioGroup from '$lib/components/ui/radio-group/index.js';
 import LanguageSelector from '@/components/ui/language-selector/language-selector.svelte';
 import Github from '$lib/components/icons/github.svelte';
 import { resolve } from '$app/paths';
 import { translations } from '$lib/i18n';
+import { DEFAULT_LIMIT } from '@/limit-param';
 import { cn } from '@/utils.js';
 import { onMount } from 'svelte';
 
@@ -18,6 +20,7 @@ let {
 	selectedLines = $bindable(),
 	lineFilterExpanded = $bindable(false),
 	eventType = $bindable(),
+	limit = $bindable<number>(DEFAULT_LIMIT),
 	theme = 'system'
 } = $props();
 
@@ -137,6 +140,13 @@ function setTheme(theme: 'light' | 'dark' | 'system') {
 								</Label>
 							</div>
 						</RadioGroup.Root>
+					</Sidebar.MenuItem>
+
+					<!-- Number of departures: like the other fields a bounded
+					     control, with the bound enforced in the component
+					     (src/lib/components/ui/limit-input/). -->
+					<Sidebar.MenuItem>
+						<LimitInput bind:limit={limit} />
 					</Sidebar.MenuItem>
 				</Sidebar.Menu>
 			</Sidebar.GroupContent>

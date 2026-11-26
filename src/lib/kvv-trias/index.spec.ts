@@ -143,6 +143,19 @@ describe('getDepartures', () => {
 		expect(result.platforms).toHaveLength(2);
 	});
 
+	it('scales the upstream over-fetch with the requested limit', async () => {
+		// The limit is user-controlled (sidebar input / URL), so even the
+		// largest accepted value must be over-fetched, not taken literally:
+		// merging drops entries, and a short answer would under-deliver
+		// below what the user asked to see.
+		mocks.extractStopEventResults.mockReturnValue([]);
+
+		await getDepartures('de:08212:89', 'dep', 100);
+
+		const requestXml = mocks.postXml.mock.calls[0]?.[1] as string;
+		expect(requestXml).toContain('<NumberOfResults>200</NumberOfResults>');
+	});
+
 	describe('line selection (TRIAS LineFilter)', () => {
 		it('resolves the selected names to LineRefs in the request', async () => {
 			mocks.extractStopEventResults.mockReturnValue([]);

@@ -103,4 +103,33 @@ describe('GET /api/departures line selection', () => {
 
 		expect(mocks.getDepartures).toHaveBeenCalledWith('de:08212:89', 'dep', 20, ['S1', 'S4', '2']);
 	});
+
+	it('forwards an explicit limit to the pipeline', async () => {
+		await get('stationId=de:08212:89&limit=42');
+
+		expect(mocks.getDepartures).toHaveBeenCalledWith('de:08212:89', 'dep', 42, []);
+	});
+
+	// The page sanitises hostile URLs before they ever reach this endpoint
+	// (src/lib/limit-param.ts), but the endpoint enforces the same bounds for
+	// any other caller: no request may make the pipeline over-fetch beyond
+	// MAX_LIMIT from TRIAS.
+	it('rejects out-of-range or malformed limits without calling the pipeline', async () => {
+		for (const value of ['0', '-5', '101', '9999', 'nope']) {
+			const res = await get(`stationId=de:08212:89&limit=${encodeURIComponent(value)}`);
+
+			expect(res.status, `limit=${value}`).toBe(400);
+		}
+		expect(mocks.getDepartures).not.toHaveBeenCalled();
+	});
+
+	it('keeps the invalid-limit error message the page maps to a translation', async () => {
+		const res = await get('stationId=de:08212:89&limit=0');
+		const body = await res.json();
+
+		expect(body.error).toMatchObject({
+			code: 'BAD_PARAMS',
+			message: 'Invalid limit (must be 1..100)'
+		});
+	});
 });
