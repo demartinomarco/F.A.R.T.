@@ -9,7 +9,9 @@
 		"unknownStation": "Error: The ID {stationId} is invalid.",
 		"invalidServerResponse": "Invalid server response.",
 		"unexpectedResponseFormat": "Unexpected response format.",
-		"noConnectionShort": "No connection to the server."
+		"noConnectionShort": "No connection to the server.",
+		"home": "Home",
+		"reload": "Reload"
 	},
 	"page": {
 		"titleWithStation": "{stationName} – Departures | Tram & Public Transport Display",
@@ -74,6 +76,7 @@
 	},
 	"about": {
 		"pageTitle": "About this project",
+		"back": "Back",
 		"intro": "F.A.R.T. (Finally A Reliable Timetable) is a fast, reliable, and user-friendly display for real-time departures and real-time arrivals of buses and trams in the Karlsruhe area (KVV network).",
 		"motivation": "This project was born out of frustration with existing (official) displays that are often slow, unreliable, occasionally show incorrect data, or are completely absent at less frequented stops.",
 		"arrivalColorsLabel": "Arrival time colors:",
