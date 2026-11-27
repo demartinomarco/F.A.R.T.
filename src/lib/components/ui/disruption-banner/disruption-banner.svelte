@@ -1,18 +1,18 @@
 <script lang="ts">
 import TriangleAlert from '@lucide/svelte/icons/triangle-alert';
+import { SvelteSet } from 'svelte/reactivity';
 import { translations, interpolate } from '$lib/i18n';
 import type { StationBanner } from '@/kvv-trias/disruptions';
 
 let { banner }: { banner: StationBanner } = $props();
 
 // Keyed by situationNumber, so a station change simply orphans old entries.
-let openSituations = $state(new Set<string>());
+// SvelteSet is reactive by itself, so it needs no $state wrapper.
+const openSituations = new SvelteSet<string>();
 
 function toggleSituation(situationNumber: string) {
-	const next = new Set(openSituations);
-	if (next.has(situationNumber)) next.delete(situationNumber);
-	else next.add(situationNumber);
-	openSituations = next;
+	if (openSituations.has(situationNumber)) openSituations.delete(situationNumber);
+	else openSituations.add(situationNumber);
 }
 
 function messageText(code: string, text: string): string {
