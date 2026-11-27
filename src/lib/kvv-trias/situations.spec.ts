@@ -219,6 +219,77 @@ describe('trias capture: Baden-Baden Festspielhaus (station-scope disruptions)',
 			).toBe(true);
 		}
 	});
+
+	it('has no machine messages for a board that answers normally', () => {
+		// The banner treats messages and situations as separate sources, so a
+		// normal answer must not look like one.
+		expect(pipeline.errorMessages).toEqual([]);
+	});
+});
+
+describe('trias capture: Waldstadt Zentrum (the whole stop is closed)', () => {
+	const stationId = 'de:08212:408';
+	const pipeline = runPipeline(capture('waldstadt-zentrum-stop-closure'));
+
+	it('reads the operator wording for a stop that has been dropped', () => {
+		expect(pipeline.results).toBe(20);
+		expect(pipeline.situations).toHaveLength(1);
+
+		const [situation] = pipeline.situations;
+		expect(situation.summary).toBe('Waldstadt: Haltestelle Waldstadt Zentrum aufgehoben');
+		expect(situation.description).toBe('Linie: 31');
+		expect(situation.scopeType).toBe('stopPoint');
+		expect(situation.affectedStopIds).toEqual([stationId]);
+	});
+
+	it('gives the whole board to the banner, since the notice is about the stop', () => {
+		// Every one of the 20 departures references this one situation. Left on
+		// the rows it would repeat twenty times under a banner that already says
+		// it, which is the case the partition exists for.
+		expect(pipeline.departures.filter((d) => d.departure.situations.length > 0)).toHaveLength(20);
+
+		const { stationSituations, rows } = partition(pipeline, stationId);
+		expect(stationSituations.map((s) => s.situationNumber)).toEqual(['100004574_KVV_ICSKVV']);
+		expect(rows.filter((r) => r.departure.situations.length > 0)).toHaveLength(0);
+	});
+
+	it('decodes the German quotation marks the feed puts around stop names', () => {
+		// The operator writes &bdquo;Waldstadt Zentrum&ldquo; inside the detail.
+		// One in four situation-bearing responses of a network-wide sweep spells
+		// names that way, and every entity missing from the table lands on screen.
+		const detail = pipeline.situations[0].detail ?? '';
+		expect(detail).toContain('„Waldstadt Zentrum“');
+		expect(detail).not.toMatch(/&(bdquo|ldquo|sbquo|lsquo);/);
+	});
+
+	it('keeps a closed stop running for the lines that still call at it', () => {
+		// The closure is announced for line 31, while the board is served by line
+		// 4 — two of whose calls the feed still marks as not serviced. A stop
+		// notice therefore says nothing about an individual ride, and the
+		// per-call flag has to survive alongside it.
+		expect([...new Set(pipeline.departures.map((d) => d.departure.lineName))]).toEqual(['4']);
+		expect(pipeline.departures.filter((d) => d.departure.notServiced)).toHaveLength(2);
+		expect(pipeline.departures.filter((d) => d.departure.cancelled)).toEqual([]);
+	});
+
+	it('has no machine messages for a board that answers normally', () => {
+		expect(pipeline.errorMessages).toEqual([]);
+	});
+});
+
+describe('trias capture: Karlsruhe Kaiserplatz (a real stop the feed will not answer)', () => {
+	const pipeline = runPipeline(capture('karlsruhe-kaiserplatz-unserved'));
+
+	it('reports the stop as served by nothing, with the machine message to say so', () => {
+		// Kaiserplatz is a real stop in the static dataset that currently has no
+		// departures at all. This is the answer behind the "stop is not being
+		// served" banner, as opposed to the unknown-id capture below, which
+		// answers STOPEVENT_NOEVENTFOUND for the same code.
+		expect(pipeline.results).toBe(0);
+		expect(pipeline.departures).toEqual([]);
+		expect(pipeline.situations).toEqual([]);
+		expect(pipeline.errorMessages).toEqual([{ code: '-4030', text: 'STOPEVENT_LOCATIONUNSERVED' }]);
+	});
 });
 
 describe('trias capture: stop the feed does not answer', () => {

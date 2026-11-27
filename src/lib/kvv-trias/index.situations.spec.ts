@@ -102,6 +102,24 @@ describe('getDepartures over a real capture: Baden-Baden Festspielhaus', () => {
 	});
 });
 
+describe('getDepartures over a real capture: Karlsruhe Kaiserplatz', () => {
+	beforeEach(() => {
+		mocks.postXml.mockReset().mockResolvedValue(capture('karlsruhe-kaiserplatz-unserved'));
+	});
+
+	it('answers with an empty board and the message the banner localizes', async () => {
+		// Kaiserplatz is a real stop of the static dataset with no departures at
+		// all right now, so this is the live shape behind the closed-stop copy.
+		const result = await getDepartures('de:08212:38', 'dep', 20);
+
+		expect(result.platforms).toEqual([]);
+		expect(result.stationSituations).toEqual([]);
+		expect(result.errorMessages).toEqual([{ code: '-4030', text: 'STOPEVENT_LOCATIONUNSERVED' }]);
+		// The name still comes from the static dataset, not from the response.
+		expect(result.stationName).toBe('Kaiserplatz (Karlsruhe)');
+	});
+});
+
 describe('getDepartures over a real capture: a stop the feed does not answer', () => {
 	beforeEach(() => {
 		mocks.postXml.mockReset().mockResolvedValue(capture('unknown-stop'));
