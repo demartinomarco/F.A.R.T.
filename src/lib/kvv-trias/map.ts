@@ -615,6 +615,15 @@ const NAMED_ENTITIES: Record<string, string> = {
 	gt: '>',
 	quot: '"',
 	apos: "'",
+	// Typographic quotes. A quarter of the situation-bearing responses of a
+	// network-wide sweep spell stop names with the German pair (&bdquo;…&ldquo;),
+	// and every entity missing here is text like "&bdquo;Zentrum&ldquo;" on screen.
+	bdquo: '„',
+	ldquo: '“',
+	rdquo: '”',
+	sbquo: '‚',
+	lsquo: '‘',
+	rsquo: '’',
 	auml: 'ä',
 	ouml: 'ö',
 	uuml: 'ü',

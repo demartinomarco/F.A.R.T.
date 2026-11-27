@@ -1,5 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import { consolidateWagons, mapStopEventResultToDeparture, mergeSituationState } from './map';
+import {
+	consolidateWagons,
+	htmlToPlainText,
+	mapStopEventResultToDeparture,
+	mergeSituationState
+} from './map';
 import { PlatformType, type Disruption } from './types';
 
 type RawDeparture = Parameters<typeof consolidateWagons>[0][number];
@@ -575,5 +580,51 @@ describe('mergeSituationState', () => {
 		mergeSituationState(target, source);
 
 		expect(target.situations).toEqual([]);
+	});
+});
+
+describe('htmlToPlainText', () => {
+	// Situation text is operator HTML. The row dialog and the banner render it as
+	// plain text, so anything left over from the conversion shows up verbatim.
+	it('decodes the typographic quotes the feed spells stop names with', () => {
+		// Observed shape: Ersatzhaltestelle &bdquo;Dreherstraße&ldquo; — with these
+		// four missing, the entity text lands on screen.
+		expect(htmlToPlainText('&bdquo;Zentrum&ldquo; und &sbquo;Nord&lsquo;')).toBe(
+			'„Zentrum“ und ‚Nord‘'
+		);
+		expect(htmlToPlainText('&rdquo;end&rsquo;')).toBe('”end’');
+	});
+
+	it('decodes umlauts and leaves unknown entities alone', () => {
+		expect(htmlToPlainText('Haltestelle Gr&ouml;tz &amp; S&uuml;d')).toBe(
+			'Haltestelle Grötz & Süd'
+		);
+		// Guessing at an unknown name would be worse than showing it as sent.
+		expect(htmlToPlainText('&fjor;')).toBe('&fjor;');
+	});
+
+	it("keeps the operator's line structure and drops the markup", () => {
+		const text = htmlToPlainText(
+			'<p>Linie 55: Umleitung<br /> wegen Sperrung <span style="color: #c30a37;">der Gartenstraße</span></p><ul><li>Haltestelle entfällt</li></ul>'
+		);
+
+		// One newline per break or closed block, no tags, no inline styles, and a
+		// list item becomes a bullet.
+		expect(text).toBe(
+			'Linie 55: Umleitung\nwegen Sperrung der Gartenstraße\n• Haltestelle entfällt'
+		);
+		expect(text).not.toMatch(/</);
+	});
+
+	it('decodes numeric entities and collapses blank lines', () => {
+		// 8222/8220 are the decimal form of the German quotes, 252 of ü.
+		expect(htmlToPlainText('&#8222;S&#8220; &#252;ber &#928;')).toBe('„S“ über Π');
+		expect(htmlToPlainText('<p>a</p>\n\n\n\n<p>b</p>')).toBe('a\n\nb');
+	});
+
+	it('returns null for no text and for input that is not a string', () => {
+		expect(htmlToPlainText(null)).toBeNull();
+		expect(htmlToPlainText('   ')).toBeNull();
+		expect(htmlToPlainText({} as unknown as string)).toBeNull();
 	});
 });
