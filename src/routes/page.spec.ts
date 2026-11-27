@@ -68,7 +68,13 @@ function makePlatform(
 }
 
 function makeStation(platforms: PlatformDepartures[]): StationDepartures {
-	return { stationName: 'Hauptbahnhof', cityName: 'Karlsruhe', platforms };
+	return {
+		stationName: 'Hauptbahnhof',
+		cityName: 'Karlsruhe',
+		platforms,
+		errorMessages: [],
+		stationSituations: []
+	};
 }
 
 describe('line options', () => {

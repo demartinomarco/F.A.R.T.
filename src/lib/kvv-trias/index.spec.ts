@@ -23,10 +23,21 @@ vi.mock('@/server/stop-lines', () => ({
 	}
 }));
 
-vi.mock('./parse', () => ({
-	parseTriasXml: vi.fn((xml: string) => xml),
-	extractStopEventResults: mocks.extractStopEventResults
-}));
+// Only the DOM-dependent steps are stubbed: the raw events below carry no
+// situations and the fake response no provider messages, so both extractors
+// stay empty. The pure node-normalisation helper is kept real so map.ts still
+// runs its actual logic here; situations themselves are covered against real
+// XML in situations.spec.ts.
+vi.mock('./parse', async (importOriginal) => {
+	const actual = await importOriginal<typeof import('./parse')>();
+	return {
+		...actual,
+		parseTriasXml: vi.fn((xml: string) => xml),
+		extractStopEventResults: mocks.extractStopEventResults,
+		extractSituationNodes: vi.fn((): unknown[] => []),
+		extractErrorMessages: vi.fn((): unknown[] => [])
+	};
+});
 
 vi.mock('./env', () => ({
 	getKvvTriasConfig: () => ({
