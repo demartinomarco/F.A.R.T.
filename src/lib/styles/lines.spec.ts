@@ -61,7 +61,9 @@ function departure(lineName: string, vehicleType = 'tram'): Departure {
 		vehicleType,
 		realTime: null,
 		wagonCount: 1,
-		cancelled: false
+		cancelled: false,
+		situations: [],
+		notServiced: false
 	};
 }
 

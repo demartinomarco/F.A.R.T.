@@ -74,6 +74,15 @@
 		"minutesEarly": "{delay} Minuten zu früh",
 		"cancelled": "Entfällt"
 	},
+	"disruption": {
+		"stopClosed": "Die Haltestelle wird derzeit nicht bedient (z. B. wegen Bauarbeiten).",
+		"otherMessage": "Hinweis der KVV: {text}",
+		"notServiced": "Hält hier nicht",
+		"warningAriaLabel": "Hinweis zu dieser Fahrt",
+		"detailsShow": "Details anzeigen",
+		"detailsHide": "Details ausblenden",
+		"dialogFallback": "Keine weiteren Informationen verfügbar."
+	},
 	"about": {
 		"pageTitle": "Über dieses Projekt",
 		"back": "Zurück",

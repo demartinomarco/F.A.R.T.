@@ -1,6 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import { consolidateWagons, mapStopEventResultToDeparture } from './map';
-import { PlatformType } from './types';
+import {
+	consolidateWagons,
+	htmlToPlainText,
+	mapStopEventResultToDeparture,
+	mergeSituationState
+} from './map';
+import { PlatformType, type Disruption } from './types';
 
 type RawDeparture = Parameters<typeof consolidateWagons>[0][number];
 
@@ -16,6 +21,7 @@ function makeDeparture(opts: {
 	wagonCount?: number;
 	journeyRef?: string;
 	cancelled?: boolean;
+	situations?: Disruption[];
 }): RawDeparture {
 	return {
 		lineRef: opts.lineRef,
@@ -32,7 +38,9 @@ function makeDeparture(opts: {
 			realTime: opts.realTime ? new Date(opts.realTime) : null,
 			vehicleType: 'rail',
 			wagonCount: opts.wagonCount ?? 1,
-			cancelled: opts.cancelled ?? false
+			cancelled: opts.cancelled ?? false,
+			situations: opts.situations ?? [],
+			notServiced: false
 		}
 	};
 }
@@ -512,5 +520,111 @@ describe('mapStopEventResultToDeparture', () => {
 		expect(result).toHaveLength(1);
 		expect(result[0].platform).toEqual({ type: PlatformType.Rail, name: '1B' });
 		expect(result[0].departure.realTime?.toISOString()).toBe('2026-10-31T12:31:12.000Z');
+	});
+});
+
+describe('mergeSituationState', () => {
+	// Wagon consolidation is the second place the same situation can arrive twice
+	// (each unit of a coupled train carries its own reference), and the merge runs
+	// across feeds too, so neither the union nor the skipped-stop flag may double
+	// up or get lost.
+	function situation(number: string): Disruption {
+		return {
+			situationNumber: number,
+			summary: `summary ${number}`,
+			description: null,
+			detail: null,
+			priority: 2,
+			scopeType: 'line',
+			validFrom: null,
+			validUntil: null,
+			affectedStopIds: []
+		};
+	}
+
+	it('unions the situations of both entries without duplicates', () => {
+		const target = makeDeparture({
+			lineRef: 'kvv:22305:E:H',
+			situations: [situation('A'), situation('SHARED')]
+		}).departure;
+		const source = makeDeparture({
+			lineRef: 'ddb:920S5:D:H',
+			situations: [situation('SHARED'), situation('B')]
+		}).departure;
+
+		mergeSituationState(target, source);
+
+		expect(target.situations.map((s) => s.situationNumber)).toEqual(['A', 'SHARED', 'B']);
+	});
+
+	it('lets "not serviced" win when either entry is flagged', () => {
+		const a = makeDeparture({ lineRef: 'kvv:22305:E:H' }).departure;
+		const b = makeDeparture({ lineRef: 'ddb:920S5:D:H' }).departure;
+		b.notServiced = true;
+
+		mergeSituationState(a, b);
+		expect(a.notServiced).toBe(true);
+
+		const c = makeDeparture({ lineRef: 'kvv:22305:E:H' }).departure;
+		c.notServiced = true;
+		const d = makeDeparture({ lineRef: 'ddb:920S5:D:H' }).departure;
+
+		mergeSituationState(c, d);
+		expect(c.notServiced).toBe(true);
+	});
+
+	it('does not invent a situation for an entry that has none', () => {
+		const target = makeDeparture({ lineRef: 'kvv:22305:E:H' }).departure;
+		const source = makeDeparture({ lineRef: 'ddb:920S5:D:H' }).departure;
+
+		mergeSituationState(target, source);
+
+		expect(target.situations).toEqual([]);
+	});
+});
+
+describe('htmlToPlainText', () => {
+	// Situation text is operator HTML. The row dialog and the banner render it as
+	// plain text, so anything left over from the conversion shows up verbatim.
+	it('decodes the typographic quotes the feed spells stop names with', () => {
+		// Observed shape: Ersatzhaltestelle &bdquo;Dreherstraße&ldquo; — with these
+		// four missing, the entity text lands on screen.
+		expect(htmlToPlainText('&bdquo;Zentrum&ldquo; und &sbquo;Nord&lsquo;')).toBe(
+			'„Zentrum“ und ‚Nord‘'
+		);
+		expect(htmlToPlainText('&rdquo;end&rsquo;')).toBe('”end’');
+	});
+
+	it('decodes umlauts and leaves unknown entities alone', () => {
+		expect(htmlToPlainText('Haltestelle Gr&ouml;tz &amp; S&uuml;d')).toBe(
+			'Haltestelle Grötz & Süd'
+		);
+		// Guessing at an unknown name would be worse than showing it as sent.
+		expect(htmlToPlainText('&fjor;')).toBe('&fjor;');
+	});
+
+	it("keeps the operator's line structure and drops the markup", () => {
+		const text = htmlToPlainText(
+			'<p>Linie 55: Umleitung<br /> wegen Sperrung <span style="color: #c30a37;">der Gartenstraße</span></p><ul><li>Haltestelle entfällt</li></ul>'
+		);
+
+		// One newline per break or closed block, no tags, no inline styles, and a
+		// list item becomes a bullet.
+		expect(text).toBe(
+			'Linie 55: Umleitung\nwegen Sperrung der Gartenstraße\n• Haltestelle entfällt'
+		);
+		expect(text).not.toMatch(/</);
+	});
+
+	it('decodes numeric entities and collapses blank lines', () => {
+		// 8222/8220 are the decimal form of the German quotes, 252 of ü.
+		expect(htmlToPlainText('&#8222;S&#8220; &#252;ber &#928;')).toBe('„S“ über Π');
+		expect(htmlToPlainText('<p>a</p>\n\n\n\n<p>b</p>')).toBe('a\n\nb');
+	});
+
+	it('returns null for no text and for input that is not a string', () => {
+		expect(htmlToPlainText(null)).toBeNull();
+		expect(htmlToPlainText('   ')).toBeNull();
+		expect(htmlToPlainText({} as unknown as string)).toBeNull();
 	});
 });
