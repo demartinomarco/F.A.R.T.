@@ -34,13 +34,20 @@ const status = $derived(accompanyingStatusText(departure, $translations));
 // the field at all.
 const rowSituations = $derived((departure.situations ?? []).filter((s) => !!s?.situationNumber));
 
+// TRIAS reports these separately: Cancelled belongs to the Service (the whole
+// trip is off), NotServicedStop to this one CallAtStop (the trip runs but skips
+// the stop we are looking at). A cancelled service skips the stop by definition,
+// so showing both would state the same thing twice — and "Cancelled" is the
+// stronger, better-understood claim, so it wins.
+const showsNotServiced = $derived(departure.notServiced && !departure.cancelled);
+
 const warningLabel = $derived(
 	rowSituations[0]?.summary || $translations.disruption.warningAriaLabel
 );
 </script>
 
 <div
-	class="flex items-start justify-between gap-3 px-1 py-2.5 transition-colors hover:bg-slate-200/30 dark:hover:bg-slate-800/40 {departure.notServiced
+	class="flex items-start justify-between gap-3 px-1 py-2.5 transition-colors hover:bg-slate-200/30 dark:hover:bg-slate-800/40 {showsNotServiced
 		? 'opacity-60 saturate-50'
 		: ''}"
 >
@@ -90,10 +97,10 @@ const warningLabel = $derived(
 				</div>
 			{/if}
 
-			{#if departure.notServiced}
+			{#if showsNotServiced}
 				<!-- Same metrics as the status line above, so the baseline lines up. -->
 				<span
-					class="mt-1 flex items-center gap-1.5 text-[11px] leading-none font-medium text-slate-600"
+					class="mt-1 flex items-center gap-1.5 text-[11px] leading-none font-medium text-slate-600 dark:text-slate-400"
 				>
 					<Ban class="h-3 w-3 shrink-0" aria-hidden="true" />
 					{$translations.disruption.notServiced}
@@ -110,7 +117,7 @@ const warningLabel = $derived(
 			<Dialog.Root>
 				<Dialog.Trigger class="block cursor-pointer align-middle" aria-label={warningLabel}>
 					<TriangleAlert
-						class="h-4 w-4 text-amber-600 transition-colors hover:text-amber-800"
+						class="h-4 w-4 text-amber-600 transition-colors hover:text-amber-800 dark:text-amber-400 dark:hover:text-amber-300"
 						aria-hidden="true"
 					/>
 				</Dialog.Trigger>
@@ -123,21 +130,35 @@ const warningLabel = $derived(
 							{$translations.disruption.dialogFallback}
 						</Dialog.Description>
 					</Dialog.Header>
-					<div class="flex flex-col gap-3 text-sm text-slate-700">
+					<!-- The dialog is the card: situations below it are separated by a hairline
+					     rather than each getting a box of their own, and every colour comes from
+					     the shadcn tokens, so the popup follows the theme in both modes. Amber
+					     stays on the icon alone, where it carries the meaning. -->
+					<div class="flex flex-col divide-y divide-border">
 						{#each rowSituations as situation (situation.situationNumber)}
-							<div class="rounded-md border border-amber-200 bg-amber-50 p-3">
-								<p class="font-semibold text-amber-900">
-									{situation.summary || situation.description || ''}
-								</p>
-								{#if situation.description && situation.summary}
-									<p class="mt-0.5 text-xs text-amber-800/80">{situation.description}</p>
-								{/if}
-								{#if situation.detail}
-									<!-- plain text, converted server side -->
-									<span class="mt-1.5 block text-xs whitespace-pre-line text-amber-900/90">
-										{situation.detail}
-									</span>
-								{/if}
+							<div class="flex items-start gap-2.5 py-3 first:pt-0 last:pb-0">
+								<TriangleAlert
+									class="mt-0.5 h-4 w-4 shrink-0 text-amber-600 dark:text-amber-400"
+									aria-hidden="true"
+								/>
+								<div class="min-w-0">
+									<p class="text-sm leading-snug font-semibold text-foreground">
+										{situation.summary || situation.description || ''}
+									</p>
+									{#if situation.description && situation.summary}
+										<p class="mt-1 text-xs leading-snug text-muted-foreground">
+											{situation.description}
+										</p>
+									{/if}
+									{#if situation.detail}
+										<!-- plain text, converted server side -->
+										<p
+											class="mt-1.5 text-xs leading-snug whitespace-pre-line text-muted-foreground"
+										>
+											{situation.detail}
+										</p>
+									{/if}
+								</div>
 							</div>
 						{/each}
 					</div>
@@ -148,14 +169,19 @@ const warningLabel = $derived(
 		<p
 			class="w-14 text-right text-sm font-bold whitespace-nowrap tabular-nums {countdownColorClass(
 				departure
-			)} {departure.cancelled ? cancelledTimeClass : ''}"
+			)}"
 			data-tone-color="true"
 			title={departure.cancelled ? $translations.departureInfo.cancelled : undefined}
 		>
-			{#if departure.cancelled}
-				<span class={cancelledStrikeClass} aria-hidden="true"></span>
-			{/if}
-			{countdownText(departure, now, $translations)}
+			<!-- The strike bar is positioned with inset-x-0, so it needs a box exactly as
+			     wide as the text: hanging it off the <p> would stretch it across the whole
+			     fixed-width countdown column, well past a short countdown like "5 min". -->
+			<span class={departure.cancelled ? cancelledTimeClass : ''}>
+				{#if departure.cancelled}
+					<span class={cancelledStrikeClass} aria-hidden="true"></span>
+				{/if}
+				{countdownText(departure, now, $translations)}
+			</span>
 		</p>
 	</div>
 </div>
