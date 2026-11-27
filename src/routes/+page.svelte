@@ -280,6 +280,13 @@ let sidebarOpen = $state(false);
 // closing the mobile sidebar unmounts the sidebar (it is a Sheet), and the
 // filter should stay open across that — but not across a page reload.
 let lineFilterExpanded = $state(false);
+// The two sidebar groups are disclosures too. Like the line filter, their
+// state lives here: on mobile the sidebar is a Sheet, so closing it unmounts
+// the sidebar and a state kept inside would reset on every reopen. The filter
+// starts closed (the board is the page; the controls are opt-in), the settings
+// start open.
+let filterGroupExpanded = $state(false);
+let settingsGroupExpanded = $state(true);
 
 function errorMessage(err: { code: string; message: string } | null) {
 	if (!err) return '';
@@ -334,6 +341,8 @@ function platformName(platformInfo: Platform): string {
 		lineOptions={lineOptions}
 		bind:selectedLines={selectedLines}
 		bind:lineFilterExpanded={lineFilterExpanded}
+		bind:filterGroupExpanded={filterGroupExpanded}
+		bind:settingsGroupExpanded={settingsGroupExpanded}
 		bind:eventType={eventType}
 		bind:limit={limit}
 		theme={data.theme}

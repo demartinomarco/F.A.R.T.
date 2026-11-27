@@ -11,11 +11,10 @@ test.beforeEach(async ({ context }) => {
 	await context.addCookies([{ name: 'locale', value: 'de', url: BASE_URL }]);
 });
 
-// The sidebar is a slide-in panel (closed by default, see `sidebarOpen` in
-// +page.svelte) whose state is persisted in a cookie — so it may already be
-// open after a reload. Only toggle through the vendored trigger's stable
-// data attribute when the wrapper says `collapsed`; Playwright's visibility
-// checks cannot distinguish the off-canvas position.
+// The sidebar is a slide-in panel that starts closed (`sidebarOpen` in
+// +page.svelte is `$state(false)`). Toggle through the vendored trigger's
+// stable data attribute when the wrapper says `collapsed`; Playwright's
+// visibility checks cannot distinguish the off-canvas position.
 async function ensureSidebarOpen(page: Page) {
 	const wrapper = page.locator('[data-slot="sidebar"]');
 	if ((await wrapper.getAttribute('data-state')) !== 'expanded') {
@@ -24,9 +23,20 @@ async function ensureSidebarOpen(page: Page) {
 	await expect(wrapper).toHaveAttribute('data-state', 'expanded');
 }
 
+// The Filter group is a disclosure that starts closed; its controls (the
+// limit input included) are only visible once it is expanded.
+async function ensureFilterGroupOpen(page: Page) {
+	const toggle = page.getByTestId('filter-group-toggle');
+	if ((await toggle.getAttribute('aria-expanded')) !== 'true') {
+		await toggle.click();
+	}
+	await expect(toggle).toHaveAttribute('aria-expanded', 'true');
+}
+
 async function gotoWithOpenSidebar(page: Page, url = '/') {
 	await page.goto(url);
 	await ensureSidebarOpen(page);
+	await ensureFilterGroupOpen(page);
 }
 
 // `displayed` is what the field shows after commit: usually the typed value,
@@ -60,6 +70,7 @@ test.describe('Sidebar limit input', () => {
 		// SSR hydration: the server parses the URL, the sidebar starts from it.
 		await page.reload();
 		await ensureSidebarOpen(page);
+		await ensureFilterGroupOpen(page);
 
 		await expect(input(page)).toHaveValue('42');
 	});
@@ -79,13 +90,22 @@ test.describe('Sidebar limit input', () => {
 		page.on('pageerror', (error) => errors.push(String(error)));
 
 		// No interaction needed — the hydrated input already shows the value
-		// the page actually works with.
+		// the page actually works with. The address bar keeps the raw value
+		// until something changes it (see `urlSerializedLimit` in +page.svelte:
+		// rewriting it during hydration throws inside SvelteKit's router).
 		await page.goto('/?limit=99999');
 		await expect(input(page)).toHaveValue('100');
 
 		await page.goto('/?limit=%3Cscript%3Ealert(1)%3C/script%3E');
 		await expect(input(page)).toHaveValue('20');
 		await expect(page.locator('body')).not.toContainText('Fehler');
+
+		// ...and once the user does change it, the bounded value is what lands
+		// in the address bar.
+		await ensureSidebarOpen(page);
+		await ensureFilterGroupOpen(page);
+		await commit(page, '75');
+		await expect.poll(() => new URL(page.url()).searchParams.get('limit')).toBe('75');
 
 		expect(errors).toEqual([]);
 	});
