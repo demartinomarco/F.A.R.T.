@@ -46,6 +46,7 @@ export function toWireDepartures(data: StationDepartures): WireStationDepartures
 					vehicleType: d.vehicleType,
 					realTime: d.realTime,
 					wagonCount: d.wagonCount,
+					cancelled: d.cancelled,
 					notServiced: d.notServiced ?? false,
 					situationRefs: situations.map((s) => s?.situationNumber).filter((n): n is string => !!n)
 				};
@@ -89,6 +90,7 @@ export function wireToStationDepartures(wire: WireStationDepartures): StationDep
 				vehicleType: d.vehicleType ?? '',
 				realTime: d.realTime ? new Date(d.realTime) : null,
 				wagonCount: d.wagonCount ?? 1,
+				cancelled: !!d.cancelled,
 				notServiced: !!d.notServiced,
 				situations: (d.situationRefs ?? [])
 					.map((ref) => byNumber.get(ref))
