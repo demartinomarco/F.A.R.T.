@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { consolidateWagons, mapStopEventResultToDeparture } from './map';
-import { PlatformType } from './types';
+import { consolidateWagons, mapStopEventResultToDeparture, mergeSituationState } from './map';
+import { PlatformType, type Disruption } from './types';
 
 type RawDeparture = Parameters<typeof consolidateWagons>[0][number];
 
@@ -16,6 +16,7 @@ function makeDeparture(opts: {
 	wagonCount?: number;
 	journeyRef?: string;
 	cancelled?: boolean;
+	situations?: Disruption[];
 }): RawDeparture {
 	return {
 		lineRef: opts.lineRef,
@@ -33,7 +34,7 @@ function makeDeparture(opts: {
 			vehicleType: 'rail',
 			wagonCount: opts.wagonCount ?? 1,
 			cancelled: opts.cancelled ?? false,
-			situations: [],
+			situations: opts.situations ?? [],
 			notServiced: false
 		}
 	};
@@ -514,5 +515,65 @@ describe('mapStopEventResultToDeparture', () => {
 		expect(result).toHaveLength(1);
 		expect(result[0].platform).toEqual({ type: PlatformType.Rail, name: '1B' });
 		expect(result[0].departure.realTime?.toISOString()).toBe('2026-10-31T12:31:12.000Z');
+	});
+});
+
+describe('mergeSituationState', () => {
+	// Wagon consolidation is the second place the same situation can arrive twice
+	// (each unit of a coupled train carries its own reference), and the merge runs
+	// across feeds too, so neither the union nor the skipped-stop flag may double
+	// up or get lost.
+	function situation(number: string): Disruption {
+		return {
+			situationNumber: number,
+			summary: `summary ${number}`,
+			description: null,
+			detail: null,
+			priority: 2,
+			scopeType: 'line',
+			validFrom: null,
+			validUntil: null,
+			affectedStopIds: []
+		};
+	}
+
+	it('unions the situations of both entries without duplicates', () => {
+		const target = makeDeparture({
+			lineRef: 'kvv:22305:E:H',
+			situations: [situation('A'), situation('SHARED')]
+		}).departure;
+		const source = makeDeparture({
+			lineRef: 'ddb:920S5:D:H',
+			situations: [situation('SHARED'), situation('B')]
+		}).departure;
+
+		mergeSituationState(target, source);
+
+		expect(target.situations.map((s) => s.situationNumber)).toEqual(['A', 'SHARED', 'B']);
+	});
+
+	it('lets "not serviced" win when either entry is flagged', () => {
+		const a = makeDeparture({ lineRef: 'kvv:22305:E:H' }).departure;
+		const b = makeDeparture({ lineRef: 'ddb:920S5:D:H' }).departure;
+		b.notServiced = true;
+
+		mergeSituationState(a, b);
+		expect(a.notServiced).toBe(true);
+
+		const c = makeDeparture({ lineRef: 'kvv:22305:E:H' }).departure;
+		c.notServiced = true;
+		const d = makeDeparture({ lineRef: 'ddb:920S5:D:H' }).departure;
+
+		mergeSituationState(c, d);
+		expect(c.notServiced).toBe(true);
+	});
+
+	it('does not invent a situation for an entry that has none', () => {
+		const target = makeDeparture({ lineRef: 'kvv:22305:E:H' }).departure;
+		const source = makeDeparture({ lineRef: 'ddb:920S5:D:H' }).departure;
+
+		mergeSituationState(target, source);
+
+		expect(target.situations).toEqual([]);
 	});
 });
