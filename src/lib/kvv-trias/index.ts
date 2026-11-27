@@ -9,6 +9,7 @@ import { mapStopEventResultToDeparture, consolidateWagons, type MappedDeparture 
 import { KvvTriasError } from './errors';
 import { stopsIdNameMap } from '@/server/stops';
 import { resolveLineRefs } from '@/server/stop-lines';
+import { DEFAULT_LIMIT, LIMIT_ERROR_MESSAGE, MAX_LIMIT, MIN_LIMIT } from '@/limit-param';
 import { getUpstreamDepartureResultCount } from '@/departure-limit';
 
 function isValidStationId(id: string): boolean {
@@ -19,7 +20,7 @@ function isValidStationId(id: string): boolean {
 export async function getDepartures(
 	stationId: string,
 	eventType: EventType,
-	limit = 20,
+	limit = DEFAULT_LIMIT,
 	// Published line names to restrict the response to. TRIAS can only filter
 	// by internal LineRefs, so the names are resolved against the static
 	// line-ref dataset; unknown names disable the filter (fail-open) instead
@@ -40,11 +41,11 @@ export async function getDepartures(
 			message: 'Invalid eventType (must be dep|arr)'
 		});
 	}
-	if (!Number.isInteger(limit) || limit < 1 || limit > 100) {
+	if (!Number.isInteger(limit) || limit < MIN_LIMIT || limit > MAX_LIMIT) {
 		throw new KvvTriasError({
 			code: 'BAD_PARAMS',
 			status: 400,
-			message: 'Invalid limit (must be 1..100)'
+			message: LIMIT_ERROR_MESSAGE
 		});
 	}
 

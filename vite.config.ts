@@ -21,8 +21,11 @@ export default defineConfig({
 				extends: true,
 				test: {
 					name: 'client',
-					// Timeout for browser tests - prevent hanging on element lookups
-					testTimeout: 2000,
+					// Timeout for browser tests - prevent hanging on element lookups. Kept
+					// generous: with the node projects running in parallel (`pnpm test:run`)
+					// a userEvent sequence loses a 2 s race against machine load and times a
+					// test out that finishes in ~1 s on its own.
+					testTimeout: 10000,
 					browser: {
 						enabled: true,
 						provider: playwright(),

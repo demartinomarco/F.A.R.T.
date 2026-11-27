@@ -14,6 +14,7 @@ import {
 	_serializeQuery
 } from './+page';
 import { LINES_PARAM, parseLinesParam, serializeLines } from '@/lines-param';
+import { DEFAULT_LIMIT } from '@/limit-param';
 import {
 	PlatformType,
 	type Departure,
@@ -492,6 +493,39 @@ describe('_fetchDepartures (GET /api/departures)', () => {
 		// the URL being well-formed and round-trippable.
 		const parsed = new URL(urls[0], 'http://localhost');
 		expect(parsed.searchParams.get('lines')).toBe('RE 7,a&b');
+	});
+
+	it('keeps the default limit out of the request', async () => {
+		const { urls, fetchFn } = capturingFetch();
+
+		await _fetchDepartures(fetchFn, 'de:08212:89', 'dep', [], DEFAULT_LIMIT);
+
+		expect(urls).toEqual(['/api/departures?stationId=de%3A08212%3A89&eventType=dep']);
+	});
+
+	it('sends an explicit non-default limit', async () => {
+		const { urls, fetchFn } = capturingFetch();
+
+		await _fetchDepartures(fetchFn, 'de:08212:89', 'dep', [], 42);
+
+		expect(urls).toEqual(['/api/departures?stationId=de%3A08212%3A89&eventType=dep&limit=42']);
+	});
+
+	it('clamps a hostile limit into the bounded range before requesting', async () => {
+		// Whatever reached the page state, the API only ever sees 1..100 —
+		// an out-of-range value would otherwise bounce back as a 400.
+		const { urls, fetchFn } = capturingFetch();
+
+		await _fetchDepartures(fetchFn, 'de:08212:89', 'dep', [], 9999);
+		await _fetchDepartures(fetchFn, 'de:08212:89', 'dep', [], 0);
+		await _fetchDepartures(fetchFn, 'de:08212:89', 'dep', [], Number.NaN);
+
+		expect(urls.map((url) => new URL(url, 'http://localhost').searchParams.get('limit'))).toEqual([
+			'100',
+			'1',
+			// NaN means "default" — and the default stays out of the URL.
+			null
+		]);
 	});
 });
 
