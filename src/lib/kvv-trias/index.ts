@@ -9,7 +9,7 @@ import { mapStopEventResultToDeparture, consolidateWagons, type MappedDeparture 
 import { KvvTriasError } from './errors';
 import { stopsIdNameMap } from '@/server/stops';
 import { resolveLineRefs } from '@/server/stop-lines';
-import { DEFAULT_LIMIT, MAX_LIMIT, MIN_LIMIT } from '@/limit-param';
+import { DEFAULT_LIMIT, LIMIT_ERROR_MESSAGE, MAX_LIMIT, MIN_LIMIT } from '@/limit-param';
 import { getUpstreamDepartureResultCount } from '@/departure-limit';
 
 function isValidStationId(id: string): boolean {
@@ -45,7 +45,7 @@ export async function getDepartures(
 		throw new KvvTriasError({
 			code: 'BAD_PARAMS',
 			status: 400,
-			message: `Invalid limit (must be ${MIN_LIMIT}..${MAX_LIMIT})`
+			message: LIMIT_ERROR_MESSAGE
 		});
 	}
 

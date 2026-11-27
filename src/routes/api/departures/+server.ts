@@ -2,23 +2,11 @@ import type { RequestHandler } from '@sveltejs/kit';
 import { getDepartures } from '@/kvv-trias';
 import type { EventType } from '@/kvv-trias/types';
 import { isKvvTriasError } from '@/kvv-trias/errors';
-import { DEFAULT_LIMIT, LIMIT_PARAM, MAX_LIMIT, MIN_LIMIT } from '@/limit-param';
+import { LIMIT_ERROR_MESSAGE, LIMIT_PARAM, parseLimitStrict } from '@/limit-param';
 import { parseLinesParam } from '@/lines-param';
 
 function parseEventType(v: string | null): EventType {
 	return v === 'arr' ? 'arr' : 'dep';
-}
-
-// Unlike the page (which normalises a hostile URL into a bounded value, so a
-// bookmark never breaks), the endpoint rejects out-of-range limits with a 400:
-// this bounds the upstream TRIAS request (doubled for the over-fetch) no
-// matter who calls it. The bounds themselves live in src/lib/limit-param.ts,
-// shared with the page, so the two cannot drift apart.
-function parseLimit(v: string | null): number {
-	if (v == null) return DEFAULT_LIMIT;
-	const n = Number(v);
-	if (!Number.isFinite(n)) return NaN;
-	return Math.trunc(n);
 }
 
 function json(body: unknown, status = 200, headers: HeadersInit = {}) {
@@ -34,7 +22,12 @@ function json(body: unknown, status = 200, headers: HeadersInit = {}) {
 export const GET: RequestHandler = async ({ url }) => {
 	const stationId = url.searchParams.get('stationId') ?? 'de:08212:89';
 	const eventType = parseEventType(url.searchParams.get('eventType'));
-	const limit = parseLimit(url.searchParams.get(LIMIT_PARAM));
+	// Unlike the page (which normalises a hostile URL into a bounded value, so a
+	// bookmark never breaks), the endpoint rejects malformed or out-of-range
+	// limits with a 400: this bounds the upstream TRIAS request (doubled for the
+	// over-fetch) no matter who calls it. The parser and the bounds live in
+	// src/lib/limit-param.ts, shared with the page, so the two cannot drift apart.
+	const limit = parseLimitStrict(url.searchParams.get(LIMIT_PARAM));
 	// Bounds and normalisation live in src/lib/lines-param.ts, shared with the
 	// page. Malformed or unknown names are dropped, never rejected: a bookmarked
 	// line KVV renamed must not 400, and a selection the static dataset cannot
@@ -54,13 +47,13 @@ export const GET: RequestHandler = async ({ url }) => {
 		);
 	}
 
-	if (!Number.isInteger(limit) || limit < MIN_LIMIT || limit > MAX_LIMIT) {
+	if (limit == null) {
 		return json(
 			{
 				ok: false,
 				error: {
 					code: 'BAD_PARAMS',
-					message: `Invalid limit (must be ${MIN_LIMIT}..${MAX_LIMIT})`
+					message: LIMIT_ERROR_MESSAGE
 				}
 			},
 			400

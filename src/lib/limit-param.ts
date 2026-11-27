@@ -13,8 +13,10 @@
  *   the upstream over-fetch.
  *
  * The value is attacker-controlled (typed or bookmarked URLs), so parsing is
- * strict: only a plain positive decimal integer is honoured, everything else
- * falls back to the default, and out-of-range numbers are clamped into bounds.
+ * strict: only a plain positive decimal integer is honoured. The page falls
+ * back to the default for anything else and clamps out-of-range numbers into
+ * bounds (`parseLimitValue`); the API rejects both with a 400
+ * (`parseLimitStrict`), because its answer also sizes the upstream request.
  * Whatever a caller puts in the URL, the backend must never ask TRIAS for
  * more than `MAX_LIMIT` departures (doubled for the over-fetch).
  */
@@ -49,17 +51,51 @@ export function clampLimit(value: number): number {
 }
 
 /**
+ * The 400 message the API sends for a bad limit, and the exact string the page
+ * maps back to a translation. Kept here so the two cannot drift apart when the
+ * bounds change.
+ */
+export const LIMIT_ERROR_MESSAGE = `Invalid limit (must be ${MIN_LIMIT}..${MAX_LIMIT})`;
+
+/**
+ * Reads a raw value as a plain decimal integer, or `null` when it is not one.
+ * The length cap runs before `Number()` so the parse does not scale with
+ * attacker-controlled input.
+ */
+function parsePlainInteger(raw: string | null): number | null {
+	if (!raw) return null;
+
+	const trimmed = raw.trim().slice(0, MAX_LIMIT_PARAM_LENGTH);
+	if (!PLAIN_INTEGER.test(trimmed)) return null;
+
+	return Number(trimmed);
+}
+
+/**
  * Parses a raw `limit` value. Missing, empty, non-numeric or overlong input
  * yields the default; a plain integer out of range is clamped — a bookmarked
  * `limit=9999` means "as many as possible", not "break the page".
  */
 export function parseLimitValue(raw: string | null): number {
-	if (!raw) return DEFAULT_LIMIT;
+	const parsed = parsePlainInteger(raw);
 
-	const trimmed = raw.trim().slice(0, MAX_LIMIT_PARAM_LENGTH);
-	if (!PLAIN_INTEGER.test(trimmed)) return DEFAULT_LIMIT;
+	return parsed == null ? DEFAULT_LIMIT : clampLimit(parsed);
+}
 
-	return clampLimit(Number(trimmed));
+/**
+ * Strict variant for the API: a missing parameter means the default, but a
+ * value that is not a plain integer inside the bounds is rejected (`null`, the
+ * caller answers 400) instead of being clamped. The page never sends one — it
+ * always normalises first — so this only affects direct callers, and it keeps
+ * `limit=1e2`, `limit=0x10` or `limit=20.5` from silently becoming a fetch.
+ */
+export function parseLimitStrict(raw: string | null): number | null {
+	if (raw == null) return DEFAULT_LIMIT;
+
+	const parsed = parsePlainInteger(raw);
+	if (parsed == null || parsed < MIN_LIMIT || parsed > MAX_LIMIT) return null;
+
+	return parsed;
 }
 
 /** Reads and parses the `limit` parameter of a query string. */

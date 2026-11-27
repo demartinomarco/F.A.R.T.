@@ -21,7 +21,7 @@ import {
 	_getDepartureKey
 } from './+page';
 import { LINES_PARAM, parseLinesParam, serializeLines } from '@/lines-param';
-import { LIMIT_PARAM, parseLimitParam, serializeLimit } from '@/limit-param';
+import { LIMIT_ERROR_MESSAGE, LIMIT_PARAM, parseLimitParam, serializeLimit } from '@/limit-param';
 import { formatTime } from '@/utils';
 import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 import AppSidebar from '@/components/ui/app-sidebar/app-sidebar.svelte';
@@ -185,10 +185,13 @@ $effect(() => {
 let urlSerializedLines = untrack(() =>
 	serializeLines(parseLinesParam(new URLSearchParams(page.url.search)))
 );
-// Normalised through `serializeLimit(parseLimitParam(…))`, so the address bar
-// is compared against what the page actually renders — a hostile bookmark
-// (`limit=9999`) still shows as the clamped value, and the first user change
-// rewrites the stale raw value into the bounded one.
+// Compared against the *normalised* URL value on purpose: a non-canonical
+// bookmark (`limit=9999`) differs from what the page works with, but rewriting
+// the address bar during the first effect flush after hydration throws inside
+// SvelteKit's router (its root component is not assigned yet), so the page must
+// not `replaceState` its way to the canonical value on mount. The stale value
+// in the address bar is cosmetic — every request the page sends carries the
+// bounded one — and the first real change replaces it.
 let urlSerializedLimit = untrack(() =>
 	serializeLimit(parseLimitParam(new URLSearchParams(page.url.search)))
 );
@@ -288,7 +291,7 @@ function errorMessage(err: { code: string; message: string } | null) {
 	} else if (err.code === 'BAD_PARAMS') {
 		if (err.message === 'Invalid stationId') {
 			return interpolate($translations.error.invalidStationId, { stationId });
-		} else if (err.message === 'Invalid limit (must be 1..100)') {
+		} else if (err.message === LIMIT_ERROR_MESSAGE) {
 			return $translations.error.invalidLimit;
 		}
 	}

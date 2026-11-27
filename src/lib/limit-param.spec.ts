@@ -1,11 +1,13 @@
 import { describe, expect, it } from 'vitest';
 import {
 	DEFAULT_LIMIT,
+	LIMIT_ERROR_MESSAGE,
 	LIMIT_PARAM,
 	MAX_LIMIT,
 	MIN_LIMIT,
 	clampLimit,
 	parseLimitParam,
+	parseLimitStrict,
 	parseLimitValue,
 	serializeLimit
 } from './limit-param';
@@ -58,6 +60,40 @@ describe('clampLimit', () => {
 		expect(clampLimit(Number.NaN)).toBe(DEFAULT_LIMIT);
 		expect(clampLimit(Number.POSITIVE_INFINITY)).toBe(DEFAULT_LIMIT);
 		expect(clampLimit(Number.NEGATIVE_INFINITY)).toBe(DEFAULT_LIMIT);
+	});
+});
+
+describe('parseLimitStrict (the API parser)', () => {
+	it('takes the default when the parameter is absent', () => {
+		expect(parseLimitStrict(null)).toBe(DEFAULT_LIMIT);
+	});
+
+	it('accepts every plain integer inside the bounds', () => {
+		for (const value of ['1', '20', '42', '100', '007', ' 42 ']) {
+			expect(parseLimitStrict(value), `limit=${value}`).toBe(Number(value));
+		}
+	});
+
+	// The page always normalises before calling the endpoint, so these can only
+	// arrive from a direct caller. Accepting them would mean honouring a limit
+	// the sidebar can never produce.
+	it('rejects anything that is not a plain integer', () => {
+		for (const value of ['', ' ', 'nope', '1e2', '0x10', '20.5', '-5', '+20', 'Infinity', '2 0']) {
+			expect(parseLimitStrict(value), `limit=${value}`).toBeNull();
+		}
+	});
+
+	it('rejects out-of-range integers instead of clamping them', () => {
+		expect(parseLimitStrict('0')).toBeNull();
+		expect(parseLimitStrict('101')).toBeNull();
+		expect(parseLimitStrict('9'.repeat(16))).toBeNull();
+		expect(parseLimitStrict('9'.repeat(1_000))).toBeNull();
+	});
+});
+
+describe('limit error message', () => {
+	it('states the bounds, and is the only place they are written out', () => {
+		expect(LIMIT_ERROR_MESSAGE).toBe(`Invalid limit (must be ${MIN_LIMIT}..${MAX_LIMIT})`);
 	});
 });
 
